@@ -25,9 +25,9 @@ const KIT = {
   "rootFolderId": "",
   "parentFolderId": "1BH_oJuusE9zGYzuzgA5ilhYbjJzXJRGx",
   "folderName": "NFH 2026",
-  "contentUrl": "https://raw.githubusercontent.com/matthewsmaglik/nonfictionhotlist/multi-year/years/2026/content/content.json",
-  "layoutUrl": "https://raw.githubusercontent.com/matthewsmaglik/nonfictionhotlist/multi-year/years/2026/content/layout.json",
-  "siteBase": "https://raw.githubusercontent.com/matthewsmaglik/nonfictionhotlist/multi-year/site/2026/",
+  "contentUrl": "https://raw.githubusercontent.com/Nonfiction-Hotlist/list/main/years/2026/content/content.json",
+  "layoutUrl": "https://raw.githubusercontent.com/Nonfiction-Hotlist/list/main/years/2026/content/layout.json",
+  "siteBase": "https://raw.githubusercontent.com/Nonfiction-Hotlist/list/main/site/2026/",
   "siteUrl": "https://list.nonfictionhotlist.com/2026",
   "repoUrl": "https://github.com/Nonfiction-Hotlist/list",
   "spec": {
