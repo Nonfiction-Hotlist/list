@@ -37,7 +37,7 @@ site/                      What gets published. Everything here is served as-is.
 drive-kit/
   setup-<year>.gs          Apps Script that builds a year's Drive kit (npm run kit).
   publish-trigger.gs       Apps Script that watches every connected kit and asks GitHub to publish.
-redirects/nfh2025/         Source for the old nfh2025.rdgnbl.com address, which forwards here.
+redirects/nfh2025/         The page the old repo publishes at nfh2025.rdgnbl.com, forwarding here.
 scripts/
   year.js                  Which year a script works on: NFH_YEAR=2026, or --year 2026, else years.json latest.
   each-year.js             Runs an npm script once per year.
@@ -88,7 +88,7 @@ Project sheets are locked except for the white cells, and each field has a chara
 
 **How edits reach the site.** The Publish workflow runs every 15 minutes. For each year with a connected kit it reads the kit (`scripts/content/pull-drive.js`), and if anything changed it updates that year's `content.json` (and `drive.json`, if the manifest changed), rebuilds every year and its PDF, runs the smoke tests, commits and publishes. Edits that break a rule are listed in that year's `sync-problems.txt` and in the run summary; the run fails, which emails the repo owner, once each time a list changes. To publish right away, run the workflow from the Actions tab.
 
-The kits are read through link sharing (anyone with the link can view), so no Google credentials are stored anywhere. In a Workspace Shared Drive, the admin must allow link sharing outside the organization. Editing rights are whatever you grant in Drive.
+The kits are read through link sharing (anyone with the link can view), so no Google credentials are stored anywhere. The NFH Workspace must allow link sharing outside the organization. Editing rights are whatever you grant in Drive.
 
 **Publishing promptly.** GitHub runs scheduled workflows only every few hours on some accounts, so the 15-minute schedule is a backup. `drive-kit/publish-trigger.gs` is a small Apps Script that runs in an NFH Google account: every 10 minutes it checks every connected kit for edits and, if any, starts the Publish workflow in `sync` mode; it also asks for an hourly refresh so dashboard numbers stay current. It needs a fine-grained GitHub token (this repo only, Actions read and write) in the script property `GITHUB_TOKEN`; see the notes at the top of the file. Fine-grained tokens expire, so renew it before the date you set. When a new year's kit is connected, `npm run kit` regenerates the trigger with that year included; paste it over the old one and run `install`.
 
@@ -143,7 +143,7 @@ One-time setup:
 1. **GitHub Pages:** repo Settings → Pages → Source: *Deploy from a branch*, branch `gh-pages`, folder `/ (root)`. Custom domain: `list.nonfictionhotlist.com`. Tick *Enforce HTTPS* once the certificate is issued (usually within an hour).
 2. **Verify the domain** (recommended, prevents anyone else's Pages site claiming it): org Settings → Pages → Add a domain → `nonfictionhotlist.com`, then add the TXT record it shows.
 3. **DNS** for nonfictionhotlist.com (held at Squarespace): add a `CNAME` record, host `list`, value `nonfiction-hotlist.github.io`. Leave every other record alone, especially the email (MX) records.
-4. **Old address:** the files in `redirects/nfh2025/` are published from `matthewsmaglik/nfh2025-redirect` with Pages, custom domain `nfh2025.rdgnbl.com`. Its existing DNS record already points at `matthewsmaglik.github.io`, so nothing changes there.
+4. **Old address:** this repo was copied from `matthewsmaglik/nonfictionhotlist`, which served the 2025 list at nfh2025.rdgnbl.com. Once this site is live, that old repo stops syncing (its publish workflow is disabled) and its `gh-pages` branch is replaced with the files in `redirects/nfh2025/`, so old links forward here. Its DNS record stays as it is.
 
 ## Troubleshooting
 
@@ -151,5 +151,5 @@ One-time setup:
 - **Site shows a GitHub 404:** Pages isn't pointed at `gh-pages`, or the deploy workflow hasn't run yet. Check the Actions tab.
 - **"Domain does not resolve" in Pages settings:** the DNS record is missing or still propagating.
 - **Certificate errors:** wait for GitHub to issue the certificate, then enable *Enforce HTTPS*.
-- **"Google returned a sign-in page" in a sync:** the kit's files aren't shared by link. In a Shared Drive, check the Workspace admin allows link sharing outside the organization.
+- **"Google returned a sign-in page" in a sync:** the kit's files aren't shared by link. Check the Workspace admin allows link sharing outside the organization.
 - **Old content after a deploy:** GitHub Pages caches for about 10 minutes.
