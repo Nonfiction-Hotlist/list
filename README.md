@@ -148,6 +148,7 @@ One-time setup:
 ## Troubleshooting
 
 - `NFH_YEAR=2025 npm run check -- https://list.nonfictionhotlist.com` runs the smoke test against the live site.
+- `node scripts/compare-text.js <url or file> <url or file>` compares the text two built pages carry (image paths aside), e.g. the live site against `site/2025/index.html` after a pull.
 - **Site shows a GitHub 404:** Pages isn't pointed at `gh-pages`, or the deploy workflow hasn't run yet. Check the Actions tab.
 - **"Domain does not resolve" in Pages settings:** the DNS record is missing or still propagating.
 - **Certificate errors:** wait for GitHub to issue the certificate, then enable *Enforce HTTPS*.
