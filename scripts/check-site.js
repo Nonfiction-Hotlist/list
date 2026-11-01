@@ -99,7 +99,8 @@ function serve() {
       overflow: document.documentElement.scrollWidth > innerWidth + 1
     }));
     if (!d.rows && slugs.length) note(label, "no project rows");
-    if (d.sheets !== d.rows) note(label, `${d.rows - d.sheets} projects missing a Copysheet link`);
+    // Copysheet links come from drive.json, which exists once the year's kit is connected.
+    if (fs.existsSync(Y.file("drive.json")) && d.sheets !== d.rows) note(label, `${d.rows - d.sheets} projects missing a Copysheet link`);
     if (!d.noindex) note(label, "missing noindex");
     if (d.overflow) note(label, "page scrolls sideways");
     console.log(`${label}: ${d.rows} projects`);

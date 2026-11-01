@@ -37,6 +37,19 @@ header .wrap { display: flex; align-items: center; justify-content: space-betwee
 .pill:hover { border-color: var(--sage); }
 .pill.solid { background: var(--cream); color: var(--ink); border-color: var(--cream); }
 
+/* Year switch: one year at a time. Each year's dashboard is its own page. */
+.years { display: flex; align-items: center; gap: 10px; }
+.years .lbl { font: 600 11px var(--ui); text-transform: uppercase; letter-spacing: 0.12em; color: var(--soft); }
+.seg { display: inline-flex; padding: 3px; border-radius: 999px; background: rgba(0,0,0,.22); border: 1px solid rgba(235,230,215,.18); }
+.seg a { display: inline-flex; align-items: baseline; gap: 6px; padding: 6px 14px; border-radius: 999px; text-decoration: none;
+  font: 700 15px var(--display); color: var(--cream); }
+.seg a small { font: 500 10px var(--ui); text-transform: uppercase; letter-spacing: 0.08em; color: var(--soft); }
+.seg a:hover { background: rgba(235,230,215,.1); }
+.seg a[aria-current="page"] { background: var(--cream); color: var(--ink); }
+.seg a[aria-current="page"] small { color: var(--muted); }
+.draftnote { background: var(--warn-bg); color: #6d4a12; border-bottom: 1px solid #ecd7ae; font-size: 13px; }
+.draftnote .wrap { padding-block: 8px; }
+
 /* Stat tiles */
 .tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 22px 0 18px; }
 .tile { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; min-height: 92px; }
@@ -150,12 +163,14 @@ footer label { display: inline-flex; gap: 6px; align-items: center; cursor: poin
 <header>
   <div class="wrap">
     <div class="mark">nonfiction hotlist.<span id="yr"></span><small>Team dashboard</small></div>
+    <nav class="years" aria-label="Year"><span class="lbl">Year</span><span class="seg" id="years"></span></nav>
     <nav class="hlinks">
       <a class="pill" id="driveLink" target="_blank" rel="noopener">Drive folder</a>
       <a class="pill solid" id="siteLink" target="_blank" rel="noopener">Open site</a>
     </nav>
   </div>
 </header>
+<div class="draftnote" id="draftNote" hidden><div class="wrap"></div></div>
 
 <main class="wrap">
   <section class="tiles" id="tiles"></section>
@@ -208,6 +223,16 @@ const when = iso => new Date(iso).toLocaleString(undefined, { month: "short", da
 
 /* Header and tiles */
 document.getElementById("yr").textContent = D.year;
+document.title = `${D.year} · Team dashboard · Nonfiction Hotlist`;
+document.getElementById("years").innerHTML = D.years.map(y =>
+  `<a href="${esc(y.url)}"${y.year === D.year ? ' aria-current="page"' : ""}>${esc(y.year)}<small>${y.status === "live" ? "live" : "draft"}</small></a>`).join("");
+if (D.status !== "live") {
+  const n = document.getElementById("draftNote");
+  n.firstElementChild.textContent = `${D.year} is a draft: the team can see its site, but it isn't linked from the front door or listed in search, and visits aren't counted.`;
+  n.hidden = false;
+}
+// /dashboard/ opens the year viewed last.
+try { localStorage.setItem("nfhDashYear", D.year); } catch (e) {}
 document.getElementById("driveLink").href = D.driveRoot;
 document.getElementById("siteLink").href = D.siteUrl;
 

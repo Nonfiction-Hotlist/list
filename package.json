@@ -10,7 +10,7 @@
     "og": "node scripts/build-og.js",
     "root": "node scripts/build-root.js",
     "kit": "node scripts/content/build-kit.js",
-    "test:kit": "node scripts/content/build-kit.js && rm -rf .kit-test && node scripts/content/fake-drive.js .kit-test/fake && node scripts/content/pull-drive.js --from-dir .kit-test/fake --dry-run && node drive-kit/test/mock-run.js .kit-test/mock --slow-clock > /dev/null && node scripts/content/pull-drive.js --from-dir .kit-test/mock --dry-run",
+    "test:kit": "node scripts/content/build-kit.js && rm -rf .kit-test && node scripts/content/fake-drive.js .kit-test/fake && node scripts/content/pull-drive.js --from-dir .kit-test/fake --dry-run && node drive-kit/test/mock-run.js .kit-test/mock --slow-clock > /dev/null && node scripts/content/pull-drive.js --from-dir .kit-test/mock --dry-run && node drive-kit/test/mock-run.js .kit-test/rename --rename \"first=A Renamed Project\" | grep renamed: && node scripts/content/pull-drive.js --from-dir .kit-test/rename --dry-run",
     "release": "npm run build && npm run dashboard && npm run pdf && npm run check",
     "release:all": "npm run root && node scripts/each-year.js release",
     "pull:all": "node scripts/each-year.js pull --connected",

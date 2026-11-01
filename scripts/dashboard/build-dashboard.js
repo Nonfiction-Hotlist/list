@@ -143,6 +143,9 @@ function sampleStats() {
 
   const data = {
     generatedAt: new Date().toISOString(), year: content.year, siteUrl: SITE_URL, repoUrl: REPO_URL, gc: GC,
+    status: Y.info.status,
+    // Every year's dashboard, for the year switch (newest first). Relative, so it works on any address.
+    years: Object.keys(Y.config.years).sort().reverse().map(y => ({ year: y, status: Y.config.years[y].status, url: `../../${y}/dashboard/` })),
     publishUrl: `${REPO_URL}/actions/workflows/publish.yml`,
     front: [
       { label: "Cover", url: drive.front.cover && docUrl(drive.front.cover) },

@@ -1,6 +1,7 @@
 // Writes the files at the top of the website, outside any year:
 //   site/index.html   sends visitors to the latest live year (keeping any #page in the link)
 //   site/404.html     sends an unknown address to its year, or to the latest year
+//   site/dashboard/   sends the team to the dashboard for the year they viewed last, or the latest year
 //   site/CNAME        the custom domain, from years.json
 //   site/favicon.svg  the latest year's icon
 // Run: npm run root
@@ -35,6 +36,11 @@ fs.writeFileSync(path.join(SITE, "index.html"), shell("nonfiction hotlist.",
 fs.writeFileSync(path.join(SITE, "404.html"), shell("nonfiction hotlist.",
   `var y = (location.pathname.match(/^\\/(${years.join("|")})(\\/|$)/) || [])[1]; location.replace("/" + (y || "${latest}") + "/");`,
   `<p>Page not found.</p>${list}`));
+
+fs.mkdirSync(path.join(SITE, "dashboard"), { recursive: true });
+fs.writeFileSync(path.join(SITE, "dashboard", "index.html"), shell("Team dashboard",
+  `var y; try { y = localStorage.getItem("nfhDashYear"); } catch (e) {} if (!/^(${years.join("|")})$/.test(y || "")) y = "${latest}"; location.replace("/" + y + "/dashboard/");`,
+  years.slice().reverse().map(y => `<p><a href="/${y}/dashboard/">${y} team dashboard</a></p>`).join("")).replace("<title>", '<meta name="robots" content="noindex">\n<title>'));
 
 fs.writeFileSync(path.join(SITE, "CNAME"), Y.config.domain + "\n");
 fs.writeFileSync(path.join(SITE, "favicon.svg"), fs.readFileSync(path.join(Y.REPO, "src", "favicon.svg"), "utf8").replace("__YY__", latest.slice(-2)));

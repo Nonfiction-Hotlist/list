@@ -18,6 +18,7 @@ let nextId = 1;
 const files = {};      // id -> { kind, name, sheets | doc }
 const props = {};
 const calls = { fetch: 0, triggers: 0 };
+const triggers = [];   // installed triggers, by handler name
 
 // Any method not modelled returns the same object, so chained styling calls just work.
 const chain = (target) => new Proxy(target, { get: (t, k) => (k in t ? t[k] : (k === "then" ? undefined : () => chain(t))) });
@@ -101,7 +102,7 @@ const sandbox = {
   Logger: { log: m => console.log("  log:", m) },
   PropertiesService: { getScriptProperties: () => ({ getProperty: k => props[k] || null, setProperty: (k, v) => { if (v.length > 9000) throw new Error(`property ${k} is ${v.length} bytes, over Apps Script's 9KB limit`); props[k] = v; }, deleteProperty: k => delete props[k] }) },
   UrlFetchApp: { fetch: url => { calls.fetch++; return { getContentText: () => url.endsWith("content.json") ? content : layout, getBlob: () => { const b = { setName: n => { b.name = n; return b; } }; return b; } }; } },
-  DriveApp: { getFolderById: () => root, getFileById: () => chain({}), Access: {}, Permission: {} },
+  DriveApp: { getFolderById: () => root, getFileById: () => chain({ getLastUpdated: () => new Date() }), Access: {}, Permission: {} },
   SpreadsheetApp: chain({
     create: Spreadsheet, flush: () => {},
     openById: id => ssApi(id),
@@ -109,7 +110,12 @@ const sandbox = {
   }),
   DocumentApp: { create: Doc, ParagraphHeading: { HEADING1: "H1", HEADING2: "H2", HEADING3: "H3", NORMAL: "NORMAL" }, GlyphType: { BULLET: "BULLET" } },
   Session: { getEffectiveUser: () => ({ getEmail: () => "owner@example.com" }) },
-  ScriptApp: { newTrigger: () => chain({ create: () => { calls.triggers++; } }), getProjectTriggers: () => [] },
+  // Only continueKit triggers count as pauses; others (renameProjects) are recorded as installed.
+  ScriptApp: {
+    newTrigger: fn => chain({ create: () => { if (fn === "continueKit") calls.triggers++; triggers.push(fn); } }),
+    getProjectTriggers: () => triggers.map(fn => ({ getHandlerFunction: () => fn })),
+    deleteTrigger: t => { const i = triggers.indexOf(t.getHandlerFunction()); if (i > -1) triggers.splice(i, 1); }
+  },
 };
 // --slow-clock: each clock read moves time forward 20 seconds, forcing pauses, to test resuming.
 if (process.argv.includes("--slow-clock")) { let t = 0; sandbox.Date = { now: () => (t += 20000) }; }
@@ -129,6 +135,36 @@ if (ti > -1) {
   titles.forEach((t, i) => { tab.cells[`${5 + i},1`] = t; });
   vm.runInContext("addProjects()", sandbox);
   vm.runInContext("addProjects()", sandbox);   // a second run must change nothing
+}
+
+// --rename "slug=New title": type a new Title into that project's Copysheet and run renameProjects (twice;
+// the second run must change nothing). Writes drive.json as the repo had it before, so pull-drive can follow the move.
+const ri = process.argv.indexOf("--rename");
+if (ri > -1) {
+  let [from, title] = process.argv[ri + 1].split("=");
+  if (from === "first") from = JSON.parse(content).order[0];
+  const before = JSON.parse(props.kit), r = before.projects[from];
+  if (!r) throw new Error(`no project ${from} in the kit`);
+  if (!triggers.includes("renameProjects")) throw new Error("buildKit did not set up the renameProjects trigger");
+  fs.writeFileSync(path.join(OUT, "drive.json"), JSON.stringify({ manifestId: "manifest",
+    projects: Object.fromEntries(Object.entries(before.projects).map(([s, p]) => [s, { sheet: p.fileId }])) }));
+  const spec = require("../../scripts/content/spec");
+  const titleRow = 5 + spec.PROJECT.page.findIndex(f => f.key === "title");
+  files[r.fileId].sheets.find(s => s.name === "Page").cells[`${titleRow},2`] = title;
+  vm.runInContext("renameProjects()", sandbox);
+  vm.runInContext("renameProjects()", sandbox);
+  const after = JSON.parse(props.kit);
+  const slug = Object.keys(after.projects).find(s => after.projects[s].fileId === r.fileId);
+  const sheetCells = name => Object.values(files).flatMap(f => f.kind === "sheet" ? f.sheets.filter(s => s.name === name) : []).flatMap(s => Object.values(s.cells));
+  const fail = [];
+  if (after.projects[slug].title !== title) fail.push("state title not updated");
+  if (/^project-\d+$/.test(from) === (slug === from)) fail.push(`address ${slug} is wrong for ${from}`);
+  for (const tab of [spec.ORDER.tab, "Projects"]) {
+    if (sheetCells(tab).includes(r.title)) fail.push(`${tab} still lists ${r.title}`);
+    if (!sheetCells(tab).includes(title)) fail.push(`${tab} does not list ${title}`);
+  }
+  if (fail.length) throw new Error("renameProjects: " + fail.join("; "));
+  console.log(`renamed: ${from} (${r.title}) -> ${slug} (${title})`);
 }
 
 // Export: sheets as CSV per tab (computed formulas left blank), docs as Google-style markdown.

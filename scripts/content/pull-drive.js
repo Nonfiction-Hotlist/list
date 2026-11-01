@@ -14,6 +14,7 @@ const Y = require("../year");
 const CONTENT = Y.file("content.json");
 const DRIVE = Y.file("drive.json");
 const PROBLEMS = Y.file("sync-problems.txt");
+const LAYOUT = Y.file("layout.json");
 
 const args = process.argv.slice(2);
 const fromDir = args.includes("--from-dir") ? args[args.indexOf("--from-dir") + 1] : null;
@@ -97,7 +98,8 @@ async function readProject(m, prev) {
       const r = rows.find(r => clean(r[0]) === f.label);
       if (!r) { warn(name, `the "${f.label}" row is missing`); continue; }
       const v = f.multiline ? paragraphs(r[1]) : clean(r[1]).replace(/\s*\n\s*/g, " ");
-      if (f.required && !v) { warn(`${name}, ${f.label}`, "is empty, kept the previous text"); continue; }
+      // A field never filled in (a new or placeholder project) just stays empty; emptying one that had text is a problem.
+      if (f.required && !v) { if (out[f.key]) warn(`${name}, ${f.label}`, "is empty, kept the previous text"); continue; }
       if (checkValue(`${name}, ${f.label}`, f, v)) out[f.key] = v;
     }
   } catch (e) { warn(`${name}, Page tab`, `${e.message}; kept the previous text`); }
@@ -203,7 +205,10 @@ function readDoc(key, md, prev) {
 (async () => {
   const content = JSON.parse(fs.readFileSync(CONTENT, "utf8"));
   if (!fs.existsSync(DRIVE) && !fromDir) { console.log(`${Y.Y}: Drive kit not connected yet (no drive.json). Nothing to pull.`); return; }
-  const drive = fromDir ? { manifestId: "manifest" } : JSON.parse(fs.readFileSync(DRIVE, "utf8"));
+  // Tests may put a drive.json beside the export, standing in for the year's current one.
+  const testDrive = fromDir && path.join(fromDir, "drive.json");
+  const drive = fromDir ? (fs.existsSync(testDrive) ? JSON.parse(fs.readFileSync(testDrive, "utf8")) : { manifestId: "manifest" })
+    : JSON.parse(fs.readFileSync(DRIVE, "utf8"));
 
   const manifest = parseCsv(await (fromDir ? get(null, "manifest.csv") : sheetCsv(drive.manifestId, drive.manifestGid || 0)))
     .slice(1).filter(r => clean(r[0]))
@@ -225,9 +230,24 @@ function readDoc(key, md, prev) {
 
   const next = JSON.parse(JSON.stringify(content));
 
+  // A placeholder project renamed in Drive ("Project 07" to a real title) comes back under a new key
+  // with the same Copysheet. Its text, running order slot, images and Drive links move to the new key.
+  const sheetSlug = Object.fromEntries(Object.entries(drive.projects || {}).map(([s, d]) => [d.sheet, s]));
+  const renamed = {};
+  for (const m of manifest.filter(m => m.kind === "project")) {
+    const old = sheetSlug[m.fileId];
+    if (old && old !== m.key && next.projects[old] && !next.projects[m.key]) renamed[old] = m.key;
+  }
+  for (const [old, key] of Object.entries(renamed)) {
+    next.projects[key] = next.projects[old]; delete next.projects[old];
+    next.order = next.order.map(s => s === old ? key : s);
+    nextDrive.projects[key] = { ...nextDrive.projects[old], ...nextDrive.projects[key] }; delete nextDrive.projects[old];
+    console.log(`New address: #${old} is now #${key}`);
+  }
+
   // Projects: existing ones keep their slug; a project only in Drive is added.
   for (const m of manifest.filter(m => m.kind === "project")) {
-    next.projects[m.key] = await readProject(m, content.projects[m.key]);
+    next.projects[m.key] = await readProject(m, next.projects[m.key]);
   }
 
   // Running order: a dropdown of project names per slot. Duplicates keep the first slot;
@@ -260,7 +280,7 @@ function readDoc(key, md, prev) {
 
   // Report
   const changed = [];
-  for (const s of new Set([...Object.keys(content.projects), ...Object.keys(next.projects)]))
+  for (const s of new Set([...Object.keys(content.projects).filter(s => !renamed[s]), ...Object.keys(next.projects)]))
     if (JSON.stringify(content.projects[s]) !== JSON.stringify(next.projects[s])) changed.push(next.projects[s] ? next.projects[s].title : s);
   for (const k of Object.keys(DOCS)) if (JSON.stringify(content[k]) !== JSON.stringify(next[k])) changed.push(`${DOCS[k].title} page`);
   if (JSON.stringify(content.order) !== JSON.stringify(next.order)) changed.push("Running order");
@@ -270,6 +290,11 @@ function readDoc(key, md, prev) {
 
   if (dryRun) return;
   if (changed.length) fs.writeFileSync(CONTENT, JSON.stringify(next, null, 2) + "\n");
+  if (Object.keys(renamed).length && !fromDir) {
+    const layout = JSON.parse(fs.readFileSync(LAYOUT, "utf8"));
+    for (const [old, key] of Object.entries(renamed)) if (layout.projects[old]) { layout.projects[key] = layout.projects[old]; delete layout.projects[old]; }
+    fs.writeFileSync(LAYOUT, JSON.stringify(layout, null, 1) + "\n");
+  }
   if (!fromDir && JSON.stringify(nextDrive) !== JSON.stringify(drive)) { fs.writeFileSync(DRIVE, JSON.stringify(nextDrive, null, 2) + "\n"); console.log("drive.json updated from the manifest"); }
   // The current list of skipped edits is kept in the repo, so an alert goes out once when the
   // list changes rather than on every run.

@@ -47,6 +47,6 @@ const DOCS = {
     { key: "close", heading: "Closing line", kind: "text", max: 200 }] }
 };
 
-const ORDER = { tab: "Running order", perPage: 4, pages: 6 };
+const ORDER = { tab: "Running order", perPage: 4, pages: 7 };
 
 module.exports = { PROJECT, DOCS, ORDER };

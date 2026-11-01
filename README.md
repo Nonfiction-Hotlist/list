@@ -7,7 +7,7 @@ Every year of the Nonfiction Hotlist as one website: a cover, a welcome, an abou
 | Year | Address | Status |
 |------|---------|--------|
 | 2025 | https://list.nonfictionhotlist.com/2025/ | live, 23 projects |
-| 2026 | https://list.nonfictionhotlist.com/2026/ | draft: built, hidden from search, not linked |
+| 2026 | https://list.nonfictionhotlist.com/2026/ | draft: 25 placeholder projects (Project 01 to 25), hidden from search, not linked |
 
 ## How it fits together
 
@@ -28,6 +28,7 @@ src/
   favicon.svg              Tab icon template (the year's last two digits).
 site/                      What gets published. Everything here is served as-is.
   index.html, 404.html     Front door and not-found page (npm run root). CNAME, favicon.svg.
+  dashboard/               Opens the team dashboard for the year viewed last (npm run root).
   <year>/
     index.html             Built from years/<year>/page.html (npm run build). Don't edit by hand.
     img/                   Card art, banners and stills.
@@ -82,6 +83,8 @@ Each year's text is edited in its own Drive kit:
 Site manifest (do not edit)  Maps every sheet, doc and folder to the site. The workflow reads it.
 ```
 
+**Renaming projects.** Change the Title on a project's Page tab. Every 10 minutes `renameProjects` (set up by `buildKit`) renames its folder, Copysheet, tab banners, Projects tab entry and running order entry to match. A placeholder project (key `project-07`) also takes a web address from its new title (`#project-07` becomes `#manhood`), and the next sync moves its text, slot, images and Drive links to the new key. Projects that already have a real title keep their address, so links don't break. A field that has never been filled in is not a problem; emptying one that had text is.
+
 Project sheets are locked except for the white cells, and each field has a character limit that the sheet enforces as people type. Docs can't be locked, so the reader checks them: a missing heading or an over-long passage is skipped, and that part of the site keeps its previous text.
 
 **Adding projects.** A new year starts with none. Type the titles in the Running order sheet's Projects tab, one per row, then run `addProjects` in that year's setup script. Each new title gets a folder, a locked Copysheet and a Media folder, joins the running order dropdown, and is added to the manifest. On the next sync the project appears on the site and its links appear on the dashboard. Running it again only adds titles that are new.
@@ -109,7 +112,7 @@ git commit -am "..." && git push
 
 ## Team dashboard
 
-An unlisted page per year, at `/<year>/dashboard/`, for the NFH team: one-click links to every Copysheet, Media folder and front-page doc, how complete each project is, visits per project and PDF downloads, sync health (edits that were skipped), recent changes, the daily broken-link check, and where visitors come from. Nothing links to it and search engines are told to skip it; anyone with the URL can open it.
+An unlisted page per year, at `/<year>/dashboard/`, for the NFH team. Each shows one year only; the Year switch in the header moves between them, and a draft year carries a note saying so. `/dashboard/` opens the year viewed last in that browser, or the latest year. Each dashboard has one-click links to every Copysheet, Media folder and front-page doc, how complete each project is, visits per project and PDF downloads, sync health (edits that were skipped), recent changes, the daily broken-link check, and where visitors come from. Nothing links to it and search engines are told to skip it; anyone with the URL can open it.
 
 - Built by `scripts/dashboard/build-dashboard.js` from `scripts/dashboard/dashboard.html` (`npm run dashboard`). The Publish workflow rebuilds every year's on every run, so numbers are at most about 15 minutes old.
 - Visits are counted with GoatCounter (nonfictionhotlist.goatcounter.com) on the website only. GoatCounter counts the whole domain; each dashboard shows only its own year. The smoke test stubs GoatCounter, so test runs never count.
