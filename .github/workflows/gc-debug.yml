@@ -1,0 +1,15 @@
+name: GoatCounter check (temporary)
+on: workflow_dispatch
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    steps:
+      - env:
+          T: ${{ secrets.GOATCOUNTER_TOKEN }}
+        run: |
+          B=https://nonfictionhotlist.goatcounter.com/api/v0
+          for p in "/me" "/stats/total" "/stats/total?start=2026-10-24T00:00:00Z" "/stats/hits" "/stats/hits?limit=100" "/stats/hits?limit=100&start=2026-10-24T00:00:00Z" "/stats/hits?start=2026-10-24" "/stats/toprefs?limit=12" "/paths?limit=5"; do
+            sleep 1.2
+            code=$(curl -s -o /tmp/b -w "%{http_code}" -H "Authorization: Bearer $T" -H "Content-Type: application/json" "$B$p")
+            echo "$code $p :: $(head -c 160 /tmp/b | tr '\n' ' ')"
+          done
