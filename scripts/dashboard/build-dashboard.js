@@ -78,9 +78,18 @@ async function stats() {
   if (process.env.DASHBOARD_SAMPLE) return sampleStats();   // local design previews only
   const token = process.env.GOATCOUNTER_TOKEN;
   if (!token) return null;
+  // GoatCounter limits how fast the API can be called, so requests go one at a time, and a request
+  // turned away ("rate limited", or a passing error) is retried after a short wait.
+  const wait = ms => new Promise(r => setTimeout(r, ms));
   const get = async (p) => {
-    const res = await fetch(`${GC}/api/v0${p}${p.includes("?") ? "&" : "?"}start=${encodeURIComponent(COUNTING_SINCE)}`, {
-      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } });
+    let res;
+    for (let attempt = 1; ; attempt++) {
+      res = await fetch(`${GC}/api/v0${p}${p.includes("?") ? "&" : "?"}start=${encodeURIComponent(COUNTING_SINCE)}`, {
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } });
+      if (res.ok || attempt >= 4 || ![404, 429, 500, 502, 503].includes(res.status)) break;
+      await wait(1500 * attempt);
+    }
+    await wait(400);
     if (!res.ok) {
       const body = (await res.text()).replace(/\s+/g, " ").slice(0, 200);
       if (process.env.GITHUB_ACTIONS) console.log(`::warning title=GoatCounter ${p.split("?")[0]}::HTTP ${res.status} ${body}`);
@@ -89,7 +98,7 @@ async function stats() {
     return res.json();
   };
   try {
-    const [total, hits, refs] = await Promise.all([get("/stats/total"), get("/stats/hits?limit=100"), get("/stats/toprefs?limit=12")]);
+    const total = await get("/stats/total"), hits = await get("/stats/hits?limit=100"), refs = await get("/stats/toprefs?limit=12");
     // GoatCounter counts the whole domain; keep only this year's paths, keyed without the year prefix.
     const P = Y.info.trackPrefix;
     const others = Object.values(Y.config.years).map(y => y.trackPrefix).filter(t => t && t !== P);
