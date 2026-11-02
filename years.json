@@ -5,6 +5,8 @@
   "goatcounter": "https://nonfictionhotlist.goatcounter.com",
   "driveParent": "1BH_oJuusE9zGYzuzgA5ilhYbjJzXJRGx",
   "_driveParent": "Nonfiction Hotlist CD, owned by matthew@nonfictionhotlist.com. Each year's kit is built in an 'NFH <year>' folder inside it.",
+  "website": { "repo": "Nonfiction-Hotlist/website", "manifestId": "1Ob7tXbw4f4U5JmfPGdxrKKLj1FYZgXin7NlRGbTbwj4" },
+  "_website": "The main website's Drive kit (NFH Website), so the publish trigger watches it too.",
   "latest": "2025",
   "years": {
     "2025": { "status": "live", "trackPrefix": "", "countingSince": "2026-10-24T00:00:00Z" },

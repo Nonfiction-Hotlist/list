@@ -37,7 +37,8 @@ site/                      What gets published. Everything here is served as-is.
     dashboard/             Team dashboard, built at publish time. Not committed.
 drive-kit/
   setup-<year>.gs          Apps Script that builds a year's Drive kit (npm run kit).
-  publish-trigger.gs       Apps Script that watches every connected kit and asks GitHub to publish.
+  publish-trigger.gs       Apps Script that watches every connected kit (and the website's, years.json "website")
+                           and asks GitHub to publish whichever site changed.
 redirects/nfh2025/         The page the old repo publishes at nfh2025.rdgnbl.com, forwarding here.
 scripts/
   year.js                  Which year a script works on: NFH_YEAR=2026, or --year 2026, else years.json latest.

@@ -38,8 +38,12 @@ for (const year of Object.keys(Y.config.years)) {
   const f = path.join(Y.REPO, "years", year, "content", "drive.json");
   if (fs.existsSync(f)) manifests[year] = JSON.parse(fs.readFileSync(f, "utf8")).manifestId;
 }
+// It also watches the main website's kit (years.json "website"), which publishes from its own repo.
+const sites = [{ name: "the Hotlist", repo: Y.config.repo, manifests, refresh: true }];
+const W = Y.config.website;
+if (W && W.manifestId) sites.push({ name: "the website", repo: W.repo, manifests: { website: W.manifestId }, refresh: false });
 const trig = fs.readFileSync(path.join(KIT_DIR, "publish-trigger.template.gs"), "utf8")
-  .replace(/__REPO__/g, Y.config.repo).replace(/__OWNER__/g, Y.config.repo.split("/")[0])
-  .replace("__MANIFESTS__", JSON.stringify(manifests));
+  .replace(/__REPOS__/g, sites.map(s => s.repo).join(" and ")).replace(/__OWNER__/g, Y.config.repo.split("/")[0])
+  .replace("__SITES__", JSON.stringify(sites, null, 2));
 fs.writeFileSync(path.join(KIT_DIR, "publish-trigger.gs"), trig);
-console.log(`drive-kit/publish-trigger.gs written (years: ${Object.keys(manifests).join(", ") || "none"})`);
+console.log(`drive-kit/publish-trigger.gs written (Hotlist years: ${Object.keys(manifests).join(", ") || "none"}${W ? "; website" : ""})`);
