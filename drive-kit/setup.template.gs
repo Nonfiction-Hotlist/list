@@ -87,7 +87,8 @@ function buildKit() {
   // limited to the people you add.
   // In a Shared Drive, folder sharing may be off; only the files need to be readable by link.
   try { root.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW); } catch (e) { out("Folder link sharing not allowed here; sharing the files instead."); }
-  allFileIds_(state).forEach(id => DriveApp.getFileById(id).setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW));
+  const unshared = shareFiles_(state);
+  if (unshared) out(`Link sharing was refused for ${unshared} file(s). The Workspace must allow "anyone with the link" sharing before the website can read this kit. Once it does, run buildKit again.`);
 
   clearTriggers_();
   if (!ScriptApp.getProjectTriggers().some(t => t.getHandlerFunction() === "renameProjects"))
@@ -122,7 +123,7 @@ function addProjects() {
   refreshOrderChoices_(state);
   state.manifest = writeManifest_(root, state, data);
   saveState_(state);
-  allFileIds_(state).forEach(id => { try { DriveApp.getFileById(id).setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW); } catch (e) { Logger.log("Sharing: " + e); } });
+  if (shareFiles_(state)) Logger.log('Link sharing was refused. The Workspace must allow "anyone with the link" sharing before the website can read new projects.');
   Logger.log(`Done. ${added} project(s) added, ${Object.keys(state.projects).length} in the kit.`);
 }
 
@@ -250,6 +251,15 @@ function refreshOrderChoices_(state) {
   if (!labels.length) return;
   sh.getRange(FIRST_ROW, 3, O.pages * O.perPage, 1)
     .setDataValidation(SpreadsheetApp.newDataValidation().requireValueInList(labels, true).setAllowInvalid(false).build());
+}
+// Sets "anyone with the link can view" on every kit file. Returns how many the Workspace refused.
+function shareFiles_(state) {
+  let refused = 0;
+  allFileIds_(state).forEach(id => {
+    try { DriveApp.getFileById(id).setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW); }
+    catch (e) { refused++; }
+  });
+  return refused;
 }
 function allFileIds_(state) {
   const ids = [state.guide, state.order && state.order.fileId, state.manifest];

@@ -102,7 +102,10 @@ const sandbox = {
   Logger: { log: m => console.log("  log:", m) },
   PropertiesService: { getScriptProperties: () => ({ getProperty: k => props[k] || null, setProperty: (k, v) => { if (v.length > 9000) throw new Error(`property ${k} is ${v.length} bytes, over Apps Script's 9KB limit`); props[k] = v; }, deleteProperty: k => delete props[k] }) },
   UrlFetchApp: { fetch: url => { calls.fetch++; return { getContentText: () => url.endsWith("content.json") ? content : layout, getBlob: () => { const b = { setName: n => { b.name = n; return b; } }; return b; } }; } },
-  DriveApp: { getFolderById: () => root, getFileById: () => chain({ getLastUpdated: () => new Date() }), Access: {}, Permission: {} },
+  // --refuse-sharing: the Workspace turns down "anyone with the link" sharing, as a locked-down one does.
+  DriveApp: { getFolderById: () => root, Access: {}, Permission: {},
+    getFileById: () => chain({ getLastUpdated: () => new Date(),
+      ...(process.argv.includes("--refuse-sharing") && { setSharing: () => { throw new Error("Access denied: DriveApp."); } }) }) },
   SpreadsheetApp: chain({
     create: Spreadsheet, flush: () => {},
     openById: id => ssApi(id),
@@ -124,6 +127,7 @@ vm.runInContext(fs.readFileSync(path.join(REPO, "drive-kit", `setup-${Y.Y}.gs`),
 let runs = 0;
 do { const before = calls.triggers; runs++; vm.runInContext(runs === 1 ? "buildKit()" : "continueKit()", sandbox); if (calls.triggers === before) break; } while (runs < 100);
 console.log(`runs: ${runs}`);
+if (!triggers.includes("renameProjects")) throw new Error("buildKit did not finish: no renameProjects trigger");
 
 // --titles "A,B": type project titles into the Running order sheet's Projects tab, then run addProjects.
 const ti = process.argv.indexOf("--titles");
