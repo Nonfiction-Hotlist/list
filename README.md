@@ -35,6 +35,8 @@ site/                      What gets published. Everything here is served as-is.
     hotlist-<year>.pdf     Built at publish time (npm run pdf). Not committed.
     og.jpg                 Link preview image (npm run og).
     dashboard/             Team dashboard, built at publish time. Not committed.
+src/site-header.html       The website's top bar (its menu), copied in by scripts/fetch-header.js; build-site.js puts it
+                           above every list page's own controls. Edited through the website's Menu tab, never here.
 drive-kit/
   setup-<year>.gs          Apps Script that builds a year's Drive kit (npm run kit).
   publish-trigger.gs       Apps Script that watches every connected kit (and the website's, years.json "website")

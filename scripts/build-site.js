@@ -16,6 +16,16 @@ const cut = src.indexOf("</style>") + "</style>".length;
 const headPart = src.slice(0, cut).replace(/<meta name="claude:[^>]*>\n?/g, "");
 const bodyPart = src.slice(cut).trim();
 
+// The website's top bar (src/site-header.html, copied in by scripts/fetch-header.js) goes above the list's
+// own controls, so the list reads as part of nonfictionhotlist.com. The list's bar then names the list
+// ("2025 Hotlist") rather than the brand, which the website's bar already shows. The Claude artifact
+// version (years/<year>/page.html) is unchanged.
+const HEADER_FILE = path.join(Y.REPO, "src", "site-header.html");
+const siteHeader = fs.existsSync(HEADER_FILE) ? fs.readFileSync(HEADER_FILE, "utf8") : "";
+const listBody = siteHeader
+  ? bodyPart.replace(/<a class="wordmark" href="#cover">[\s\S]*?<\/a>/, `<a class="wordmark" href="#cover">${Y.Y} Hotlist</a>`)
+  : bodyPart;
+
 const title = (headPart.match(/<title>([^<]*)<\/title>/) || [, "Nonfiction Hotlist"])[1];
 const description = count
   ? `The ${Y.Y} Nonfiction Hotlist: ${count} exceptional unproduced nonfiction projects, what each needs, and how to help.`
@@ -67,7 +77,7 @@ ${headPart}
 ${ANALYTICS}
 </head>
 <body>
-${bodyPart}
+${siteHeader}${listBody}
 </body>
 </html>
 `;
