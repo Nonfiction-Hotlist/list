@@ -73,7 +73,11 @@ body { margin: 0; font: 14px system-ui, -apple-system, sans-serif; }
 img { max-width: 100%; }
 [hidden] { display: none !important; }
 </style>
-${headPart}
+${headPart}${siteHeader ? `
+<style>
+/* Under the website's top bar, the list's own bar (its controls) is a darker green, so the two read as two levels. */
+.bar { background: var(--tile); }
+</style>` : ""}
 ${ANALYTICS}
 </head>
 <body>

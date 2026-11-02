@@ -405,6 +405,10 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
 }
 @media (prefers-reduced-motion: reduce) { .poster { transition: none; } }
 </style>
+<style>
+/* Under the website's top bar, the list's own bar (its controls) is a darker green, so the two read as two levels. */
+.bar { background: var(--tile); }
+</style>
 <script>
 window.nfhTrack = function (path, title, event) {
   try { if (localStorage.getItem("skipgc") === "t") return; } catch (e) {}
