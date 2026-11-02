@@ -1,0 +1,145 @@
+{
+  "_about": "IDs of everything in the Drive kit (NFH 2026). The Publish workflow reads the manifest; the dashboard links to the rest.",
+  "manifestId": "1hgplff1yg7_Ijr8eNwOEGbhRnjhoJXpwKTo_7LicvgA",
+  "projects": {
+    "project-01": {
+      "sheet": "19U6Wr6HiXc9MrafgStnkSEPwQV8Dkx5cIKecac0BVgo",
+      "folder": "1rw1hYAomCZAmG6FmRrKGR0eKs2W2--eZ",
+      "media": "1kAiUDBeylUqK724rH_q2jDih9cBl4FbI"
+    },
+    "project-02": {
+      "sheet": "1QCZcA7BoNmgdrsas3CJt5BpjWC3VQeFrKJt4L1o6zHE",
+      "folder": "1Tb6UT7IUT3KRyyehVk6xXm2gKiPQe3NZ",
+      "media": "1BOjRzMI0SODbJo1rYQJMbNRq8CuDzVxM"
+    },
+    "project-03": {
+      "sheet": "1JS_nEAJVZZYev4rHU1XPpC1RiAjyO6MCi-f44z3HROM",
+      "folder": "1R_c7WyfJj9kWtv0dmZO5CTMJegzul3uU",
+      "media": "1T6Mem8zAviAv2ZOSjWCGs6mTorRNzW6U"
+    },
+    "project-04": {
+      "sheet": "19bufvettFFS9_b1J4HU5uWVQR3nvw0LwYTmYcwImepk",
+      "folder": "1z3cSShvwGe3eI-S39-q8hud6DkCEMurp",
+      "media": "1KY5LlY4xxUjQmi7RWRKnb6WdCBNLSKE6"
+    },
+    "project-05": {
+      "sheet": "17wR8EvsB05IxvFImRlJ55ejx53FCN-0eXQ6iptd11GU",
+      "folder": "1Sp1PiP-e1L1kF8TRI-WgLA0up0r030aB",
+      "media": "1C8wAZkxdq8QQwD-SRHa3RXg0OymuuICi"
+    },
+    "project-06": {
+      "sheet": "1ggeRCmBHKhPwcurpIwW66e-lGs91_8T7C4QGV6oJ4Xo",
+      "folder": "1wQoAnLT6K0uMrqeIYOr1rkqOScwzfW-k",
+      "media": "1LTTh02hfSzEugM8zUKvSw83NWNV6lwSi"
+    },
+    "project-07": {
+      "sheet": "12p80Fc-Q99jJd13ks4xJuekRX-0TJQ6PlOsfJTVA-OI",
+      "folder": "1s0o4MCJN57D_6DEqeQQjWBdsB4eTDaCL",
+      "media": "1hMF7r1N78P7WPe9iFfqQPJzf6a4ZHWJq"
+    },
+    "project-08": {
+      "sheet": "1V3kVg7wMUpxDXArfPF27pJMWp0OQPanI7Kk8fDs768Y",
+      "folder": "1J_EejCyS7EPYi82FDlyBnaAzOrEVkwaN",
+      "media": "1dNPejq4VuZSk9TdFkVzOh_YgaPhrqy17"
+    },
+    "project-09": {
+      "sheet": "19BkUfoOZxGvyZ-z6C0DZ9zKpQM8oonLJVlbnnpEyEQ4",
+      "folder": "1-AN95NrZgvTC8SYhgtDp-loCiO8_BwRU",
+      "media": "1IfRf5h-jZULDB0o0jX2hr9ojnyTxx3x9"
+    },
+    "project-10": {
+      "sheet": "1RJFvhzpYouxmfUAtQiTfL8hN6oxQY4_RxLDidqHVoe4",
+      "folder": "1GmY-ckFexuVSaWQqj_df1DZKW02S6fqL",
+      "media": "1xXBdLWeKqT2XDVYrD4uNmjFoTy7NkuCJ"
+    },
+    "project-11": {
+      "sheet": "1__BB5Fhh9ADfpazSOCqLBp_Uato0DiBlsCSVwds4I-4",
+      "folder": "1kNGLKbmztMn80sn40ayUNG2r70C4Tl08",
+      "media": "1QgSYBaVhZ0kof9bH-7OMYieV8AIuWGu-"
+    },
+    "project-12": {
+      "sheet": "1DEQ0loDUH0Y5x2sZwlELfeY8PwqS9x2LVgAymw6alwI",
+      "folder": "1GDVKE4nrivAXQDz_cDHsswjxjiVwHcgs",
+      "media": "1szQyhnYue2CymaukQZxd1ZsJRHZJLDJQ"
+    },
+    "project-13": {
+      "sheet": "15cckrfvimLckoQtTbmOH4N3YJwd3PweKt797xydbCyI",
+      "folder": "1qsVoWDVaLIyiiquhjJ06KjkJLIWo1Wa8",
+      "media": "17RI5fEv_W7TV84plnhRh4nBkEEMcctwE"
+    },
+    "project-14": {
+      "sheet": "13sqnHEKp5XTHPebtcpmKysRGn25BRXGDrUkYRi8M1rU",
+      "folder": "17LpZn9YdMjBxitxMRLFvJ6e6tL2pcEAK",
+      "media": "1rMbEA7_X2ccKq8GJh2CQhzARR18cEbDz"
+    },
+    "project-15": {
+      "sheet": "10Y3K92ti7eajVJaHGWIEuvUvu4nsiW65SzPjzE3h-mo",
+      "folder": "1PzSs-4v1_cZw8F8DLoQC0_IYFSv03MTs",
+      "media": "1K6x9rAwtantJe27VNhAaFj7inVbjAR8w"
+    },
+    "project-16": {
+      "sheet": "19FDeanSXoW7JLbhWWOPdRbQYxq6nSq9bl4VagfY4S2A",
+      "folder": "1TuauYa676vnhVY_Ow8YjxigCIZo77E29",
+      "media": "1G0ArDI8taqPl0eK65P6KRml-Y4FyMP-F"
+    },
+    "project-17": {
+      "sheet": "1UsdEF4a4VLT0VWF6JibuKI7Z3KypkCh3YCfr4EJko-c",
+      "folder": "1-xEngeWnIgPCDxZLe-ezGpyqiLToNtXS",
+      "media": "1P_2hH2JB8MH-lJ_IBjpwjJhlwWSVajjG"
+    },
+    "project-18": {
+      "sheet": "16o72pLQmB8PrYXXZsrpNosh31GKlS_SN04C_xyn-eKo",
+      "folder": "1hEaUhyBFqPsfGZ5w5bY95dQJNvZSuD3h",
+      "media": "1-Pu6zk1Ysh3mWoHCQhiSpxeCteIeNzeG"
+    },
+    "project-19": {
+      "sheet": "1JWdUpkFh1tp0g6TYV4I9r-jG-IfCwh0MwfLXoQLSa7k",
+      "folder": "1Q2OOtoC0JTBaa4isV5EHly8hjbpmkidC",
+      "media": "14x08XvvQxVSQMBKF2cYkPdxC3NZwtWA5"
+    },
+    "project-20": {
+      "sheet": "1lX13z3I6LPqqa1Kqr2XVrCga7AugGiEH6IHfxzHUsr0",
+      "folder": "1BXqwLe4iQnk1fyv0plslTv_SEi6tlhmy",
+      "media": "1UCSqEl8UShdbcnLB00V0JSKdDLcodF5i"
+    },
+    "project-21": {
+      "sheet": "1_ek5kKvyxzD3whKkLotXXBLIrzz5ln1_PLx7mxY4Ge8",
+      "folder": "1ARo5EqJb18M2ObuHrrmiHTFTw4dnZTOi",
+      "media": "1Ed-BNwUH78DtMmNZkzIPn0Fm9JFNugjR"
+    },
+    "project-22": {
+      "sheet": "1pwRFemg4klVOcYobAqTlnUViASPxNDcFIEN6jLaDdmI",
+      "folder": "1sYSd7uQnyQaRpzDTdX6dvd9eo6V6J3t4",
+      "media": "1jPWz0XeEOMPfiNq9QFq_xdNr1Y6pGLFH"
+    },
+    "project-23": {
+      "sheet": "16QOhGQdM6LdPilKrvO2KprAy5wLbykaB5pd-wMLakmk",
+      "folder": "1FumT5KhMnV1a7ZrOHDExIS3ZRedw7RNW",
+      "media": "1lyBkaS0Xq_AaXiB0AWJWI9O9T0sfDcDo"
+    },
+    "project-24": {
+      "sheet": "1J8myZH7kJjOQlc2JY0TZeCLU5BlNvDClWi-L75iyiGA",
+      "folder": "1RDK3JQHqiHgV_PMoggi5F13j0OD_9Clr",
+      "media": "1V_Js2sWDDqSkkPjH7-4rUhj5KtP8wD39"
+    },
+    "project-25": {
+      "sheet": "1LdFI6v5gnqEm5rjGaMU-aR3iE033ZFDOAeEgzAt8w2Q",
+      "folder": "13N1rHaEo9qRZSToNyBBAEq41XiuLwuMP",
+      "media": "1WnDu-tPnEMFFcHzYeTGy6hcFdM1BJP01"
+    }
+  },
+  "front": {
+    "cover": "1XFMbeEzDBqR2TKXJkl6pbAP3L4y7E8jMylEh8xoyqXY",
+    "folder": "1i9egVNI1VsY9VC5H-tg9snUHrC9MGYsR",
+    "media": "1chIphqBPI2nVL8KL0QpUxPBxA4Ha8_74",
+    "welcome": "1cVZ23Tk1PUBcdZENz7cIDkPW6h5LIlXG76XXn2Ah_og",
+    "about": "17uzjuuv3klA7vwScYPAv6b35Ij9l2RCdZV6IuRlJqVs"
+  },
+  "order": {
+    "sheet": "1sCBuj7JeptcIsZJGi9P2VAZMa5sunrH1mJ8KnMi4Iu8",
+    "folder": "1JHjGyt_PflvWsJxHB1iwk9YL9Z0aQFRt"
+  },
+  "root": "1aK8ZfcNCxmRNojEYhF-dwLKQ--kIAAjH",
+  "projectsFolder": "19EdxQGpQtCrmZxySoTP8nX3JnxVScT1L",
+  "guide": "1hOhfxv9do2Db4uumBNbrdC9MzK0DRw-5dZ9-GhDGnXs"
+}

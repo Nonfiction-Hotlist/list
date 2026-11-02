@@ -19,7 +19,7 @@
  */
 
 const REPO = "Nonfiction-Hotlist/list";
-const MANIFESTS = {"2025":"1QozY-nLtYCZNNEatyzcAn9IN9Ht9CAJdtxY7qyRIazs"};   // year -> that year's "Site manifest (do not edit)" sheet
+const MANIFESTS = {"2025":"17uYuyEQBr9vkaEFm_vUv_aCpC-0pkcsJIFhR2ss4KCc","2026":"1hgplff1yg7_Ijr8eNwOEGbhRnjhoJXpwKTo_7LicvgA"};   // year -> that year's "Site manifest (do not edit)" sheet
 const REFRESH_EVERY_MS = 60 * 60 * 1000;
 
 function install() {
