@@ -27,10 +27,26 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # On pushes (code changes), the kit tests run first; a failure stops the publish.
+  test:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: for Y in $(node -p 'Object.keys(require("./years.json").years).join(" ")'); do NFH_YEAR=$Y npm run test:kit; done
+
   publish:
+    needs: test
+    if: always() && (needs.test.result == 'success' || needs.test.result == 'skipped')
     runs-on: ubuntu-24.04
     outputs:
       publish: ${{ steps.decide.outputs.publish }}
+      drive_failed: ${{ steps.pull.outputs.failed }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -46,16 +62,18 @@ jobs:
         id: pull
         run: |
           # Each year reports what changed; combine them into one set of outputs.
-          changed=false; problems_changed=false; problems=0; summary=""
+          # A year whose kit can't be read is skipped (its site stays as it was) and reported by drive-error.
+          changed=false; problems_changed=false; problems=0; summary=""; failed=""
           for Y in $(node -p 'Object.keys(require("./years.json").years).join(" ")'); do
             [ -f years/$Y/content/drive.json ] || { echo "$Y: no Drive kit connected yet"; continue; }
-            out=$(mktemp); NFH_YEAR=$Y GITHUB_OUTPUT=$out node scripts/content/pull-drive.js
+            out=$(mktemp)
+            if ! NFH_YEAR=$Y GITHUB_OUTPUT=$out node scripts/content/pull-drive.js; then echo "::error title=$Y kit::The $Y Drive kit couldn't be read"; failed="$failed $Y"; continue; fi
             v() { grep "^$1=" "$out" | cut -d= -f2-; }
             [ "$(v changed)" = true ] && { changed=true; summary="$summary${summary:+; }$Y: $(v summary)"; }
             [ "$(v problems_changed)" = true ] && problems_changed=true
             problems=$((problems + $(v problems)))
           done
-          { echo "changed=$changed"; echo "problems_changed=$problems_changed"; echo "problems=$problems"; echo "summary=${summary:-skipped edits list}" | cut -c1-320; } >> "$GITHUB_OUTPUT"
+          { echo "failed=${failed# }"; echo "changed=$changed"; echo "problems_changed=$problems_changed"; echo "problems=$problems"; echo "summary=${summary:-skipped edits list}" | cut -c1-320; } >> "$GITHUB_OUTPUT"
 
       # Daily at 10:23 UTC, on manual runs, and whenever there is no result yet.
       - name: Check every outside link (daily)
@@ -155,6 +173,17 @@ jobs:
           { echo "### Drive edits that were skipped"; echo; echo "The site kept the previous text for these. Fix them in Drive and they publish on the next run."; echo; sed 's/^/- /' problems.txt; } >> "$GITHUB_STEP_SUMMARY"
           while IFS= read -r line; do echo "::warning title=Skipped Drive edit::$line"; done < problems.txt
           if [ "${{ steps.pull.outputs.problems_changed }}" = "true" ]; then exit 1; fi
+
+  # A year's Drive kit couldn't be read at all. Its site stayed as it was; failing here emails the repo owner.
+  drive-error:
+    needs: publish
+    if: always() && needs.publish.outputs.drive_failed != ''
+    runs-on: ubuntu-24.04
+    steps:
+      - run: |
+          echo "### Drive kit couldn't be read: ${{ needs.publish.outputs.drive_failed }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "Those years kept their current text. See the 'Pull text' step for the reason." >> "$GITHUB_STEP_SUMMARY"
+          exit 1
 
   https:
     # Reports the Pages domain and certificate. The workflow token can read these settings
