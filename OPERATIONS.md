@@ -21,6 +21,7 @@ The website builds the top bar from its Menu tab; every list page shows that bar
 | `renameProjects` | Apps Script "NFH 2025 kit", "NFH 2026 kit" | every 10 min | Follows a Copysheet's new Title to its folder, sheet and running order |
 | `refreshKit` | Apps Script "NFH Website kit" | every 10 min | Makes a Doc for each new Pages or News row; lists Media's images and videos |
 | Publish workflow | GitHub, both repos | every 15 min (backup to the trigger), on every push, on demand | Reads Drive, builds, checks every page, publishes |
+| Forms script (`doPost`) | Apps Script "NFH website forms", web app as matthew@ | on each form entry | Saves to the private "Website sign-ups" Sheet, emails NOTIFY_EMAIL about contact entries, adds opt-ins to the Brevo list "Nonfiction Hotlist Website Sign-ups" |
 | Link check | GitHub, list repo | daily | Finds broken outside links; shown on the dashboards |
 
 On a push, each repo runs its kit tests first; a failing test stops the publish.
@@ -30,6 +31,7 @@ On a push, each repo runs its kit tests first; a failing test stops the publish.
 - **GitHub token** in the publish trigger's script property `GITHUB_TOKEN`: fine-grained, owner Nonfiction-Hotlist, repos list and website, Actions read and write. **Expires about November 2027.** Before then: make a new one the same way, paste it into the property, run `install`.
 - **`GOATCOUNTER_TOKEN`** secret in the list repo (read-only API key) for the dashboards' visit counts.
 - **Drive sharing**: each kit folder is "Anyone with the link: Viewer" (the sites read it that way) and coreteam@ is Editor (the team edits that way). The Workspace setting that allows link sharing (Admin > Drive and Docs > Sharing) must stay on.
+- **Brevo API key** in the forms script's property `BREVO_API_KEY` (with `BREVO_LIST_ID` and `NOTIFY_EMAIL`). Brevo's IP blocking is off **for API keys** (Security > Authorized IPs), because Apps Script runs from changing Google addresses; it's still on for SMTP keys. If the key ever leaks, delete it in Brevo (SMTP & API > API keys), make a new one and paste it into the property. The web app's address is `FORMS` in the website repo's `scripts/lib/address.js`; after changing the script, use Deploy > Manage deployments > edit > New version so that address stays the same.
 - **Domain**: nonfictionhotlist.com is registered through Squarespace until 19 Dec 2027.
 
 ## When something goes wrong
@@ -46,14 +48,13 @@ Do these together, in order:
 1. **Website repo**: in `src/layout.html` remove the `<meta name="robots" content="noindex">` line; in `scripts/lib/address.js` set `PUBLIC` to `https://nonfictionhotlist.com`. Push and check the preview.
 2. **List repo**: in `years.json`, set `website.header` to `https://nonfictionhotlist.com/shared/header.html`. Push.
 3. **Visit counting**: add GoatCounter to the website (as on the list pages) so counting starts on day one.
-4. **Forms**: connect the contact and newsletter forms (they show "not connected" now).
-5. **GitHub**: website repo > Settings > Pages > Custom domain: `nonfictionhotlist.com`.
-6. **Squarespace DNS** (Domains > nonfictionhotlist.com > DNS): delete the "Squarespace Defaults" group (four A records, `www`, the HTTPS record). Add:
+4. **GitHub**: website repo > Settings > Pages > Custom domain: `nonfictionhotlist.com`.
+5. **Squarespace DNS** (Domains > nonfictionhotlist.com > DNS): delete the "Squarespace Defaults" group (four A records, `www`, the HTTPS record). Add:
    - A, host `@`: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153` (four records)
    - CNAME, host `www`: `nonfiction-hotlist.github.io`
    Leave every other record alone: MX (Google mail), `send` and `resend._domainkey` (the submission app's mail), `_domainconnect`, `list`, and the GitHub verification TXT.
-7. Wait for GitHub's certificate (Settings > Pages), then tick **Enforce HTTPS**.
-8. Remove the `new` CNAME at Squarespace (or keep it a while for anyone with the preview link).
-9. Cancel the Squarespace **website** plan. Keep the **domain**.
+6. Wait for GitHub's certificate (Settings > Pages), then tick **Enforce HTTPS**.
+7. Remove the `new` CNAME at Squarespace (or keep it a while for anyone with the preview link).
+8. Before cancelling, export Squarespace's contacts and any stored form entries (Contacts > Export). Then cancel the Squarespace **website** plan. Keep the **domain**.
 
 Separately, any time: add SPF, DKIM and DMARC records for Google mail (DKIM key from Admin > Apps > Gmail > Authenticate email).
