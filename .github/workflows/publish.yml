@@ -174,10 +174,12 @@ jobs:
           while IFS= read -r line; do echo "::warning title=Skipped Drive edit::$line"; done < problems.txt
           if [ "${{ steps.pull.outputs.problems_changed }}" = "true" ]; then exit 1; fi
 
+  # Jobs after publish use always(): the test job is skipped on scheduled and trigger runs, and GitHub
+  # would otherwise skip every job after it too.
   # A year's Drive kit couldn't be read at all. Its site stayed as it was; failing here emails the repo owner.
   drive-error:
     needs: publish
-    if: always() && needs.publish.outputs.drive_failed != ''
+    if: always() && needs.publish.result == 'success' && needs.publish.outputs.drive_failed != ''
     runs-on: ubuntu-24.04
     steps:
       - run: |
@@ -189,7 +191,7 @@ jobs:
     # Reports the Pages domain and certificate. The workflow token can read these settings
     # but not change them; changes are made in repo Settings > Pages (see README).
     needs: publish
-    if: needs.publish.outputs.publish == 'true'
+    if: always() && needs.publish.result == 'success' && needs.publish.outputs.publish == 'true'   # always(): see drive-error
     runs-on: ubuntu-24.04
     continue-on-error: true
     permissions:
@@ -215,7 +217,7 @@ jobs:
     # Reports on the live site after each deploy. Never blocks a deploy; read the results as
     # annotations on the run summary.
     needs: [publish, https]
-    if: always() && needs.publish.outputs.publish == 'true'
+    if: always() && needs.publish.result == 'success' && needs.publish.outputs.publish == 'true'
     runs-on: ubuntu-24.04
     continue-on-error: true
     steps:
