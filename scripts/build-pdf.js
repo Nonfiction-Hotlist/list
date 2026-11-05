@@ -17,18 +17,19 @@ const BRANCH = new Function(branchSrc + "; return BRANCH;")();
 const branch = (cls = "") => `<svg class="${cls}" viewBox="0 0 22 60">${BRANCH}</svg>`;
 const laurels = list => (list || []).length ? `<ul class="laurels">${list.map(l => `<li>${branch()}<div>${l.note ? `<small>${esc(l.note)}</small>` : ""}<b>${esc(l.event)}</b>${l.year ? `<span>${l.year}</span>` : ""}</div>${branch("r")}</li>`).join("")}</ul>` : "";
 
-const F = path.join(REPO, "node_modules", "@fontsource");
+// The brand kit's fonts (copied from the website by scripts/fetch-brand.js): League Spartan Bold and the
+// variable Roboto Serif, the same files the site uses.
+const KIT = path.join(REPO, "src", "brand", "v1");
 const font = (fam, file, w, style = "normal", range = "") =>
-  `@font-face{font-family:"${fam}";src:url("file://${F}/${file}") format("woff2");font-weight:${w};font-style:${style};${range}}`;
-const LS = "league-spartan/files/league-spartan-latin";
-const LT = "literata/files/literata";
+  `@font-face{font-family:"${fam}";src:url("file://${KIT}/fonts/${file}") format("woff2");font-weight:${w};font-style:${style};${range}}`;
 const fonts = [
-  font("Spartan", `${LS}-400-normal.woff2`, 400), font("Spartan", `${LS}-600-normal.woff2`, 600),
-  font("Spartan", `${LS}-700-normal.woff2`, 700), font("Spartan", `${LS}-800-normal.woff2`, 800),
-  font("Lit", `${LT}-latin-400-normal.woff2`, 400), font("Lit", `${LT}-latin-400-italic.woff2`, 400, "italic"),
-  font("Lit", `${LT}-latin-ext-400-normal.woff2`, 400, "normal", "unicode-range:U+0100-024F;"),
-  font("Lit", `${LT}-latin-ext-400-italic.woff2`, 400, "italic", "unicode-range:U+0100-024F;"),
+  font("Spartan", "LeagueSpartan-Bold.woff2", 700),
+  font("Serif", "RobotoSerif-var.woff2", "100 900"), font("Serif", "RobotoSerif-var-Italic.woff2", "100 900", "italic"),
+  font("Serif", "RobotoSerif-var-ext.woff2", "100 900", "normal", "unicode-range:U+0100-024F;"),
+  font("Serif", "RobotoSerif-var-Italic-ext.woff2", "100 900", "italic", "unicode-range:U+0100-024F;"),
 ].join("\n");
+const LOGO_WHITE = `file://${KIT}/logos/wordmark-stacked-white.svg`;
+const EDITION = { 2025: "first edition", 2026: "second edition", 2027: "third edition" }[SITE.year] || `${SITE.year} edition`;
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const pad = n => String(n).padStart(2, "0");
@@ -38,7 +39,7 @@ const PAGES = Math.ceil(PROJECTS.length / PER);
 const Y = SITE.year;
 
 function folio(label, n) {
-  return `<div class="folio"><span>nonfiction hotlist. ${Y}</span><span>${label ? esc(label) + " · " : ""}${n}</span></div>`;
+  return `<div class="folio"><span>the ${Y} nonfiction hotlist.</span><span>${label ? esc(label) + " · " : ""}${pad(n)}</span></div>`;
 }
 let pageNo = 0;
 const next = () => ++pageNo;
@@ -48,8 +49,12 @@ const sheets = [];
 // Cover
 next();
 sheets.push(`<section class="sheet cover front">
-  <div class="cover-head"><div class="bigyr">${Y}</div><div class="wm">nonfiction<br>hotlist.</div></div>
-  <p class="cover-lede">${esc(SITE.intro)}</p>
+  <div class="yr${String(Y) === "2025" ? " w" : ""}">${Y}</div>
+  <div class="front-in">
+    <p class="lbl">${EDITION}</p>
+    <h1 class="wm">the ${Y}<br>nonfiction<br>hotlist.</h1>
+    <p class="cover-lede">${esc(SITE.intro)}</p>
+  </div>
 </section>`);
 
 // Welcome, two sheets
@@ -58,7 +63,7 @@ const N = String(PROJECTS.length);
 // **double asterisks** mark the highlight, as on the site; a leading number inside one is set bold.
 const hi = t => esc(t).replace(/\*\*(.+?)\*\*/g, (_, inner) => `<span class="hi">${inner.replace(/^(\d[\d,]*)(\s)/, "<b>$1</b>$2")}</span>`);
 const mosaicImgs = PROJECTS.filter(p => p.key).slice(0, 15);
-sheets.push(`<section class="sheet dark wel1" id="welcome">
+sheets.push(`<section class="sheet light wel1" id="welcome">
   <div class="mosaic">${mosaicImgs.map(p => `<a href="#${p.slug}"><img src="${img(p.key)}"></a>`).join("")}</div>
   <div class="wel-body">
     <h2>${esc(W.heading)}</h2>
@@ -81,13 +86,13 @@ sheets.push(`<section class="sheet light wel2" id="why">
     </div>
   </div>
   <div class="lbl dk">how to use this list</div>
-  <ol class="steps">${W.how.map(([h, t], i) => `<li><span class="k">${i + 1}</span><b>${esc(h)}</b><span>${esc(t)}</span></li>`).join("")}</ol>
+  <ol class="steps">${W.how.map(([h, t], i) => `<li><span class="k">${pad(i + 1)}</span><b>${esc(h)}</b><span>${esc(t)}</span></li>`).join("")}</ol>
   <p class="close">${hi(W.close)}</p>
-  <div class="folio"><span>nonfiction hotlist. ${Y}</span><span>${next()}</span></div>
+  ${folio("", next())}
 </section>`);
 
 // Index
-sheets.push(`<section class="sheet dark index">
+sheets.push(`<section class="sheet light index">
   <h2>index</h2>
   <ol class="toc">${PROJECTS.map((p, i) => `<li><a href="#${p.slug}"><span class="n">${pad(i + 1)}</span><span class="t">${esc(p.title)}</span><span class="f">${esc(p.format)}</span></a></li>`).join("")}</ol>
   ${folio("", next())}
@@ -97,7 +102,7 @@ sheets.push(`<section class="sheet dark index">
 for (let n = 1; n <= PAGES; n++) {
   const start = (n - 1) * PER;
   const items = PROJECTS.slice(start, start + PER);
-  sheets.push(`<section class="sheet dark grid-page">
+  sheets.push(`<section class="sheet light grid-page">
     <div class="gp-head"><h2>projects</h2><span>${pad(start + 1)}–${pad(start + items.length)} of ${PROJECTS.length}</span></div>
     <div class="grid">${items.map((p, i) => `<a class="card" href="#${p.slug}">
       ${p.key ? `<div class="kimg"><img src="${img(p.key)}"></div>` : `<div class="kimg ph t${(start + i) % 3}"><span>${esc(p.title)}</span></div>`}
@@ -113,15 +118,15 @@ for (let n = 1; n <= PAGES; n++) {
 // Project pages
 PROJECTS.forEach((p, i) => {
   const stills = (p.stills || []).slice(1, 3);
-  const hero = p.hero
-    ? `<div class="hero"><img src="${img(p.hero)}" style="object-position:${p.focus ?? 50}% ${p.focusY ?? 50}%"></div>`
-    : `<div class="hero ph t${i % 3}"><span>${esc(p.title)}</span></div>`;
+  // The still under the green overlay, with the title on it (as on the project's web page).
+  const hero = `<div class="hero">${p.hero ? `<img src="${img(p.hero)}" style="object-position:${p.focus ?? 50}% ${p.focusY ?? 50}%">` : ""}
+      <div class="hero-in"><span class="pn">${esc(p.format)} · ${pad(i + 1)} of ${PROJECTS.length}</span><h1>${esc(p.title)}</h1></div></div>`;
   const links = p.links.length
     ? `<ul class="links">${p.links.map(([l, u]) => `<li><a href="${esc(u)}">${esc(l)}</a></li>`).join("")}</ul>` : "";
   sheets.push(`<section class="sheet light project" id="${p.slug}">
     ${hero}
     <div class="pbody">
-      <div class="ptitle"><span class="pn">${pad(i + 1)} / ${PROJECTS.length}</span><h1>${esc(p.title)}</h1><p class="logline">${esc(p.logline)}</p>${laurels(p.laurels)}</div>
+      <div class="ptitle"><p class="logline">${esc(p.logline)}</p>${laurels(p.laurels)}</div>
       <div class="cols fit">
         <div class="main">
           <h4>Summary</h4>
@@ -143,15 +148,16 @@ PROJECTS.forEach((p, i) => {
         </div>
       </div>
     </div>
-    <div class="folio"><span><a href="#p${Math.floor(i / PER) + 1}">nonfiction hotlist. ${Y}</a></span><span>${next()}</span></div>
+    <div class="folio"><span><a href="#p${Math.floor(i / PER) + 1}">the ${Y} nonfiction hotlist.</a></span><span>${pad(next())}</span></div>
   </section>`);
 });
 
 // Back cover
 next();
 sheets.push(`<section class="sheet cover back">
-  <div class="cover-mark"><div class="wm">nonfiction<br>hotlist.</div></div>
-  <p class="cover-lede">This document is meant to be used. These projects are meant to be made.<br><br>info@nonfictionhotlist.com</p>
+  <img class="logo" src="${LOGO_WHITE}" alt="nonfiction hotlist.">
+  <p class="cover-lede">This document is meant to be used. These projects are meant to be made.</p>
+  <p class="contact">info@nonfictionhotlist.com &nbsp;·&nbsp; nonfictionhotlist.com</p>
 </section>`);
 
 // Give grid pages anchors for "back to grid" links
@@ -159,128 +165,141 @@ let gi = 0;
 const html = `<!doctype html><html><head><meta charset="utf-8"><style>
 ${fonts}
 @page { size: 8.5in 11in; margin: 0; }
-:root { --forest:#2e4a3b; --deep:#22382c; --sage:#9aab8c; --sage-soft:#c6d0bb; --cream:#ebe6d7; --paper:#f3f0e6; --ink:#1d2b23; --muted:#5b6b60; --fs:9.4pt; }
+/* The Nonfiction Hotlist design (as on the website and list pages): white sheets, black cover with the outlined
+   year, green panels, lowercase League Spartan display, Roboto Serif text, 10pt card corners, no grey, no shadows. */
+:root { --white:#fff; --black:#000; --forest:#3a5a40; --pine-deep:#1a2821; --green:#588257; --rule:#d5ddd6; --mint:#c9e3ca; --green-label:#8fbf90; --muted:#4d5a50;
+  --g-text: linear-gradient(135deg, #588257 0%, #3a5a40 100%); --g-green: linear-gradient(135deg, #5c965e 0%, #45684d 100%); --g-forest: linear-gradient(135deg, #1a2821 0%, #324d3f 100%);
+  --overlay: linear-gradient(135deg, rgba(92,150,94,.88) 0%, rgba(69,104,77,.92) 60%, rgba(26,40,33,.95) 100%); --fs: 9.4pt; }
 * { box-sizing:border-box; margin:0; padding:0; }
 html { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-body { font-family:"Lit",Georgia,serif; color:var(--ink); }
+body { font-family:"Serif",Georgia,serif; color:var(--black); }
 a { color:inherit; text-decoration:none; }
-.sheet { width:8.5in; height:11in; position:relative; overflow:hidden; page-break-after:always; break-after:page; }
+.sheet { width:8.5in; height:11in; position:relative; overflow:hidden; page-break-after:always; break-after:page; background:var(--white); }
 .sheet:last-child { page-break-after:auto; }
-.dark { background:var(--forest); color:var(--cream); padding:0.75in 0.7in 0.9in; }
-.light { background:var(--paper); color:var(--ink); }
-.folio { position:absolute; left:0.7in; right:0.7in; bottom:0.42in; display:flex; justify-content:space-between; font:600 7.5pt "Spartan",sans-serif; letter-spacing:.1em; text-transform:uppercase; opacity:.6; }
-h2 { font:700 44pt/0.95 "Spartan",sans-serif; letter-spacing:-.02em; margin-bottom:0.3in; }
+.light { padding:0.7in 0.7in 0.9in; }
+.folio { position:absolute; left:0.7in; right:0.7in; bottom:0.42in; display:flex; justify-content:space-between; font:700 7.5pt "Spartan",sans-serif; letter-spacing:.12em; color:var(--forest); }
+h2 { font:700 44pt/0.92 "Spartan",sans-serif; letter-spacing:-.03em; text-transform:lowercase; margin-bottom:0.3in; }
+.lbl { font:700 7.5pt/1.3 "Spartan",sans-serif; letter-spacing:.12em; text-transform:lowercase; color:var(--forest); padding-top:.2em; }
 
-.cover { background:var(--forest); color:var(--cream); display:flex; flex-direction:column; justify-content:center; padding:0 0.9in; }
-.cover .wm { font:700 64pt/0.9 "Spartan",sans-serif; letter-spacing:-.03em; }
-.cover .yr { font:400 20pt "Lit",serif; opacity:.7; margin-top:0.18in; }
-.cover-lede { font:400 12pt/1.55 "Lit",serif; max-width:4.6in; margin-top:0.5in; opacity:.9; }
-.back { background:var(--deep); }
-.front { justify-content:flex-end; padding:0 0.7in 0.9in; }
-.cover-head { display:flex; align-items:last baseline; gap:16pt; }
-.front .wm { font-size:53.9pt; line-height:0.9; letter-spacing:-.025em; white-space:nowrap; }
-.bigyr { font:800 130pt/0.8 "Spartan",sans-serif; letter-spacing:-.055em; color:var(--sage); margin-left:-0.05in; }
-.front .cover-lede { font-size:14pt; line-height:1.4; max-width:5.4in; border-top:1px solid rgba(235,230,215,.2); padding-top:0.22in; margin-top:0.42in; }
-.back .wm { font-size:40pt; }
+/* Front cover: black, outlined year up top (white for 2025, green after), edition label, big lowercase title */
+.cover { color:var(--white); }
+.front { background:var(--black); }
+.front .yr { position:absolute; right:-0.25in; top:-0.45in; font:700 300pt/0.8 "Spartan",sans-serif; letter-spacing:-.05em; color:transparent; -webkit-text-stroke:1.6pt var(--green); }
+.front .yr.w { -webkit-text-stroke-color:var(--white); }
+.front-in { position:absolute; left:0.7in; right:0.7in; bottom:0.9in; }
+.front .lbl { color:var(--green-label); margin-bottom:0.18in; }
+.front .wm { font:700 78pt/0.86 "Spartan",sans-serif; letter-spacing:-.035em; text-transform:lowercase; }
+.front .cover-lede { font:400 13.5pt/1.42 "Serif",serif; max-width:5.4in; margin-top:0.36in; }
+/* Back cover: the stacked white wordmark on the green gradient */
+.back { background:var(--g-green); display:flex; flex-direction:column; justify-content:center; padding:0 0.9in; }
+.back .logo { width:3.4in; height:auto; }
+.back .cover-lede { font:700 20pt/1.15 "Spartan",sans-serif; letter-spacing:-.01em; text-transform:lowercase; max-width:5.2in; margin-top:0.5in; }
+.back .contact { font:400 11pt "Serif",serif; margin-top:0.2in; }
 
+/* Welcome */
 .wel1 { padding:0; }
-.mosaic { display:grid; grid-template-columns:repeat(5,1fr); gap:3px; background:var(--deep); }
-.mosaic a { aspect-ratio:3/2; overflow:hidden; display:block; }
-.mosaic img { width:100%; height:100%; object-fit:cover; display:block; filter:saturate(.85); }
-.wel-body { padding:0.55in 0.7in 0; }
-.wel1 h2 { font-size:46pt; margin-bottom:0.28in; max-width:6.6in; }
-.lede p { font:400 16.5pt/1.38 "Lit",serif; margin-bottom:0.12in; max-width:6.6in; }
-.lede p:last-child { color:var(--sage-soft); }
-.lede b { font:700 1.05em "Spartan",sans-serif; color:var(--cream); }
-.hi { color:var(--cream); background:linear-gradient(transparent 52%, rgba(154,171,140,.62) 52%, rgba(154,171,140,.62) 94%, transparent 94%); padding:0 .06em; -webkit-box-decoration-break:clone; box-decoration-break:clone; }
-.wrow { display:grid; grid-template-columns:1.5in 1fr; gap:0.3in; background:var(--deep); border-radius:5px; padding:0.26in 0.3in; margin-top:0.34in; font-size:10.5pt; line-height:1.55; }
+.mosaic { display:grid; grid-template-columns:repeat(5,1fr); gap:4px; padding:0.5in 0.7in 0; }
+.mosaic a { aspect-ratio:3/2; overflow:hidden; display:block; border-radius:5pt; background:var(--pine-deep); }
+.mosaic img { width:100%; height:100%; object-fit:cover; display:block; }
+.wel-body { padding:0.42in 0.7in 0; }
+.wel1 h2 { font-size:42pt; color:var(--forest); margin-bottom:0.24in; max-width:6.6in; }
+.lede p { font:500 14.5pt/1.42 "Serif",serif; margin-bottom:0.12in; max-width:6.6in; }
+.lede p:last-child { font-weight:400; font-size:12pt; color:var(--forest); }
+.lede b { font:700 1.05em "Spartan",sans-serif; }
+.hi { background:linear-gradient(transparent 55%, rgba(92,150,94,.32) 55%, rgba(92,150,94,.32) 92%, transparent 92%); padding:0 .05em; -webkit-box-decoration-break:clone; box-decoration-break:clone; }
+.wrow { display:grid; grid-template-columns:1.5in 1fr; gap:0.3in; background:var(--g-text); color:var(--white); padding:0.3in 0.32in; margin-top:0.32in; font-size:10.5pt; line-height:1.55; }
+.wrow .lbl { color:var(--mint); }
+.wrow .hi { background:linear-gradient(transparent 55%, rgba(255,255,255,.22) 55%, rgba(255,255,255,.22) 92%, transparent 92%); }
 .wrow p { margin-bottom:0.6em; }
 .wrow p:last-child { margin:0; }
-.lbl { font:700 7.5pt "Spartan",sans-serif; text-transform:uppercase; letter-spacing:.14em; color:var(--sage-soft); padding-top:.25em; }
-.lbl.dk { color:var(--forest); margin-top:0.3in; }
-.wel2 { padding:0.7in 0.7in 0.9in; }
 .why { display:grid; grid-template-columns:2.2in 1fr; gap:0.3in; margin-bottom:0.3in; }
 .why h2 { font-size:34pt; color:var(--forest); margin:0; }
 .why p { font-size:10pt; line-height:1.55; margin-bottom:0.7em; }
-.why p:first-child { font-size:12pt; line-height:1.45; }
-.select { display:grid; grid-template-columns:2.2in 1fr; gap:0.3in; background:var(--forest); color:var(--cream); border-radius:5px; padding:0.32in; }
-.select .big { font:800 92pt/0.8 "Spartan",sans-serif; letter-spacing:-.04em; }
-.select .big small { display:block; font:600 7.5pt/1.5 "Spartan",sans-serif; letter-spacing:.14em; text-transform:uppercase; color:var(--sage-soft); margin-top:0.16in; }
-.criteria { list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:0.07in; margin:0.1in 0 0.14in; }
-.criteria li { font:600 11pt "Spartan",sans-serif; border:1px solid rgba(235,230,215,.25); border-radius:2px; padding:0.09in 0.11in; }
-.select p { font-size:9.5pt; line-height:1.5; opacity:.8; }
-.steps { list-style:none; display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid rgba(46,74,59,.25); margin-top:0.08in; }
-.steps li { padding:0.14in 0.14in 0 0; display:flex; flex-direction:column; gap:0.04in; }
-.steps li + li { padding-left:0.14in; border-left:1px solid rgba(46,74,59,.25); }
-.steps .k { font:700 24pt/1 "Spartan",sans-serif; color:var(--sage); }
-.steps b { font:700 11pt "Spartan",sans-serif; color:var(--forest); }
+.why p:first-child { font-size:12pt; line-height:1.45; font-weight:500; }
+.select { display:grid; grid-template-columns:2.2in 1fr; gap:0.3in; background:var(--g-text); color:var(--white); padding:0.32in; }
+.select .lbl { color:var(--mint); }
+.select .big { font:700 80pt/0.82 "Spartan",sans-serif; letter-spacing:-.04em; }
+.select .big small { display:block; font:700 7.5pt/1.5 "Spartan",sans-serif; letter-spacing:.12em; text-transform:lowercase; color:var(--mint); margin-top:0.16in; }
+.criteria { list-style:none; display:flex; flex-wrap:wrap; gap:0.06in; margin:0.1in 0 0.14in; }
+.criteria li { font:700 10pt "Spartan",sans-serif; text-transform:lowercase; border:1.2pt solid var(--white); border-radius:99px; padding:0.05in 0.13in; }
+.select p { font-size:9.5pt; line-height:1.5; }
+.lbl.dk { margin-top:0.3in; }
+.steps { list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:0.08in; margin-top:0.1in; }
+.steps li { padding:0.14in; display:flex; flex-direction:column; gap:0.05in; border:0.75pt solid var(--rule); border-radius:10pt; }
+.steps .k { font:700 7.5pt "Spartan",sans-serif; letter-spacing:.12em; color:var(--forest); }
+.steps b { font:700 12pt/1.05 "Spartan",sans-serif; text-transform:lowercase; }
 .steps span:last-child { font-size:9pt; line-height:1.45; color:var(--muted); }
-.close { font:700 18pt/1.18 "Spartan",sans-serif; letter-spacing:-.01em; color:var(--forest); border-top:1px solid rgba(46,74,59,.25); margin-top:0.34in; padding-top:0.2in; max-width:6.4in; }
-.close .hi { color:var(--forest); background:linear-gradient(transparent 52%, rgba(154,171,140,.55) 52%, rgba(154,171,140,.55) 94%, transparent 94%); }
-.wel2 .folio { color:var(--ink); }
-.toc { list-style:none; columns:1; }
-.toc a { display:grid; grid-template-columns:0.4in 1fr auto; gap:0.1in; padding:0.075in 0; border-bottom:1px solid rgba(235,230,215,.18); align-items:baseline; }
-.toc .n { font:400 9pt "Spartan",sans-serif; opacity:.6; }
-.toc .t { font:700 13pt "Spartan",sans-serif; }
-.toc .f { font:600 7pt "Spartan",sans-serif; text-transform:uppercase; letter-spacing:.1em; color:var(--sage-soft); }
+.close { font:700 18pt/1.12 "Spartan",sans-serif; letter-spacing:-.01em; text-transform:lowercase; color:var(--forest); margin-top:0.36in; max-width:6.4in; }
 
+/* Index */
+.index h2 { color:var(--black); }
+.toc { list-style:none; }
+.toc a { display:grid; grid-template-columns:0.4in 1fr auto; gap:0.1in; padding:0.07in 0; border-bottom:0.75pt solid var(--rule); align-items:baseline; }
+.toc .n { font:700 7.5pt "Spartan",sans-serif; letter-spacing:.12em; color:var(--forest); }
+.toc .t { font:italic 600 12.5pt "Serif",serif; }
+.toc .f { font:700 7pt "Spartan",sans-serif; text-transform:lowercase; letter-spacing:.1em; color:var(--forest); }
+
+/* Grid pages: poster cards */
 .gp-head { display:flex; justify-content:space-between; align-items:baseline; }
-.gp-head span { font:600 9pt "Spartan",sans-serif; letter-spacing:.08em; opacity:.7; }
-.grid { display:grid; grid-template-columns:1fr 1fr; gap:0.38in 0.3in; }
-.card { display:block; }
-.kimg { aspect-ratio:3/2; overflow:hidden; border-radius:2px; margin-bottom:0.12in; }
+.gp-head span { font:700 8pt "Spartan",sans-serif; letter-spacing:.12em; color:var(--forest); }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:0.18in; }
+.card { display:block; border:0.75pt solid var(--rule); border-radius:10pt; padding:0.09in 0.09in 0.16in; }
+.card > :not(.kimg) { margin-left:0.06in; margin-right:0.06in; }
+.kimg { aspect-ratio:3/2; overflow:hidden; border-radius:6pt; margin-bottom:0.1in; }
 .kimg img, .hero img, .stills img { width:100%; height:100%; object-fit:cover; display:block; }
-.ph { display:flex; align-items:flex-end; padding:0.16in; font:800 18pt/0.95 "Spartan",sans-serif; text-transform:lowercase; letter-spacing:-.02em; }
-.ph.t0 { background:var(--deep); color:var(--cream); border:1px solid rgba(235,230,215,.2); }
-.ph.t1 { background:var(--sage); color:var(--ink); }
-.ph.t2 { background:var(--cream); color:var(--forest); }
-.card .meta { font:600 7pt "Spartan",sans-serif; text-transform:uppercase; letter-spacing:.12em; color:var(--sage-soft); }
-.card h3 { font:700 15pt/1.05 "Spartan",sans-serif; margin:0.05in 0 0.06in; }
-.card p { font-size:9pt; line-height:1.45; opacity:.8; }
+.ph { display:flex; align-items:flex-end; padding:0.16in; font:700 18pt/0.92 "Spartan",sans-serif; text-transform:lowercase; letter-spacing:-.02em; color:var(--white); }
+.ph.t0 { background:var(--g-forest); }
+.ph.t1 { background:var(--g-text); }
+.ph.t2 { background:var(--black); }
+.card .meta { display:inline-block; font:700 7pt "Spartan",sans-serif; text-transform:lowercase; color:var(--forest); border:1pt solid var(--forest); border-radius:99px; padding:0.02in 0.08in; }
+.card h3 { font:italic 600 13pt/1.15 "Serif",serif; margin:0.07in 0.06in 0.05in; }
+.card p { font-size:8.6pt; line-height:1.45; }
+.card .accolade { display:flex; gap:0.05in; align-items:center; margin-top:0.07in; font:700 7pt "Spartan",sans-serif; color:var(--forest); }
+.card .accolade svg { width:0.07in; height:0.19in; flex:none; }
+.card .accolade b { color:var(--black); }
 
-.project .hero { height:3.35in; }
-.project .hero.ph { font-size:44pt; padding:0.5in 0.7in; }
-.pbody { padding:0.3in 0.7in 0; }
-.pn { font:600 7.5pt "Spartan",sans-serif; letter-spacing:.12em; color:var(--muted); }
-.project h1 { font:700 30pt/0.95 "Spartan",sans-serif; letter-spacing:-.02em; text-transform:lowercase; margin:0.04in 0 0.08in; color:var(--forest); }
-.logline { font:italic 400 12pt/1.35 "Lit",serif; margin-bottom:0.18in; max-width:6.5in; }
-.cols { display:grid; grid-template-columns:1fr 2.35in; gap:0.32in; font-size:var(--fs); line-height:1.5; }
-.project h4 { font:700 7pt "Spartan",sans-serif; text-transform:uppercase; letter-spacing:.14em; color:var(--forest); margin:0 0 0.06in; padding-top:0.06in; border-top:1px solid rgba(46,74,59,.25); }
+/* Project pages: the still under the green overlay, title on it */
+.project { padding:0; }
+.project .hero { height:3.2in; position:relative; isolation:isolate; background:var(--pine-deep); color:var(--white); }
+.project .hero img { position:absolute; inset:0; z-index:-2; }
+.project .hero::before { content:""; position:absolute; inset:0; z-index:-1; background:var(--overlay); }
+.hero-in { position:absolute; left:0.7in; right:0.7in; bottom:0.3in; }
+.pn { font:700 7.5pt "Spartan",sans-serif; letter-spacing:.12em; text-transform:lowercase; color:var(--mint); }
+.project h1 { font:700 32pt/0.92 "Spartan",sans-serif; letter-spacing:-.03em; text-transform:lowercase; margin-top:0.08in; }
+.pbody { padding:0.26in 0.7in 0; }
+.logline { font:400 12.5pt/1.38 "Serif",serif; margin-bottom:0.16in; max-width:6.6in; }
+.cols { display:grid; grid-template-columns:1fr 2.3in; gap:0.32in; font-size:var(--fs); line-height:1.5; }
+.project h4 { font:700 7pt "Spartan",sans-serif; text-transform:lowercase; letter-spacing:.12em; color:var(--forest); margin:0 0 0.06in; }
 .project .prose p { margin-bottom:0.55em; }
-.main h4:not(:first-child), .side h4 { margin-top:0.14in; }
+.main h4:not(:first-child), .side h4 { margin-top:0.16in; }
 .team { list-style:none; }
 .team li { margin-bottom:0.02in; }
-.team b { font:600 1.02em "Spartan",sans-serif; }
+.team b { font:700 1em "Spartan",sans-serif; text-transform:lowercase; }
 .stills { display:grid; grid-template-columns:1fr 1fr; gap:0.12in; margin-top:0.16in; }
-.stills div { aspect-ratio:3/2; overflow:hidden; border-radius:2px; }
-.facts div { display:grid; grid-template-columns:0.6in 1fr; gap:0.08in; padding:0.05in 0; border-top:1px solid rgba(46,74,59,.25); }
-.facts div:first-child { border-top:0; padding-top:0; }
-.facts dt { font:700 6.8pt "Spartan",sans-serif; text-transform:uppercase; letter-spacing:.12em; color:var(--forest); padding-top:.2em; }
+.stills div { aspect-ratio:3/2; overflow:hidden; border-radius:8pt; }
+.facts div { display:grid; gap:0.02in; padding-bottom:0.08in; }
+.facts dt { font:700 6.8pt "Spartan",sans-serif; text-transform:lowercase; letter-spacing:.12em; color:var(--forest); }
 .facts dd { overflow-wrap:anywhere; }
-.needs { list-style:none; }
-.needs li { padding-left:0.14in; position:relative; margin-bottom:0.03in; }
-.needs li::before { content:"+"; position:absolute; left:0; font:700 1em "Spartan",sans-serif; color:var(--forest); }
+/* How to help: forest pills */
+.needs { list-style:none; display:flex; flex-wrap:wrap; gap:0.05in; }
+.needs li { background:var(--forest); color:var(--white); border-radius:9pt; padding:0.04in 0.1in; line-height:1.35; }
 .links { list-style:none; display:flex; flex-wrap:wrap; gap:0.05in; }
-.links a { display:inline-block; font:600 7.5pt "Spartan",sans-serif; border:1px solid var(--forest); color:var(--forest); border-radius:99px; padding:0.025in 0.09in; }
+.links a { display:inline-block; font:700 7.5pt "Spartan",sans-serif; text-transform:lowercase; border:1pt solid var(--forest); color:var(--forest); border-radius:99px; padding:0.025in 0.09in; }
 .req { margin-top:0.06in; color:var(--muted); font-size:.92em; }
-.project .folio { color:var(--ink); }
-.laurels { list-style:none; display:flex; flex-wrap:wrap; gap:0.06in 0.18in; margin:-0.06in 0 0.16in; color:var(--forest); }
+.laurels { list-style:none; display:flex; flex-wrap:wrap; gap:0.06in 0.18in; margin:0 0 0.16in; color:var(--forest); }
 .laurels li { display:grid; grid-template-columns:0.13in auto 0.13in; align-items:center; gap:0.03in; }
-.laurels svg { width:0.13in; height:0.36in; display:block; color:var(--sage); }
+.laurels svg { width:0.13in; height:0.36in; display:block; color:var(--forest); }
 .laurels svg.r { transform:scaleX(-1); }
 .laurels div { display:grid; justify-items:center; text-align:center; line-height:1.1; max-width:1.7in; }
-.laurels small { font:600 5.4pt "Spartan",sans-serif; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
-.laurels b { font:700 7.6pt "Spartan",sans-serif; color:var(--forest); margin-top:1px; }
-.laurels span { font:400 6.4pt "Spartan",sans-serif; color:var(--muted); }
+.laurels small { font:700 5.4pt "Spartan",sans-serif; letter-spacing:.1em; text-transform:lowercase; color:var(--forest); }
+.laurels b { font:700 7.6pt "Spartan",sans-serif; text-transform:lowercase; margin-top:1px; color:var(--black); }
+.laurels span { font:700 6.4pt "Spartan",sans-serif; color:var(--muted); }
 .news { list-style:none; margin-bottom:0.02in; }
 .news li { display:grid; grid-template-columns:0.62in 1fr; gap:0.08in; margin-bottom:0.05in; }
-.news time { font:700 6.8pt "Spartan",sans-serif; text-transform:uppercase; letter-spacing:.08em; color:var(--forest); padding-top:.2em; }
-.news a { font:600 0.86em "Spartan",sans-serif; color:var(--forest); text-decoration:underline; }
-.card .accolade { display:flex; gap:0.05in; align-items:center; margin-top:0.07in; font:400 7.6pt "Spartan",sans-serif; color:var(--sage-soft); }
-.card .accolade svg { width:0.07in; height:0.19in; flex:none; }
-.card .accolade b { color:var(--cream); font-weight:700; }
+.news time { font:700 6.8pt "Spartan",sans-serif; text-transform:lowercase; letter-spacing:.08em; color:var(--forest); padding-top:.2em; }
+.news a { font:700 0.86em "Spartan",sans-serif; color:var(--forest); text-decoration:underline; }
 </style></head><body>
-${sheets.join("\n").replace(/<section class="sheet dark grid-page">/g, () => `<section class="sheet dark grid-page" id="p${++gi}">`)}
+${sheets.join("\n").replace(/<section class="sheet light grid-page">/g, () => `<section class="sheet light grid-page" id="p${++gi}">`)}
 </body></html>`;
 
 (async () => {
