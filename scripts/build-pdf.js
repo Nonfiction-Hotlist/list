@@ -118,15 +118,16 @@ for (let n = 1; n <= PAGES; n++) {
 // Project pages
 PROJECTS.forEach((p, i) => {
   const stills = (p.stills || []).slice(1, 3);
-  // The still under the green overlay, with the title on it (as on the project's web page).
-  const hero = `<div class="hero">${p.hero ? `<img src="${img(p.hero)}" style="object-position:${p.focus ?? 50}% ${p.focusY ?? 50}%">` : ""}
-      <div class="hero-in"><span class="pn">${esc(p.format)} · ${pad(i + 1)} of ${PROJECTS.length}</span><h1>${esc(p.title)}</h1></div></div>`;
+  // The still as it is (no overlay), then the label and title on white.
+  const hero = p.hero
+    ? `<div class="hero"><img src="${img(p.hero)}" style="object-position:${p.focus ?? 50}% ${p.focusY ?? 50}%"></div>`
+    : `<div class="hero ph t${i % 3}"><span>${esc(p.title)}</span></div>`;
   const links = p.links.length
     ? `<ul class="links">${p.links.map(([l, u]) => `<li><a href="${esc(u)}">${esc(l)}</a></li>`).join("")}</ul>` : "";
   sheets.push(`<section class="sheet light project" id="${p.slug}">
     ${hero}
     <div class="pbody">
-      <div class="ptitle"><p class="logline">${esc(p.logline)}</p>${laurels(p.laurels)}</div>
+      <div class="ptitle"><span class="pn">${esc(p.format)} · ${pad(i + 1)} of ${PROJECTS.length}</span><h1>${esc(p.title)}</h1><p class="logline">${esc(p.logline)}</p>${laurels(p.laurels)}</div>
       <div class="cols fit">
         <div class="main">
           <h4>Summary</h4>
@@ -258,14 +259,12 @@ h2 { font:700 44pt/0.92 "Spartan",sans-serif; letter-spacing:-.03em; text-transf
 .card .accolade svg { width:0.07in; height:0.19in; flex:none; }
 .card .accolade b { color:var(--black); }
 
-/* Project pages: the still under the green overlay, title on it */
+/* Project pages: the still full-bleed at the top, then the label and title on white */
 .project { padding:0; }
-.project .hero { height:3.2in; position:relative; isolation:isolate; background:var(--pine-deep); color:var(--white); }
-.project .hero img { position:absolute; inset:0; z-index:-2; }
-.project .hero::before { content:""; position:absolute; inset:0; z-index:-1; background:var(--overlay); }
-.hero-in { position:absolute; left:0.7in; right:0.7in; bottom:0.3in; }
-.pn { font:700 7.5pt "Spartan",sans-serif; letter-spacing:.12em; text-transform:lowercase; color:var(--mint); }
-.project h1 { font:700 32pt/0.92 "Spartan",sans-serif; letter-spacing:-.03em; text-transform:lowercase; margin-top:0.08in; }
+.project .hero { height:3.2in; background:var(--pine-deep); }
+.project .hero.ph { font-size:44pt; padding:0.5in 0.7in; }
+.pn { font:700 7.5pt "Spartan",sans-serif; letter-spacing:.12em; text-transform:lowercase; color:var(--forest); }
+.project h1 { font:700 30pt/0.92 "Spartan",sans-serif; letter-spacing:-.03em; text-transform:lowercase; margin:0.06in 0 0.1in; }
 .pbody { padding:0.26in 0.7in 0; }
 .logline { font:400 12.5pt/1.38 "Serif",serif; margin-bottom:0.16in; max-width:6.6in; }
 .cols { display:grid; grid-template-columns:1fr 2.3in; gap:0.32in; font-size:var(--fs); line-height:1.5; }
