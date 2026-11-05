@@ -1,0 +1,20 @@
+[
+ "fonts/LeagueSpartan-Bold.woff2",
+ "fonts/LeagueSpartan-OFL.txt",
+ "fonts/RobotoSerif-OFL.txt",
+ "fonts/RobotoSerif-var-Italic-ext.woff2",
+ "fonts/RobotoSerif-var-Italic.woff2",
+ "fonts/RobotoSerif-var-ext.woff2",
+ "fonts/RobotoSerif-var.woff2",
+ "logos/wordmark-black.svg",
+ "logos/wordmark-stacked-black.svg",
+ "logos/wordmark-stacked-white.svg",
+ "logos/wordmark-white.svg",
+ "marks/nfh-a-type-black.svg",
+ "marks/nfh-b-disc-black.svg",
+ "marks/nfh-c-square-black.svg",
+ "nfh.css",
+ "nfh.js",
+ "tokens.css",
+ "tokens.json"
+]

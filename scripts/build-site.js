@@ -16,15 +16,22 @@ const cut = src.indexOf("</style>") + "</style>".length;
 const headPart = src.slice(0, cut).replace(/<meta name="claude:[^>]*>\n?/g, "");
 const bodyPart = src.slice(cut).trim();
 
-// The website's top bar (src/site-header.html, copied in by scripts/fetch-header.js) goes above the list's
-// own controls, so the list reads as part of nonfictionhotlist.com. The list's bar then names the list
-// ("2025 Hotlist") rather than the brand, which the website's bar already shows. The Claude artifact
-// version (years/<year>/page.html) is unchanged.
-const HEADER_FILE = path.join(Y.REPO, "src", "site-header.html");
-const siteHeader = fs.existsSync(HEADER_FILE) ? fs.readFileSync(HEADER_FILE, "utf8") : "";
+// The website's top bar and footer (src/brand/, copied in by scripts/fetch-brand.js) go around the list, and
+// the brand kit's styles and menu script load from the site's own copy (/brand/v1/, written by build-root.js),
+// so the list reads as part of nonfictionhotlist.com with the same menu. The list's own bar then names the
+// list ("2025 hotlist"). The kit hosts the fonts, so the Google Fonts links (kept for the Claude artifact
+// version, years/<year>/page.html) are dropped here.
+const BRAND = path.join(Y.REPO, "src", "brand");
+const has = f => fs.existsSync(path.join(BRAND, f));
+const siteHeader = has("bar.html") && has("v1/nfh.css") ? fs.readFileSync(path.join(BRAND, "bar.html"), "utf8") : "";
+const siteFooter = siteHeader && has("footer.html") ? fs.readFileSync(path.join(BRAND, "footer.html"), "utf8") : "";
 const listBody = siteHeader
-  ? bodyPart.replace(/<a class="wordmark" href="#cover">[\s\S]*?<\/a>/, `<a class="wordmark" href="#cover">${Y.Y} Hotlist</a>`)
+  ? bodyPart.replace(/<a class="wordmark" href="#cover">[\s\S]*?<\/a>/, `<a class="wordmark" href="#cover">${Y.Y} hotlist</a>`)
   : bodyPart;
+const brandHead = siteHeader ? `<link rel="preload" href="/brand/v1/fonts/LeagueSpartan-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/brand/v1/fonts/RobotoSerif-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/brand/v1/nfh.css">
+<script src="/brand/v1/nfh.js" defer></script>` : "";
 
 const title = (headPart.match(/<title>([^<]*)<\/title>/) || [, "Nonfiction Hotlist"])[1];
 const description = count
@@ -55,7 +62,7 @@ const html = `<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="${description}">
-<meta name="theme-color" content="#2e4a3b">${Y.isDraft ? '\n<meta name="robots" content="noindex, nofollow">' : ""}
+<meta name="theme-color" content="#ffffff">${Y.isDraft ? '\n<meta name="robots" content="noindex, nofollow">' : ""}
 <link rel="canonical" href="${SITE_URL}/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
@@ -73,15 +80,12 @@ body { margin: 0; font: 14px system-ui, -apple-system, sans-serif; }
 img { max-width: 100%; }
 [hidden] { display: none !important; }
 </style>
-${headPart}${siteHeader ? `
-<style>
-/* Under the website's top bar, the list's own bar (its controls) is a darker green, so the two read as two levels. */
-.bar { background: var(--tile); }
-</style>` : ""}
+${brandHead}
+${siteHeader ? headPart.replace(/<link rel="(preconnect|stylesheet)" href="https:\/\/fonts\.(googleapis|gstatic)\.com[^>]*>\n?/g, "") : headPart}
 ${ANALYTICS}
 </head>
 <body>
-${siteHeader}${listBody}
+${siteHeader}${listBody}${siteFooter ? "\n" + siteFooter : ""}
 </body>
 </html>
 `;

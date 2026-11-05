@@ -4,6 +4,7 @@
 //   site/dashboard/   sends the team to the dashboard for the year they viewed last, or the latest year
 //   site/CNAME        the custom domain, from years.json
 //   site/favicon.svg  the latest year's icon
+//   site/brand/v1/    the brand kit (styles, fonts, logos, menu script), copied from src/brand/ (scripts/fetch-brand.js)
 // Run: npm run root
 const fs = require("fs");
 const path = require("path");
@@ -36,6 +37,9 @@ fs.writeFileSync(path.join(SITE, "index.html"), shell("nonfiction hotlist.",
 fs.writeFileSync(path.join(SITE, "404.html"), shell("nonfiction hotlist.",
   `var y = (location.pathname.match(/^\\/(${years.join("|")})(\\/|$)/) || [])[1]; location.replace("/" + (y || "${latest}") + "/");`,
   `<p>Page not found.</p>${list}`));
+
+const KIT = path.join(Y.REPO, "src", "brand", "v1");
+if (fs.existsSync(KIT)) { fs.rmSync(path.join(SITE, "brand"), { recursive: true, force: true }); fs.cpSync(KIT, path.join(SITE, "brand", "v1"), { recursive: true }); }
 
 fs.mkdirSync(path.join(SITE, "dashboard"), { recursive: true });
 fs.writeFileSync(path.join(SITE, "dashboard", "index.html"), shell("Team dashboard",

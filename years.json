@@ -5,8 +5,8 @@
   "goatcounter": "https://nonfictionhotlist.goatcounter.com",
   "driveParent": "1BH_oJuusE9zGYzuzgA5ilhYbjJzXJRGx",
   "_driveParent": "Nonfiction Hotlist CD, owned by matthew@nonfictionhotlist.com. Each year's kit is built in an 'NFH <year>' folder inside it.",
-  "website": { "repo": "Nonfiction-Hotlist/website", "manifestId": "1Ob7tXbw4f4U5JmfPGdxrKKLj1FYZgXin7NlRGbTbwj4", "header": "https://new.nonfictionhotlist.com/shared/header.html" },
-  "_website": "The main website: its Drive kit (the publish trigger watches it too) and its top bar, which every list page shows above the list's own controls.",
+  "website": { "repo": "Nonfiction-Hotlist/website", "manifestId": "1Ob7tXbw4f4U5JmfPGdxrKKLj1FYZgXin7NlRGbTbwj4", "header": "https://new.nonfictionhotlist.com/shared/header.html", "origin": "https://new.nonfictionhotlist.com" },
+  "_website": "The main website: its Drive kit (the publish trigger watches it too) and its address (origin), from which every list build copies the brand kit, top bar and footer (scripts/fetch-brand.js). Change origin to https://nonfictionhotlist.com at the switch-over.",
   "latest": "2025",
   "years": {
     "2025": { "status": "live", "trackPrefix": "", "countingSince": "2026-10-24T00:00:00Z" },
