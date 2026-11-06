@@ -51,7 +51,6 @@ next();
 sheets.push(`<section class="sheet cover front">
   <div class="yr${String(Y) === "2025" ? " w" : ""}">${Y}</div>
   <div class="front-in">
-    <p class="lbl">${EDITION}</p>
     <h1 class="wm">the ${Y}<br>nonfiction<br>hotlist.</h1>
     <p class="cover-lede">${esc(SITE.intro)}</p>
   </div>
