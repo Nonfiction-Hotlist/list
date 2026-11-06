@@ -1,7 +1,20 @@
 {
-  "checkedAt": "2026-11-05T18:08:16.288Z",
+  "checkedAt": "2026-11-06T17:35:04.367Z",
   "total": 80,
-  "broken": [],
+  "broken": [
+    {
+      "url": "https://fiscal.thegotham.org/project.cfm/1113/The-Animated-Mind-of-Oliver-Sacks/",
+      "status": 404,
+      "error": null,
+      "where": [
+        {
+          "slug": "animated-mind",
+          "title": "The Animated Mind of Oliver Sacks",
+          "field": "Links: Donate"
+        }
+      ]
+    }
+  ],
   "unchecked": [
     "https://filmotomy.com/sheffield-docfest-a-city-in-the-forest-review-a-powerful-environmental-documentary/",
     "https://glreview.org/?p=66976",
@@ -10,7 +23,6 @@
     "https://sffilm.org/press-releases/sffilm-announces-543k-in-grants-for-filmmakers/",
     "https://www.broadwayworld.com/article/DOC-NYC-Reveals-2026-Main-Slate-Lineup-20261008",
     "https://www.facebook.com/TheAnimatedMindofOliverSacks/",
-    "https://www.texasmonthly.com/press-room/joshua-ray-walker-documentary-streaming-on-yahoo/",
     "https://www.themovieblog.com/2026/10/lauded-documentary-manhood-gets-theatrical-release-new-trailer-debuts/"
   ]
 }
