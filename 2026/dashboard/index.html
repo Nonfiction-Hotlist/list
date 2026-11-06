@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<title>Team dashboard · Nonfiction Hotlist</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root {
+  --forest: #2e4a3b; --deep: #22382c; --sage: #9aab8c; --soft: #c6d0bb; --cream: #ebe6d7;
+  --paper: #f5f2ea; --card: #fffdf8; --ink: #1d2b23; --muted: #66705f; --line: #e2ddd0;
+  --ok: #3f6b4f; --warn: #a8701c; --warn-bg: #f7ead2; --bad: #a3402e; --bad-bg: #f5ddd7;
+  --display: "League Spartan", "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  --ui: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 14px/1.45 var(--ui); }
+a { color: inherit; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+[hidden] { display: none !important; }
+
+/* Header */
+header { background: var(--deep); color: var(--cream); }
+header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; flex-wrap: wrap; }
+.mark { font-family: var(--display); font-weight: 700; font-size: 18px; letter-spacing: -0.01em; }
+.mark span { font-weight: 500; color: var(--sage); margin-left: 6px; }
+.mark small { display: block; font: 500 11px var(--ui); text-transform: uppercase; letter-spacing: 0.12em; color: var(--soft); margin-top: 2px; }
+.hlinks { display: flex; gap: 8px; flex-wrap: wrap; }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 7px 13px; border-radius: 999px; border: 1px solid rgba(235,230,215,.25);
+  font: 600 13px var(--ui); text-decoration: none; color: var(--cream); white-space: nowrap; }
+.pill:hover { border-color: var(--sage); }
+.pill.solid { background: var(--cream); color: var(--ink); border-color: var(--cream); }
+
+/* Year switch: one year at a time. Each year's dashboard is its own page. */
+.years { display: flex; align-items: center; gap: 10px; }
+.years .lbl { font: 600 11px var(--ui); text-transform: uppercase; letter-spacing: 0.12em; color: var(--soft); }
+.seg { display: inline-flex; padding: 3px; border-radius: 999px; background: rgba(0,0,0,.22); border: 1px solid rgba(235,230,215,.18); }
+.seg a { display: inline-flex; align-items: baseline; gap: 6px; padding: 6px 14px; border-radius: 999px; text-decoration: none;
+  font: 700 15px var(--display); color: var(--cream); }
+.seg a small { font: 500 10px var(--ui); text-transform: uppercase; letter-spacing: 0.08em; color: var(--soft); }
+.seg a:hover { background: rgba(235,230,215,.1); }
+.seg a[aria-current="page"] { background: var(--cream); color: var(--ink); }
+.seg a[aria-current="page"] small { color: var(--muted); }
+.draftnote { background: var(--warn-bg); color: #6d4a12; border-bottom: 1px solid #ecd7ae; font-size: 13px; }
+.draftnote .wrap { padding-block: 8px; }
+
+/* Stat tiles */
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 22px 0 18px; }
+.tile { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; min-height: 92px; }
+.tile .k { font: 600 11px var(--ui); text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+.tile .v { font: 700 30px/1.1 var(--display); margin-top: 8px; font-variant-numeric: tabular-nums; }
+.tile .s { color: var(--muted); font-size: 12px; margin-top: 4px; }
+.tile.hero { background: var(--forest); border-color: var(--forest); color: var(--cream); }
+.tile.hero .k, .tile.hero .s { color: var(--soft); }
+.tile .v.small { font-size: 18px; line-height: 1.25; }
+.tile.warn { background: var(--warn-bg); border-color: #ecd7ae; }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--ok); margin-right: 7px; vertical-align: 2px; }
+.dot.warn { background: var(--warn); } .dot.bad { background: var(--bad); }
+
+/* Front page links */
+.quick { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 22px; }
+.quick .lbl { font: 600 11px var(--ui); text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-right: 4px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 6px; background: var(--card); border: 1px solid var(--line);
+  text-decoration: none; font-weight: 500; font-size: 13px; }
+.chip:hover { border-color: var(--sage); background: #fff; }
+.ico { width: 14px; height: 14px; flex: none; opacity: .75; }
+
+/* Projects */
+.bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+h2 { font: 700 20px var(--display); margin: 0; letter-spacing: -0.01em; }
+.tools { display: flex; gap: 8px; align-items: center; }
+input[type=search] { font: 14px var(--ui); padding: 8px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--card); width: 220px; color: var(--ink); }
+input[type=search]:focus { outline: 2px solid var(--sage); outline-offset: 0; border-color: var(--sage); }
+select { font: 13px var(--ui); padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--card); color: var(--ink); }
+.table { background: var(--card); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.row { display: grid; grid-template-columns: 34px 64px minmax(0, 1fr) 150px 70px auto; gap: 14px; align-items: center; padding: 10px 14px; border-top: 1px solid var(--line); }
+.row:first-child { border-top: 0; }
+.row.head { background: #faf8f2; font: 600 11px var(--ui); text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); padding-block: 9px; }
+.n { color: var(--muted); font-variant-numeric: tabular-nums; font-size: 12px; }
+.thumb { width: 64px; height: 43px; border-radius: 3px; object-fit: cover; background: var(--deep); display: block; }
+.ttl a { font-weight: 600; text-decoration: none; }
+.ttl a:hover { text-decoration: underline; }
+.ttl small { display: block; color: var(--muted); font-size: 12px; }
+.ttl .flag { color: var(--bad); font-size: 12px; font-weight: 500; }
+.meter { display: flex; align-items: center; gap: 8px; }
+.meter i { flex: 1; height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; position: relative; }
+.meter i b { position: absolute; inset: 0 auto 0 0; background: var(--ok); border-radius: 3px; }
+.meter i b.warn { background: var(--warn); }
+.meter span { font-variant-numeric: tabular-nums; font-size: 12px; width: 34px; text-align: right; }
+.missing { font-size: 11px; color: var(--warn); margin-top: 3px; }
+.vis { font: 600 15px var(--display); font-variant-numeric: tabular-nums; text-align: right; }
+.vis.none { color: var(--muted); font-weight: 500; font-size: 13px; }
+.acts { display: flex; gap: 6px; justify-content: flex-end; }
+.act { display: inline-flex; align-items: center; gap: 5px; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--line); text-decoration: none; font-size: 12.5px; font-weight: 500; white-space: nowrap; background: #fff; }
+.act:hover { border-color: var(--forest); background: var(--forest); color: var(--cream); }
+.act:hover .ico { filter: invert(1); opacity: 1; }
+.act.primary { background: var(--forest); color: var(--cream); border-color: var(--forest); }
+.act.primary .ico { filter: invert(1); opacity: 1; }
+.act.primary:hover { background: var(--deep); }
+.empty { padding: 24px; text-align: center; color: var(--muted); }
+
+/* Expandable sections */
+.sections { margin: 26px 0 10px; display: grid; gap: 10px; }
+details { background: var(--card); border: 1px solid var(--line); border-radius: 8px; }
+summary { list-style: none; cursor: pointer; padding: 14px 16px; display: flex; align-items: center; gap: 10px; font-weight: 600; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: ""; width: 8px; height: 8px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(-45deg); margin-left: auto; transition: transform .2s; }
+details[open] summary::after { transform: rotate(45deg); }
+summary .sub { font-weight: 400; color: var(--muted); font-size: 13px; }
+.badge { font: 600 11px var(--ui); padding: 2px 8px; border-radius: 999px; background: var(--line); color: var(--muted); }
+.badge.warn { background: var(--warn-bg); color: var(--warn); }
+.badge.bad { background: var(--bad-bg); color: var(--bad); }
+.badge.ok { background: #e2ebdf; color: var(--ok); }
+.body { padding: 0 16px 16px; }
+.body p { margin: 0 0 10px; color: var(--muted); }
+.list { list-style: none; margin: 0; padding: 0; }
+.list li { padding: 9px 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 12px; }
+.list li:first-child { border-top: 0; }
+.list.rest li:first-child { border-top: 1px solid var(--line); }
+.list .when { color: var(--muted); font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.list .what b { font-weight: 600; }
+.list .what span { color: var(--muted); }
+.src { font-size: 11px; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; margin-left: 6px; }
+.more { margin-top: 8px; font: 500 13px var(--ui); background: none; border: 0; padding: 4px 0; color: var(--forest); cursor: pointer; text-decoration: underline; }
+.problem { padding: 8px 10px; border-radius: 6px; background: var(--warn-bg); margin-bottom: 6px; font-size: 13px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.two h3 { font: 600 11px var(--ui); text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin: 4px 0 8px; }
+.bars li { display: grid; grid-template-columns: minmax(0, 1fr) 46px; gap: 10px; padding: 6px 0; border-top: 1px solid var(--line); position: relative; }
+.bars li:first-child { border-top: 0; }
+.bars .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; position: relative; padding-left: 6px; }
+.bars .nm em { position: relative; font-style: normal; }
+.bars .fill { position: absolute; left: 0; top: 4px; bottom: 4px; background: #e6ece0; border-radius: 3px; }
+.bars .ct { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+.mono { font: 12px ui-monospace, SFMono-Regular, Menlo, monospace; word-break: break-all; }
+code { font: 12px ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--paper); padding: 1px 5px; border-radius: 3px; }
+ol.steps { margin: 6px 0 0; padding-left: 20px; } ol.steps li { margin-bottom: 4px; }
+
+footer { color: var(--muted); font-size: 12px; padding: 18px 0 40px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+footer label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+
+@media (max-width: 860px) {
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .row { grid-template-columns: 52px minmax(0, 1fr) auto; grid-template-areas: "thumb title vis" "thumb meter meter" "acts acts acts"; row-gap: 8px; }
+  .row.head { display: none; }
+  .row .n { display: none; }
+  .row .thumb { grid-area: thumb; width: 52px; height: 35px; align-self: start; }
+  .row .ttl { grid-area: title; } .row .meter-cell { grid-area: meter; } .row .vis { grid-area: vis; } .row .acts { grid-area: acts; justify-content: flex-start; }
+  .two { grid-template-columns: 1fr; }
+  .list li { grid-template-columns: 1fr; gap: 2px; }
+  input[type=search] { width: 100%; }
+  .tools { width: 100%; }
+}
+@media (max-width: 420px) { .wrap { padding: 0 16px; } .tile .v { font-size: 24px; } .act { padding: 6px 8px; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="mark">nonfiction hotlist.<span id="yr"></span><small>Team dashboard</small></div>
+    <nav class="years" aria-label="Year"><span class="lbl">Year</span><span class="seg" id="years"></span></nav>
+    <nav class="hlinks">
+      <a class="pill" id="driveLink" target="_blank" rel="noopener">Drive folder</a>
+      <a class="pill solid" id="siteLink" target="_blank" rel="noopener">Open site</a>
+    </nav>
+  </div>
+</header>
+<div class="draftnote" id="draftNote" hidden><div class="wrap"></div></div>
+
+<main class="wrap">
+  <section class="tiles" id="tiles"></section>
+  <nav class="quick" id="quick" aria-label="Front pages"></nav>
+
+  <div class="bar">
+    <h2>Projects</h2>
+    <div class="tools">
+      <input type="search" id="q" placeholder="Find a project" aria-label="Find a project">
+      <select id="sort" aria-label="Sort projects">
+        <option value="order">Site order</option>
+        <option value="visits">Most visited</option>
+        <option value="complete">Least complete</option>
+        <option value="title">A to Z</option>
+      </select>
+    </div>
+  </div>
+  <div class="table" id="projects" role="table" aria-label="Projects"></div>
+
+  <div class="sections" id="sections"></div>
+
+  <footer>
+    <span id="updated"></span>
+    <label><input type="checkbox" id="skip"> Don't count my visits to the site from this browser</label>
+  </footer>
+</main>
+
+<script>
+const D = {"generatedAt":"2026-11-06T15:37:48.415Z","year":"2026","siteUrl":"https://list.nonfictionhotlist.com/2026","repoUrl":"https://github.com/Nonfiction-Hotlist/list","gc":"https://nonfictionhotlist.goatcounter.com","status":"draft","years":[{"year":"2026","status":"draft","url":"../../2026/dashboard/"},{"year":"2025","status":"live","url":"../../2025/dashboard/"}],"publishUrl":"https://github.com/Nonfiction-Hotlist/list/actions/workflows/publish.yml","front":[{"label":"Cover","url":"https://docs.google.com/document/d/1XFMbeEzDBqR2TKXJkl6pbAP3L4y7E8jMylEh8xoyqXY/edit"},{"label":"Welcome","url":"https://docs.google.com/document/d/1cVZ23Tk1PUBcdZENz7cIDkPW6h5LIlXG76XXn2Ah_og/edit"},{"label":"About","url":"https://docs.google.com/document/d/17uzjuuv3klA7vwScYPAv6b35Ij9l2RCdZV6IuRlJqVs/edit"},{"label":"Running order","url":"https://docs.google.com/spreadsheets/d/1sCBuj7JeptcIsZJGi9P2VAZMa5sunrH1mJ8KnMi4Iu8/edit"},{"label":"Front page media","url":"https://drive.google.com/drive/folders/1chIphqBPI2nVL8KL0QpUxPBxA4Ha8_74"},{"label":"Editors' guide","url":"https://docs.google.com/document/d/1hOhfxv9do2Db4uumBNbrdC9MzK0DRw-5dZ9-GhDGnXs/edit"}],"driveRoot":"https://drive.google.com/drive/folders/1aK8ZfcNCxmRNojEYhF-dwLKQ--kIAAjH","projects":[{"n":1,"slug":"project-01","title":"Project 01","format":"","key":"","complete":9,"missing":["Format","Status","Logline","Summary","Contact email","Team","How to help","Key art","Banner","Two or more stills"],"visits":0,"live":"https://list.nonfictionhotlist.com/2026/#project-01","sheet":"https://docs.google.com/spreadsheets/d/19U6Wr6HiXc9MrafgStnkSEPwQV8Dkx5cIKecac0BVgo/edit","media":"https://drive.google.com/drive/folders/1kAiUDBeylUqK724rH_q2jDih9cBl4FbI","broken":0},{"n":2,"slug":"project-02","title":"Project 02","format":"","key":"","complete":9,"missing":["Format","Status","Logline","Summary","Contact email","Team","How to help","Key art","Banner","Two or more stills"],"visits":0,"live":"https://list.nonfictionhotlist.com/2026/#project-02","sheet":"https://docs.google.com/spreadsheets/d/1QCZcA7BoNmgdrsas3CJt5BpjWC3VQeFrKJt4L1o6zHE/edit","media":"https://drive.google.com/drive/folders/1BOjRzMI0SODbJo1rYQJMbNRq8CuDzVxM","broken":0},{"n":3,"slug":"project-03","title":"Project 03","format":"","key":"","complete":9,"missing":["Format","Status","Logline","Summary","Contact email","Team","How to help","Key art","Banner","Two or more stills"],"visits":0,"live":"https://list.nonfictionhotlist.com/2026/#project-03","sheet":"https://docs.google.com/spreadsheets/d/1JS_nEAJVZZYev4rHU1XPpC1RiAjyO6MCi-f44z3HROM/edit","media":"https://drive.google.com/drive/folders/1T6Mem8zAviAv2ZOSjWCGs6mTorRNzW6U","broken":0},{"n":4,"slug":"project-04","title":"Project 04","format":"","key":"","complete":9,"missing":["Format","Status","Logline","Summary","Contact email","Team","How to help","Key art","Banner","Two or more stills"],"visits":0,"live":"https://list.nonfictionhotlist.com/2026/#project-04","sheet":"https://docs.google.com/spreadsheets/d/19bufvettFFS9_b1J4HU5uWVQR3nvw0LwYTmYcwImepk/edit","media":"https://drive.google.com/drive/folders/1KY5LlY4xxUjQmi7RWRKnb6WdCBNLSKE6","broken":0},{"n":5,"slug":"project-05","title":"Project 05","format":"","key":"","complete":9,"missing":["Format","Status","Logline","Summary","Contact email","Team","How to help","Key art","Banner","Two or more stills"],"visits":0,"live":"https://list.nonfictionhotlist.com/2026/#project-05","sheet":"https://docs.google.com/spreadsheets/d/17wR8EvsB05IxvFImRlJ55ejx53FCN-0eXQ6iptd11GU/edit","media":"https://drive.google.com/drive/folders/1C8wAZkxdq8QQwD-SRHa3RXg0OymuuICi","broken":0},{"n":6,"slug":"project-06","title":"Project 06","format":"","key":"","complete":9,"missing":["Format","Status","Logline","Summary","Contact email","Team","How to help","Key art","Banner","Two or more stills"],"visits":0,"live":"https://list.nonfictionhotlist.com/2026/#project-06","sheet":"https://docs.google.com/spreadsheets/d/1ggeRCmBHKhPwcurpIwW66e-lGs91_8T7C4QGV6oJ4Xo/edit","media":"https://drive.google.com/drive/folders/1LTTh02hfSzEugM8zUKvSw83NWNV6lwSi","broken":0},{"n":7,"slug":"project-07","title":"Project 07","format":"","key":"","complete":9,"missing":["Format","Status","Logline","Summary","Contact email","Team","How to help","Key art","Banner","Two or more stills"],"visits":0,"live":"https://list.nonfictionhotlist.com/2026/#project-07","sheet":"https://docs.google.com/spreadsheets/d/12p80Fc-Q99jJd13ks4xJuekRX-0TJQ6PlOsfJTVA-OI/edit","media":"https://drive.google.com/drive/folders/1hMF7r1N78P7WPe9iFfqQPJzf6a4ZHWJq","broken":0},{"n":8,"slug":"project-08","title":"Project 08","format":"","key":"","complete":9,"missing":["Format","Status","Logline","Summary","Contact email","Team","How to help","Key art","Banner","Two or more stills"],"visits":0,"live":"https://list.nonfictionhotlist.com/2026/#project-08","sheet":"https://docs.google.com/spreadsheets/d/1V3kVg7wMUpxDXArfPF27pJMWp0OQPanI7Kk8fDs768Y/edit","media":"https://drive.google.com/drive/folders/1dNPejq4VuZSk9TdFkVzOh_YgaPhrqy17","broken":0},{"n":9,"slug":"project-09","title":"Project 09","format":"","key":"","complete":9,"missing":["Format","Status","Logline","Summary","Contact email","Team","How to help","Key art","Banner","Two or more stills"],"visits":0,"live":"https://list.nonfictionhotlist.com/2026/#project-09","sheet":"https://docs.google.com/spreadsheets/d/19BkUfoOZxGvyZ-z6C0DZ9zKpQM8oonLJVlbnnpEyEQ4/edit","media":"https://drive.google.com/drive/folders/1IfRf5h-jZULDB0o0jX2hr9ojnyTxx3x9","broken":0},{"n":10,"slug":"project-10","title":"Project 10","format":"","key":"","complete":9,"missing":["Format","Status","Logline","Summary","Contact email","Team","How to help","Key art","Banner","Two or more stills"],"visits":0,"live":"https://list.nonfictionhotlist.com/2026/#project-10","sheet":"https://docs.google.com/spreadsheets/d/1RJFvhzpYouxmfUAtQiTfL8hN6oxQY4_RxLDidqHVoe4/edit","media":"https://drive.google.com/drive/folders/1xXBdLWeKqT2XDVYrD4uNmjFoTy7NkuCJ","broken":0},{"n":11,"slug":"project-11","title":"Project 11","format":"","key":"","complete":9,"missing":["Format","Status","Logline","Summary","Contact email","Team","How to help","Key art","Banner","Two or more stills"],"visits":0,"live":"https://list.nonfictionhotlist.com/2026/#project-11","sheet":"https://docs.google.com/spreadsheets/d/1__BB5Fhh9ADfpazSOCqLBp_Uato0DiBlsCSVwds4I-4/edit","media":"https://drive.google.com/drive/folders/1QgSYBaVhZ0kof9bH-7OMYieV8AIuWGu-","broken":0},{"n":12,"slug":"project-12","title":"Project 12","format":"","key":"","complete":9,"missing":["Format","Status","Logline","Summary","Contact email","Team","How to help","Key art","Banner","Two or more stills"],"visits":0,"live":"https://list.nonfictionhotlist.com/2026/#project-12","sheet":"https://docs.google.com/spreadsheets/d/1DEQ0loDUH0Y5x2sZwlELfeY8PwqS9x2LVgAymw6alwI/edit","media":"https://drive.google.com/drive/folders/1szQyhnYue2CymaukQZxd1ZsJRHZJLDJQ","broken":0},{"n":13,"slug":"project-13","title":"Project 13","format":"","key":"","complete":9,"missing":["Format","Status","Logline","Summary","Contact email","Team","How to help","Key art","Banner","Two or more stills"],"visits":0,"live":"https://list.nonfictionhotlist.com/2026/#project-13","sheet":"https://docs.google.com/spreadsheets/d/15cckrfvimLckoQtTbmOH4N3YJwd3PweKt797xydbCyI/edit","media":"https://drive.google.com/drive/folders/17RI5fEv_W7TV84plnhRh4nBkEEMcctwE","broken":0},{"n":14,"slug":"project-14","title":"Project 14","format":"","key":"","complete":9,"missing":["Format","Status","Logline","Summary","Contact email","Team","How to help","Key art","Banner","Two or more stills"],"visits":0,"live":"https://list.nonfictionhotlist.com/2026/#project-14","sheet":"https://docs.google.com/spreadsheets/d/13sqnHEKp5XTHPebtcpmKysRGn25BRXGDrUkYRi8M1rU/edit","media":"https://drive.google.com/drive/folders/1rMbEA7_X2ccKq8GJh2CQhzARR18cEbDz","broken":0},{"n":15,"slug":"project-15","title":"Project 15","format":"","key":"","complete":9,"missing":["Format","Status","Logline","Summary","Contact email","Team","How to help","Key art","Banner","Two or more stills"],"visits":0,"live":"https://list.nonfictionhotlist.com/2026/#project-15","sheet":"https://docs.google.com/spreadsheets/d/10Y3K92ti7eajVJaHGWIEuvUvu4nsiW65SzPjzE3h-mo/edit","media":"https://drive.google.com/drive/folders/1K6x9rAwtantJe27VNhAaFj7inVbjAR8w","broken":0},{"n":16,"slug":"project-16","title":"Project 16","format":"","key":"","complete":9,"missing":["Format","Status","Logline","Summary","Contact email","Team","How to help","Key art","Banner","Two or more stills"],"visits":0,"live":"https://list.nonfictionhotlist.com/2026/#project-16","sheet":"https://docs.google.com/spreadsheets/d/19FDeanSXoW7JLbhWWOPdRbQYxq6nSq9bl4VagfY4S2A/edit","media":"https://drive.google.com/drive/folders/1G0ArDI8taqPl0eK65P6KRml-Y4FyMP-F","broken":0},{"n":17,"slug":"project-17","title":"Project 17","format":"","key":"","complete":9,"missing":["Format","Status","Logline","Summary","Contact email","Team","How to help","Key art","Banner","Two or more stills"],"visits":0,"live":"https://list.nonfictionhotlist.com/2026/#project-17","sheet":"https://docs.google.com/spreadsheets/d/1UsdEF4a4VLT0VWF6JibuKI7Z3KypkCh3YCfr4EJko-c/edit","media":"https://drive.google.com/drive/folders/1P_2hH2JB8MH-lJ_IBjpwjJhlwWSVajjG","broken":0},{"n":18,"slug":"project-18","title":"Project 18","format":"","key":"","complete":9,"missing":["Format","Status","Logline","Summary","Contact email","Team","How to help","Key art","Banner","Two or more stills"],"visits":0,"live":"https://list.nonfictionhotlist.com/2026/#project-18","sheet":"https://docs.google.com/spreadsheets/d/16o72pLQmB8PrYXXZsrpNosh31GKlS_SN04C_xyn-eKo/edit","media":"https://drive.google.com/drive/folders/1-Pu6zk1Ysh3mWoHCQhiSpxeCteIeNzeG","broken":0},{"n":19,"slug":"project-19","title":"Project 19","format":"","key":"","complete":9,"missing":["Format","Status","Logline","Summary","Contact email","Team","How to help","Key art","Banner","Two or more stills"],"visits":0,"live":"https://list.nonfictionhotlist.com/2026/#project-19","sheet":"https://docs.google.com/spreadsheets/d/1JWdUpkFh1tp0g6TYV4I9r-jG-IfCwh0MwfLXoQLSa7k/edit","media":"https://drive.google.com/drive/folders/14x08XvvQxVSQMBKF2cYkPdxC3NZwtWA5","broken":0},{"n":20,"slug":"project-20","title":"Project 20","format":"","key":"","complete":9,"missing":["Format","Status","Logline","Summary","Contact email","Team","How to help","Key art","Banner","Two or more stills"],"visits":0,"live":"https://list.nonfictionhotlist.com/2026/#project-20","sheet":"https://docs.google.com/spreadsheets/d/1lX13z3I6LPqqa1Kqr2XVrCga7AugGiEH6IHfxzHUsr0/edit","media":"https://drive.google.com/drive/folders/1UCSqEl8UShdbcnLB00V0JSKdDLcodF5i","broken":0},{"n":21,"slug":"project-21","title":"Project 21","format":"","key":"","complete":9,"missing":["Format","Status","Logline","Summary","Contact email","Team","How to help","Key art","Banner","Two or more stills"],"visits":0,"live":"https://list.nonfictionhotlist.com/2026/#project-21","sheet":"https://docs.google.com/spreadsheets/d/1_ek5kKvyxzD3whKkLotXXBLIrzz5ln1_PLx7mxY4Ge8/edit","media":"https://drive.google.com/drive/folders/1Ed-BNwUH78DtMmNZkzIPn0Fm9JFNugjR","broken":0},{"n":22,"slug":"project-22","title":"Project 22","format":"","key":"","complete":9,"missing":["Format","Status","Logline","Summary","Contact email","Team","How to help","Key art","Banner","Two or more stills"],"visits":0,"live":"https://list.nonfictionhotlist.com/2026/#project-22","sheet":"https://docs.google.com/spreadsheets/d/1pwRFemg4klVOcYobAqTlnUViASPxNDcFIEN6jLaDdmI/edit","media":"https://drive.google.com/drive/folders/1jPWz0XeEOMPfiNq9QFq_xdNr1Y6pGLFH","broken":0},{"n":23,"slug":"project-23","title":"Project 23","format":"","key":"","complete":9,"missing":["Format","Status","Logline","Summary","Contact email","Team","How to help","Key art","Banner","Two or more stills"],"visits":0,"live":"https://list.nonfictionhotlist.com/2026/#project-23","sheet":"https://docs.google.com/spreadsheets/d/16QOhGQdM6LdPilKrvO2KprAy5wLbykaB5pd-wMLakmk/edit","media":"https://drive.google.com/drive/folders/1lyBkaS0Xq_AaXiB0AWJWI9O9T0sfDcDo","broken":0},{"n":24,"slug":"project-24","title":"Project 24","format":"","key":"","complete":9,"missing":["Format","Status","Logline","Summary","Contact email","Team","How to help","Key art","Banner","Two or more stills"],"visits":0,"live":"https://list.nonfictionhotlist.com/2026/#project-24","sheet":"https://docs.google.com/spreadsheets/d/1J8myZH7kJjOQlc2JY0TZeCLU5BlNvDClWi-L75iyiGA/edit","media":"https://drive.google.com/drive/folders/1V_Js2sWDDqSkkPjH7-4rUhj5KtP8wD39","broken":0},{"n":25,"slug":"project-25","title":"Project 25","format":"","key":"","complete":9,"missing":["Format","Status","Logline","Summary","Contact email","Team","How to help","Key art","Banner","Two or more stills"],"visits":0,"live":"https://list.nonfictionhotlist.com/2026/#project-25","sheet":"https://docs.google.com/spreadsheets/d/1LdFI6v5gnqEm5rjGaMU-aR3iE033ZFDOAeEgzAt8w2Q/edit","media":"https://drive.google.com/drive/folders/1WnDu-tPnEMFFcHzYeTGy6hcFdM1BJP01","broken":0}],"sync":{"problems":[],"lastDriveChange":"2026-10-24T00:22:52Z"},"changes":[{"date":"2026-11-01T10:16:28-05:00","fromDrive":false,"items":[{"what":"Project 01","detail":"Added"},{"what":"Project 02","detail":"Added"},{"what":"Project 03","detail":"Added"},{"what":"Project 04","detail":"Added"},{"what":"Project 05","detail":"Added"},{"what":"Project 06","detail":"Added"},{"what":"Project 07","detail":"Added"},{"what":"Project 08","detail":"Added"},{"what":"Project 09","detail":"Added"},{"what":"Project 10","detail":"Added"},{"what":"Project 11","detail":"Added"},{"what":"Project 12","detail":"Added"},{"what":"Project 13","detail":"Added"},{"what":"Project 14","detail":"Added"},{"what":"Project 15","detail":"Added"},{"what":"Project 16","detail":"Added"},{"what":"Project 17","detail":"Added"},{"what":"Project 18","detail":"Added"},{"what":"Project 19","detail":"Added"},{"what":"Project 20","detail":"Added"},{"what":"Project 21","detail":"Added"},{"what":"Project 22","detail":"Added"},{"what":"Project 23","detail":"Added"},{"what":"Project 24","detail":"Added"},{"what":"Project 25","detail":"Added"},{"what":"Running order","detail":"Order"}]},{"date":"2026-10-24T00:22:52Z","fromDrive":true,"items":[{"what":"Cover page","detail":"Footer note"}]},{"date":"2026-10-24T00:13:22Z","fromDrive":true,"items":[{"what":"Cover page","detail":"Footer note"}]}],"links":{"checkedAt":"2026-11-05T18:08:16.422Z","total":0,"broken":[],"unchecked":[]},"stats":{"total":42,"pdf":0,"byPath":{},"refs":[{"name":"new.nonfictionhotlist.com","count":27},{"name":"(direct or unknown)","count":11},{"name":"list.nonfictionhotlist.com","count":3},{"name":"localhost:8090","count":1}],"pages":[]}};
+
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const fmt = n => n == null ? "–" : Number(n).toLocaleString();
+const ICON = {
+  sheet: '<svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2.5" y="1.5" width="11" height="13" rx="1.5"/><path d="M2.5 6h11M2.5 10h11M7 6v8.5"/></svg>',
+  folder: '<svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M1.5 4.5a1 1 0 0 1 1-1h3.6l1.4 1.6h6a1 1 0 0 1 1 1v6.4a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1z"/></svg>',
+  doc: '<svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3.5 1.5h6l3 3v10h-9z"/><path d="M9.5 1.5v3h3M5.5 8h5M5.5 10.5h5"/></svg>',
+  ext: '<svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 2.5h4.5V7M13.5 2.5 7 9M11.5 9.5v4h-9v-9h4"/></svg>'
+};
+
+function ago(iso) {
+  if (!iso) return "never";
+  const s = (Date.now() - new Date(iso)) / 1000;
+  if (s < 90) return "just now";
+  if (s < 3600) return Math.round(s / 60) + " min ago";
+  if (s < 86400) return Math.round(s / 3600) + " hr ago";
+  const d = Math.round(s / 86400);
+  return d === 1 ? "yesterday" : d < 30 ? d + " days ago" : new Date(iso).toLocaleDateString(undefined, { month: "short", day: "numeric" });
+}
+const when = iso => new Date(iso).toLocaleString(undefined, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+
+/* Header and tiles */
+document.getElementById("yr").textContent = D.year;
+document.title = `${D.year} · Team dashboard · Nonfiction Hotlist`;
+document.getElementById("years").innerHTML = D.years.map(y =>
+  `<a href="${esc(y.url)}"${y.year === D.year ? ' aria-current="page"' : ""}>${esc(y.year)}<small>${y.status === "live" ? "live" : "draft"}</small></a>`).join("");
+if (D.status !== "live") {
+  const n = document.getElementById("draftNote");
+  n.firstElementChild.textContent = `${D.year} is a draft: the team can see its site, but it isn't linked from the front door or listed in search, and visits aren't counted.`;
+  n.hidden = false;
+}
+// /dashboard/ opens the year viewed last.
+try { localStorage.setItem("nfhDashYear", D.year); } catch (e) {}
+document.getElementById("driveLink").href = D.driveRoot;
+document.getElementById("siteLink").href = D.siteUrl;
+
+const S = D.stats, statsOn = S && !S.error;
+const problems = D.sync.problems;
+const brokenCount = D.links ? (D.links.broken || []).length : 0;
+const avgComplete = Math.round(D.projects.reduce((a, p) => a + p.complete, 0) / D.projects.length);
+
+document.getElementById("tiles").innerHTML = [
+  `<div class="tile hero"><div class="k">PDF downloads</div><div class="v">${statsOn ? fmt(S.pdf) : "–"}</div><div class="s">${statsOn ? "since Oct 24" : "connect counting below"}</div></div>`,
+  `<div class="tile"><div class="k">Site visits</div><div class="v">${statsOn ? fmt(S.total) : "–"}</div><div class="s">${statsOn ? "page views since Oct 24" : "not connected yet"}</div></div>`,
+  `<div class="tile${problems.length ? " warn" : ""}"><div class="k">Sync</div><div class="v small"><span class="dot${problems.length ? " warn" : ""}"></span>${problems.length ? `${problems.length} edit${problems.length > 1 ? "s" : ""} skipped` : "All edits live"}</div><div class="s">Checked ${ago(D.generatedAt)}${D.sync.lastDriveChange ? ` · last change ${ago(D.sync.lastDriveChange)}` : ""}</div></div>`,
+  `<div class="tile"><div class="k">Complete</div><div class="v">${avgComplete}%</div><div class="s">${D.projects.filter(p => p.complete === 100).length} of ${D.projects.length} projects at 100%</div></div>`
+].join("");
+
+document.getElementById("quick").innerHTML = `<span class="lbl">Front pages</span>` + D.front.map(f =>
+  `<a class="chip" href="${esc(f.url)}" target="_blank" rel="noopener">${f.url.includes("/folders/") ? ICON.folder : f.url.includes("spreadsheets") ? ICON.sheet : ICON.doc}${esc(f.label)}</a>`).join("");
+
+/* Projects table */
+const q = document.getElementById("q"), sortSel = document.getElementById("sort");
+try { const s = localStorage.getItem("dash-sort"); if (s) sortSel.value = s; } catch (e) {}
+if (!statsOn) sortSel.querySelector('[value="visits"]').disabled = true;
+
+function renderProjects() {
+  const term = q.value.trim().toLowerCase();
+  let list = D.projects.filter(p => !term || p.title.toLowerCase().includes(term));
+  const by = sortSel.value;
+  if (by === "visits") list = [...list].sort((a, b) => (b.visits || 0) - (a.visits || 0));
+  if (by === "complete") list = [...list].sort((a, b) => a.complete - b.complete || a.n - b.n);
+  if (by === "title") list = [...list].sort((a, b) => a.title.localeCompare(b.title));
+  const head = `<div class="row head" role="row"><span>#</span><span></span><span>Project</span><span>Complete</span><span style="text-align:right">Visits</span><span style="text-align:right">Edit</span></div>`;
+  const rows = list.map(p => `<div class="row" role="row">
+    <span class="n">${String(p.n).padStart(2, "0")}</span>
+    ${p.key ? `<img class="thumb" src="${esc(p.key)}" alt="" loading="lazy">` : `<span class="thumb"></span>`}
+    <div class="ttl"><a href="${esc(p.live)}" target="_blank" rel="noopener">${esc(p.title)}</a><small>${esc(p.format)}${p.broken ? ` · <span class="flag">${p.broken} broken link${p.broken > 1 ? "s" : ""}</span>` : ""}</small></div>
+    <div class="meter-cell"><div class="meter" title="${p.missing.length ? "Missing: " + esc(p.missing.join(", ")) : "Everything filled in"}"><i><b class="${p.complete < 100 ? "warn" : ""}" style="width:${p.complete}%"></b></i><span>${p.complete}%</span></div>${p.missing.length ? `<div class="missing">Missing: ${esc(p.missing.join(", "))}</div>` : ""}</div>
+    <div class="vis${p.visits == null ? " none" : ""}">${p.visits == null ? "–" : fmt(p.visits)}</div>
+    <div class="acts">
+      ${p.sheet ? `<a class="act primary" href="${esc(p.sheet)}" target="_blank" rel="noopener">${ICON.sheet}Copysheet</a>` : ""}
+      ${p.media ? `<a class="act" href="${esc(p.media)}" target="_blank" rel="noopener">${ICON.folder}Media</a>` : ""}
+    </div>
+  </div>`).join("");
+  document.getElementById("projects").innerHTML = head + (rows || `<div class="empty">No project matches "${esc(q.value)}".</div>`);
+}
+q.addEventListener("input", renderProjects);
+sortSel.addEventListener("change", () => { try { localStorage.setItem("dash-sort", sortSel.value); } catch (e) {} renderProjects(); });
+renderProjects();
+
+/* Expandable sections */
+function section(id, title, sub, badge, body, open) {
+  return `<details id="${id}"${open ? " open" : ""}><summary>${title}${badge || ""}<span class="sub">${sub || ""}</span></summary><div class="body">${body}</div></details>`;
+}
+function capped(items, n, render) {
+  const first = items.slice(0, n).map(render).join(""), rest = items.slice(n).map(render).join("");
+  return `<ul class="list">${first}</ul>${rest ? `<ul class="list rest" hidden>${rest}</ul><button class="more" type="button" data-more>Show ${items.length - n} more</button>` : ""}`;
+}
+
+const out = [];
+
+// 1. Sync health
+out.push(section("sync", "Sync health",
+  problems.length ? "These edits didn't publish. The site kept the previous text." : "Every edit in Drive is on the site.",
+  problems.length ? ` <span class="badge warn">${problems.length}</span>` : ` <span class="badge ok">OK</span>`,
+  (problems.length ? problems.map(p => `<div class="problem">${esc(p)}</div>`).join("") + `<p style="margin-top:10px">Fix these in Drive. They publish on the next check.</p>` : "") +
+  `<p>Last check of Drive: ${when(D.generatedAt)}.${D.sync.lastDriveChange ? ` Last change from Drive: ${when(D.sync.lastDriveChange)}.` : ""}</p>
+   <p><a href="${esc(D.publishUrl)}" target="_blank" rel="noopener">Publish now</a> (site owner: Run workflow on GitHub).</p>`,
+  problems.length > 0));
+
+// 2. Recent changes
+const changeRows = [];
+for (const c of D.changes) for (const it of c.items) changeRows.push({ date: c.date, fromDrive: c.fromDrive, ...it });
+out.push(section("changes", "Recent changes", changeRows.length ? `Latest: ${esc(changeRows[0].what)}, ${ago(changeRows[0].date)}` : "",
+  ` <span class="badge">${changeRows.length}</span>`,
+  changeRows.length ? capped(changeRows, 6, r => `<li><span class="when">${when(r.date)}</span><span class="what"><b>${esc(r.what)}</b> <span>${esc(r.detail)}</span>${r.fromDrive ? "" : `<span class="src">site</span>`}</span></li>`)
+    : `<p>No changes yet.</p>`));
+
+// 3. Link check
+const L = D.links;
+out.push(section("links", "Broken links",
+  L ? `Checked ${ago(L.checkedAt)} · ${fmt(L.total)} links` : "Runs once a day",
+  L ? (brokenCount ? ` <span class="badge bad">${brokenCount}</span>` : ` <span class="badge ok">None</span>`) : "",
+  !L ? `<p>The first daily check hasn't run yet.</p>` :
+  (brokenCount ? capped(L.broken, 8, b => `<li><span class="when">${b.status ? "HTTP " + b.status : esc(b.error || "No response")}</span><span class="what"><b>${esc(b.where.map(w => w.title).join(", "))}</b> <span>${esc(b.where.map(w => w.field).join(", "))}</span><br><a class="mono" href="${esc(b.url)}" target="_blank" rel="noopener">${esc(b.url)}</a></span></li>`)
+    : `<p>No missing pages found.</p>`) +
+  (L.unchecked && L.unchecked.length ? `<p style="margin-top:10px">${L.unchecked.length} link${L.unchecked.length > 1 ? "s" : ""} couldn't be checked automatically because the site turns away automated visits (social media, some news sites). Those usually work fine in a browser.</p>` : "")));
+
+// 4. Where visitors come from
+let trafficBody;
+if (!S) {
+  trafficBody = `<p>Visit counting is on, but the dashboard needs a read key to show the numbers:</p>
+    <ol class="steps"><li>In GoatCounter, open Settings, then API, and create a key with permission to read statistics.</li>
+    <li>In GitHub, open the repo's Settings, then Secrets and variables, then Actions, and add a secret named <code>GOATCOUNTER_TOKEN</code> with that key.</li></ol>
+    <p style="margin-top:8px">Numbers appear here after the next refresh.</p>`;
+} else if (S.error) {
+  trafficBody = `<p>GoatCounter didn't answer the last check (${esc(S.error)}). Numbers will return on the next one.</p>`;
+} else {
+  const bars = (rows, label) => {
+    const max = Math.max(1, ...rows.map(r => r.count));
+    return rows.length ? `<ul class="list bars">${rows.map(r => `<li><span class="nm"><span class="fill" style="width:${(r.count / max) * 100}%"></span><em>${esc(label(r))}</em></span><span class="ct">${fmt(r.count)}</span></li>`).join("")}</ul>` : `<p>Nothing yet.</p>`;
+  };
+  trafficBody = `<div class="two"><div><h3>Sources</h3>${bars(S.refs, r => r.name)}</div><div><h3>Most viewed</h3>${bars(S.pages, r => r.title || r.path)}</div></div>
+    <p style="margin-top:12px"><a href="${esc(D.gc)}" target="_blank" rel="noopener">Full stats in GoatCounter</a></p>`;
+}
+out.push(section("traffic", "Where visitors come from", statsOn && S.refs.length ? `Top source: ${esc(S.refs[0].name)}` : "", "", trafficBody));
+
+document.getElementById("sections").innerHTML = out.join("");
+document.getElementById("sections").addEventListener("click", e => {
+  const b = e.target.closest("[data-more]"); if (!b) return;
+  const rest = b.previousElementSibling;
+  rest.hidden = !rest.hidden;
+  b.textContent = rest.hidden ? `Show ${rest.children.length} more` : "Show fewer";
+});
+// Remember which sections are open.
+document.querySelectorAll("details").forEach(d => {
+  try { const v = localStorage.getItem("dash-open-" + d.id); if (v !== null) d.open = v === "1"; } catch (e) {}
+  d.addEventListener("toggle", () => { try { localStorage.setItem("dash-open-" + d.id, d.open ? "1" : "0"); } catch (e) {} });
+});
+if (problems.length) document.getElementById("sync").open = true;
+
+/* Footer */
+document.getElementById("updated").textContent = `Updated ${when(D.generatedAt)}.`;
+const skip = document.getElementById("skip");
+try { skip.checked = localStorage.getItem("skipgc") === "t"; } catch (e) { skip.disabled = true; }
+skip.addEventListener("change", () => { try { skip.checked ? localStorage.setItem("skipgc", "t") : localStorage.removeItem("skipgc"); } catch (e) {} });
+</script>
+</body>
+</html>
