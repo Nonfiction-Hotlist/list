@@ -65,6 +65,7 @@ const html = `<!doctype html>
 <meta name="theme-color" content="#ffffff">${Y.isDraft ? '\n<meta name="robots" content="noindex, nofollow">' : ""}
 <link rel="canonical" href="${SITE_URL}/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/brand/v1/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="nonfiction hotlist.">
 <meta property="og:title" content="${title}">
@@ -82,6 +83,7 @@ img { max-width: 100%; }
 </style>
 ${brandHead}
 ${siteHeader ? headPart.replace(/<link rel="(preconnect|stylesheet)" href="https:\/\/fonts\.(googleapis|gstatic)\.com[^>]*>\n?/g, "") : headPart}
+${siteHeader ? "<style>/* The list's controls sit under the website's sticky top bar (81px). */ .bar { top: 81px; }</style>" : ""}
 ${ANALYTICS}
 </head>
 <body>
@@ -92,6 +94,6 @@ ${siteHeader}${listBody}${siteFooter ? "\n" + siteFooter : ""}
 
 fs.mkdirSync(Y.OUT, { recursive: true });
 fs.writeFileSync(path.join(Y.OUT, "index.html"), html);
-// The tab icon carries the year's last two digits.
+// The tab icon: the nfh. disc mark, the same as the website (src/favicon.svg is a copy of the brand kit's).
 fs.writeFileSync(path.join(Y.OUT, "favicon.svg"), fs.readFileSync(path.join(Y.REPO, "src", "favicon.svg"), "utf8").replace("__YY__", Y.Y.slice(-2)));
 console.log(`wrote site/${Y.Y}/index.html`, (html.length / 1024).toFixed(0) + " KB");

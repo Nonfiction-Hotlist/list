@@ -3,7 +3,7 @@
 //   site/404.html     sends an unknown address to its year, or to the latest year
 //   site/dashboard/   sends the team to the dashboard for the year they viewed last, or the latest year
 //   site/CNAME        the custom domain, from years.json
-//   site/favicon.svg  the latest year's icon
+//   site/favicon.svg  the nfh. icon (and site/favicon.ico, its 32px PNG)
 //   site/brand/v1/    the brand kit (styles, fonts, logos, menu script), copied from src/brand/ (scripts/fetch-brand.js)
 // Run: npm run root
 const fs = require("fs");
@@ -39,7 +39,10 @@ fs.writeFileSync(path.join(SITE, "404.html"), shell("nonfiction hotlist.",
   `<p>Page not found.</p>${list}`));
 
 const KIT = path.join(Y.REPO, "src", "brand", "v1");
-if (fs.existsSync(KIT)) { fs.rmSync(path.join(SITE, "brand"), { recursive: true, force: true }); fs.cpSync(KIT, path.join(SITE, "brand", "v1"), { recursive: true }); }
+if (fs.existsSync(KIT)) {
+  fs.rmSync(path.join(SITE, "brand"), { recursive: true, force: true }); fs.cpSync(KIT, path.join(SITE, "brand", "v1"), { recursive: true });
+  if (fs.existsSync(path.join(KIT, "favicon-32.png"))) fs.copyFileSync(path.join(KIT, "favicon-32.png"), path.join(SITE, "favicon.ico"));
+}
 
 fs.mkdirSync(path.join(SITE, "dashboard"), { recursive: true });
 fs.writeFileSync(path.join(SITE, "dashboard", "index.html"), shell("Team dashboard",

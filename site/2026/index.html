@@ -8,6 +8,7 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="canonical" href="https://list.nonfictionhotlist.com/2026/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/brand/v1/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="nonfiction hotlist.">
 <meta property="og:title" content="The 2026 Nonfiction Hotlist">
@@ -196,16 +197,13 @@ main { padding-bottom: 0; }
 .poster .p-title { font: 700 clamp(19px, 1.2vw + 10px, 26px)/.92 var(--font-display); letter-spacing: -0.02em; text-transform: lowercase; }
 .poster .p-foot { display: flex; justify-content: space-between; font: 700 12px/1 var(--font-display); letter-spacing: .12em; text-transform: lowercase; opacity: .8; }
 
-/* Project page: the still under the green overlay, the title on it */
-.p-hero { position: relative; isolation: isolate; color: var(--white); background: var(--pine-deep); overflow: hidden; }
-.p-hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
-.p-hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--photo-overlay); }
-.p-hero .wrap { min-height: clamp(380px, 40vw, 560px); display: flex; flex-direction: column; justify-content: space-between; gap: 32px; padding-block: 28px clamp(40px, 5vw, 72px); }
-.p-hero h1 { font: 700 clamp(48px, 6.4vw, 100px)/.9 var(--font-display); letter-spacing: -0.03em; text-transform: lowercase; margin: 0; max-width: 1100px; }
-.p-hero .label { color: var(--mint); }
-.crumb a { display: inline-flex; align-items: center; min-height: 44px; font: 700 16px/1 var(--font-display); text-transform: lowercase; color: var(--white); text-decoration: none; }
-.crumb a:hover { text-decoration: underline; text-underline-offset: 5px; color: var(--white); }
-.p-title-block { display: flex; flex-direction: column; gap: 16px; }
+/* Project page: the key photo as it is (no overlay), then the label and title on white */
+.p-hero { height: clamp(280px, 38vw, 560px); background: var(--pine-deep); overflow: hidden; }
+.p-hero > img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.p-head { display: flex; flex-direction: column; gap: 14px; padding-top: 20px; }
+.p-head h1 { font: 700 clamp(48px, 6.4vw, 100px)/.9 var(--font-display); letter-spacing: -0.03em; text-transform: lowercase; margin: 0; max-width: 1100px; }
+.crumb a { display: inline-flex; align-items: center; min-height: 44px; font: 700 16px/1 var(--font-display); text-transform: lowercase; color: var(--forest); text-decoration: none; }
+.crumb a:hover { text-decoration: underline; text-underline-offset: 5px; }
 .project { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 300px); gap: 48px clamp(32px, 6vw, 96px); padding-block: clamp(40px, 5vw, 72px); }
 .project aside { display: grid; gap: 16px; align-content: start; position: sticky; top: 84px; align-self: start; }
 .facts { display: grid; gap: 18px; margin: 0; }
@@ -294,6 +292,7 @@ main { padding-bottom: 0; }
   .steps { grid-template-columns: minmax(0, 1fr); }
 }
 </style>
+<style>/* The list's controls sit under the website's sticky top bar (81px). */ .bar { top: 81px; }</style>
 
 </head>
 <body>
@@ -619,13 +618,13 @@ function renderProject(idx, tab) {
   const next = idx < PROJECTS.length - 1 ? PROJECTS[idx + 1] : null;
   const pg = pageOf(idx);
   const still = p.hero ? `<img src="${esc(p.hero)}" alt="" style="object-position:${p.focus ?? 50}% ${p.focusY ?? 50}%">` : "";
-  return `<section class="p-hero dark">${still}
-    <div class="wrap">
-      <div class="crumb"><a href="#page-${pg}">&larr; projects, page ${pg}</a></div>
-      <div class="p-title-block"><p class="label">${esc(p.format)} &middot; ${pad(idx + 1)} of ${PROJECTS.length}</p><h1>${esc(p.title)}</h1></div>
-    </div>
-  </section>
+  return `${still ? `<section class="p-hero">${still}</section>` : ""}
   <div class="wrap">
+    <div class="p-head">
+      <div class="crumb"><a href="#page-${pg}">&larr; projects, page ${pg}</a></div>
+      <p class="label">${esc(p.format)} &middot; ${pad(idx + 1)} of ${PROJECTS.length}</p>
+      <h1>${esc(p.title)}</h1>
+    </div>
     <article class="project">
       <div style="min-width:0">
         <p class="logline">${esc(p.logline)}</p>
