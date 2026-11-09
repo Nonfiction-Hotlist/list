@@ -128,6 +128,7 @@ jobs:
       - name: Build the team dashboards
         env:
           GOATCOUNTER_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
+          DASHBOARD_PASSWORD: ${{ secrets.DASHBOARD_PASSWORD }}
           DASHBOARD_OUT: ${{ steps.decide.outputs.publish == 'true' && 'site' || '.dash-out' }}
         run: node scripts/each-year.js dashboard
 
@@ -139,6 +140,8 @@ jobs:
         run: node scripts/each-year.js pdf
       - name: Smoke test
         if: steps.decide.outputs.publish == 'true'
+        env:
+          DASHBOARD_PASSWORD: ${{ secrets.DASHBOARD_PASSWORD }}
         run: node scripts/each-year.js check
 
       - name: Publish site/ to the gh-pages branch
@@ -241,6 +244,8 @@ jobs:
           cache: npm
       - run: npm ci && npx playwright install --with-deps chromium
       - name: Smoke test the live site
+        env:
+          DASHBOARD_PASSWORD: ${{ secrets.DASHBOARD_PASSWORD }}
         run: |
           sleep 60
           URL=https://list.nonfictionhotlist.com

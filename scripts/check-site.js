@@ -89,8 +89,11 @@ function serve() {
   for (const [label, viewport] of [["dashboard desktop", { width: 1360, height: 900 }], ["dashboard phone", { width: 390, height: 844 }]]) {
     const page = await browser.newPage({ viewport });
     page.on("pageerror", e => note(label, "script error: " + e.message));
+    // A locked dashboard opens with the saved password, as it does for the team.
+    if (process.env.DASHBOARD_PASSWORD) await page.addInitScript(p => { try { localStorage.setItem("nfhDashPass", p); } catch (e) {} }, process.env.DASHBOARD_PASSWORD);
     const res = await page.goto(base + "/dashboard/", { waitUntil: "domcontentloaded" });
     if (!res || res.status() === 404) { await page.close(); if (label.endsWith("desktop")) console.log("dashboard: not built, skipped"); break; }
+    await page.waitForSelector("#projects", { timeout: 8000 }).catch(() => {});
     await page.waitForTimeout(300);
     const d = await page.evaluate(() => ({
       rows: document.querySelectorAll("#projects .row:not(.head)").length,

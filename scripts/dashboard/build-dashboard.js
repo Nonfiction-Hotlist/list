@@ -176,6 +176,7 @@ function sampleStats() {
   const html = tpl.replace("/*__DATA__*/null", JSON.stringify(data).replace(/</g, "\\u003c"));
   const outDir = process.env.DASHBOARD_OUT ? path.join(REPO, process.env.DASHBOARD_OUT, Y.Y, "dashboard") : path.join(Y.OUT, "dashboard");
   fs.mkdirSync(outDir, { recursive: true });
-  fs.writeFileSync(path.join(outDir, "index.html"), html);
+  // Encrypted behind the team password when DASHBOARD_PASSWORD is set (the Publish workflow).
+  fs.writeFileSync(path.join(outDir, "index.html"), require("../lock").lockPage(html, `${Y.Y} hotlist dashboard`));
   console.log(`dashboard written: ${projects.length} projects, ${log.length} change entries, ${problems.length} sync problems, stats ${st ? (st.error ? "error" : "on") : "not connected"}`);
 })();
