@@ -1,5 +1,229 @@
 {
-  "_about": "Image paths and framing for each project. Not edited from Drive.",
-  "perPage": 4,
-  "projects": {}
+ "_about": "Image paths and framing for each project. Not edited from Drive.",
+ "perPage": 4,
+ "projects": {
+  "my-first-phone": {
+   "key": "img/my-first-phone-key.jpg",
+   "hero": "img/my-first-phone-hero.jpg",
+   "focus": 50,
+   "focusY": 50,
+   "poster": "img/my-first-phone-poster.jpg",
+   "gallery": [
+    [
+     "img/my-first-phone-g1.jpg",
+     960,
+     640
+    ],
+    [
+     "img/my-first-phone-g2.jpg",
+     960,
+     640
+    ]
+   ]
+  },
+  "untitled-paul-robeson": {
+   "key": "img/untitled-paul-robeson-key.jpg",
+   "hero": "img/untitled-paul-robeson-hero.jpg",
+   "focus": 50,
+   "focusY": 50,
+   "poster": "img/untitled-paul-robeson-poster.jpg",
+   "gallery": [
+    [
+     "img/untitled-paul-robeson-g1.jpg",
+     960,
+     640
+    ],
+    [
+     "img/untitled-paul-robeson-g2.jpg",
+     960,
+     640
+    ]
+   ]
+  },
+  "fixers": {
+   "key": "img/fixers-key.jpg",
+   "hero": "img/fixers-hero.jpg",
+   "focus": 50,
+   "focusY": 50,
+   "poster": "img/fixers-poster.jpg",
+   "gallery": [
+    [
+     "img/fixers-g1.jpg",
+     960,
+     640
+    ],
+    [
+     "img/fixers-g2.jpg",
+     960,
+     640
+    ]
+   ]
+  },
+  "j-is-for-jihad": {
+   "key": "img/j-is-for-jihad-key.jpg",
+   "hero": "img/j-is-for-jihad-hero.jpg",
+   "focus": 50,
+   "focusY": 50,
+   "poster": "img/j-is-for-jihad-poster.jpg",
+   "gallery": [
+    [
+     "img/j-is-for-jihad-g1.jpg",
+     960,
+     640
+    ],
+    [
+     "img/j-is-for-jihad-g2.jpg",
+     960,
+     640
+    ]
+   ]
+  },
+  "captains-don-t-cry": {
+   "key": "img/captains-don-t-cry-key.jpg",
+   "hero": "img/captains-don-t-cry-hero.jpg",
+   "focus": 50,
+   "focusY": 50,
+   "poster": "img/captains-don-t-cry-poster.jpg",
+   "gallery": [
+    [
+     "img/captains-don-t-cry-g1.jpg",
+     960,
+     640
+    ],
+    [
+     "img/captains-don-t-cry-g2.jpg",
+     960,
+     640
+    ]
+   ]
+  },
+  "our-home-is-not-of-this-world": {
+   "key": "img/our-home-is-not-of-this-world-key.jpg",
+   "hero": "img/our-home-is-not-of-this-world-hero.jpg",
+   "focus": 50,
+   "focusY": 50,
+   "poster": "img/our-home-is-not-of-this-world-poster.jpg",
+   "gallery": [
+    [
+     "img/our-home-is-not-of-this-world-g1.jpg",
+     960,
+     640
+    ],
+    [
+     "img/our-home-is-not-of-this-world-g2.jpg",
+     960,
+     640
+    ]
+   ]
+  },
+  "the-prison-outside": {
+   "key": "img/the-prison-outside-key.jpg",
+   "hero": "img/the-prison-outside-hero.jpg",
+   "focus": 50,
+   "focusY": 50,
+   "poster": "img/the-prison-outside-poster.jpg",
+   "gallery": [
+    [
+     "img/the-prison-outside-g1.jpg",
+     960,
+     640
+    ],
+    [
+     "img/the-prison-outside-g2.jpg",
+     960,
+     640
+    ]
+   ]
+  },
+  "shiitake": {
+   "key": "img/shiitake-key.jpg",
+   "hero": "img/shiitake-hero.jpg",
+   "focus": 50,
+   "focusY": 50,
+   "poster": "img/shiitake-poster.jpg",
+   "gallery": [
+    [
+     "img/shiitake-g1.jpg",
+     960,
+     640
+    ],
+    [
+     "img/shiitake-g2.jpg",
+     960,
+     640
+    ]
+   ]
+  },
+  "hares-on-the-mountain": {
+   "key": "img/hares-on-the-mountain-key.jpg",
+   "hero": "img/hares-on-the-mountain-hero.jpg",
+   "focus": 50,
+   "focusY": 50,
+   "poster": "img/hares-on-the-mountain-poster.jpg",
+   "gallery": [
+    [
+     "img/hares-on-the-mountain-g1.jpg",
+     960,
+     640
+    ],
+    [
+     "img/hares-on-the-mountain-g2.jpg",
+     960,
+     640
+    ]
+   ]
+  },
+  "immortal-flowers": {
+   "key": "img/immortal-flowers-key.jpg",
+   "hero": "img/immortal-flowers-hero.jpg",
+   "focus": 50,
+   "focusY": 50,
+   "poster": "img/immortal-flowers-poster.jpg",
+   "gallery": [
+    [
+     "img/immortal-flowers-g1.jpg",
+     960,
+     640
+    ],
+    [
+     "img/immortal-flowers-g2.jpg",
+     960,
+     640
+    ]
+   ]
+  },
+  "who-goes-fascist": {
+   "key": "img/who-goes-fascist-key.jpg",
+   "hero": "img/who-goes-fascist-hero.jpg",
+   "focus": 50,
+   "focusY": 50,
+   "poster": "img/who-goes-fascist-poster.jpg",
+   "gallery": [
+    [
+     "img/who-goes-fascist-g1.jpg",
+     960,
+     640
+    ],
+    [
+     "img/who-goes-fascist-g2.jpg",
+     960,
+     640
+    ]
+   ]
+  },
+  "the-vodou-project": {
+   "key": "img/the-vodou-project-key.jpg",
+   "hero": "img/the-vodou-project-hero.jpg",
+   "focus": 50,
+   "focusY": 50,
+   "poster": "img/the-vodou-project-poster.jpg",
+   "gallery": [
+    [
+     "img/the-vodou-project-g1.jpg",
+     960,
+     640
+    ]
+   ]
+  }
+ }
 }
