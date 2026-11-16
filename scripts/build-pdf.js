@@ -116,7 +116,7 @@ for (let n = 1; n <= PAGES; n++) {
 
 // Project pages
 PROJECTS.forEach((p, i) => {
-  const stills = (p.stills || []).slice(1, 3);
+  const stills = p.gallery ? p.gallery.slice(0, 2) : (p.stills || []).slice(1, 3);
   // The still as it is (no overlay), then the label and title on white.
   const hero = p.hero
     ? `<div class="hero"><img src="${img(p.hero)}" style="object-position:${p.focus ?? 50}% ${p.focusY ?? 50}%"></div>`

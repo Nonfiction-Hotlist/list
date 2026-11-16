@@ -9,12 +9,12 @@
 const fs = require("fs");
 const path = require("path");
 const { PROJECT, DOCS, ORDER } = require("./spec");
+const { syncMedia } = require("./pull-media");
 
 const Y = require("../year");
 const CONTENT = Y.file("content.json");
 const DRIVE = Y.file("drive.json");
 const PROBLEMS = Y.file("sync-problems.txt");
-const LAYOUT = Y.file("layout.json");
 
 const args = process.argv.slice(2);
 const fromDir = args.includes("--from-dir") ? args[args.indexOf("--from-dir") + 1] : null;
@@ -278,8 +278,22 @@ function readDoc(key, md, prev) {
     catch (e) { warn(`${DOCS[m.key].title} doc`, `${e.message}; kept the previous text`); }
   }
 
+  // Images from each project's Media folder (Key, Hero, Poster, Gallery). A renamed placeholder project's
+  // images and framing move to its new key first.
+  const imagesChanged = [];
+  if (!dryRun && !fromDir) {
+    const im = manifest.find(m => m.kind === "images");
+    const titles = Object.fromEntries(Object.entries(next.projects).map(([s, p]) => [s, p.title]));
+    let rows = null;
+    try {
+      if (im) rows = parseCsv(await sheetCsv(drive.manifestId, im.tabs.gid)).slice(1).filter(r => clean(r[0]))
+        .map(r => ({ slug: clean(r[0]), slot: clean(r[1]), id: clean(r[2]), name: clean(r[3]), bytes: +clean(r[4]) || 0, updated: clean(r[5]) }));
+    } catch (e) { warn("Images", `${e.message}; kept the current images`); }
+    imagesChanged.push(...await syncMedia({ rows, titles, renamed, warn }));
+  }
+
   // Report
-  const changed = [];
+  const changed = imagesChanged.map(t => `${t} images`);
   for (const s of new Set([...Object.keys(content.projects).filter(s => !renamed[s]), ...Object.keys(next.projects)]))
     if (JSON.stringify(content.projects[s]) !== JSON.stringify(next.projects[s])) changed.push(next.projects[s] ? next.projects[s].title : s);
   for (const k of Object.keys(DOCS)) if (JSON.stringify(content[k]) !== JSON.stringify(next[k])) changed.push(`${DOCS[k].title} page`);
@@ -290,11 +304,6 @@ function readDoc(key, md, prev) {
 
   if (dryRun) return;
   if (changed.length) fs.writeFileSync(CONTENT, JSON.stringify(next, null, 2) + "\n");
-  if (Object.keys(renamed).length && !fromDir) {
-    const layout = JSON.parse(fs.readFileSync(LAYOUT, "utf8"));
-    for (const [old, key] of Object.entries(renamed)) if (layout.projects[old]) { layout.projects[key] = layout.projects[old]; delete layout.projects[old]; }
-    fs.writeFileSync(LAYOUT, JSON.stringify(layout, null, 1) + "\n");
-  }
   if (!fromDir && JSON.stringify(nextDrive) !== JSON.stringify(drive)) { fs.writeFileSync(DRIVE, JSON.stringify(nextDrive, null, 2) + "\n"); console.log("drive.json updated from the manifest"); }
   // The current list of skipped edits is kept in the repo, so an alert goes out once when the
   // list changes rather than on every run.

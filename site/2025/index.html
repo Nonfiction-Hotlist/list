@@ -205,6 +205,7 @@ main { padding-bottom: 0; }
 .crumb a:hover { text-decoration: underline; text-underline-offset: 5px; }
 .project { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 300px); gap: 48px clamp(32px, 6vw, 96px); padding-block: clamp(40px, 5vw, 72px); }
 .project aside { display: grid; gap: 16px; align-content: start; position: sticky; top: 84px; align-self: start; }
+.project aside .poster { display: block; width: 100%; max-width: 320px; aspect-ratio: 2 / 3; object-fit: cover; border-radius: 14px; }
 .facts { display: grid; gap: 18px; margin: 0; }
 .facts div { display: grid; gap: 6px; }
 .facts dt { font: 700 14px/18px var(--font-display); letter-spacing: .12em; text-transform: lowercase; color: var(--forest); }
@@ -612,9 +613,11 @@ function renderProject(idx, tab) {
       : `<div class="empty">No updates yet. Screenings, press, funding news, and festival selections will appear here as they happen.</div>`;
     panel = `<h4>Links</h4>${links}${p.onRequest ? `<p class="note">${esc(p.onRequest)}.</p>` : ""}<h4>Updates</h4>${updates}`;
   } else {
+    // Gallery folder images in name order; older projects show their stills with the key image last.
     const st = p.stills || [];
-    const gallery = st.length > 1
-      ? `<h4>Stills</h4><div class="stills${st.length === 3 ? " three" : ""}">${st.slice(1).concat(st.slice(0, 1)).slice(0, 3).map(([src], i) =>
+    const shots = p.gallery ? p.gallery : st.length > 1 ? st.slice(1).concat(st.slice(0, 1)).slice(0, 3) : [];
+    const gallery = shots.length
+      ? `<h4>Stills</h4><div class="stills${shots.length === 3 ? " three" : shots.length === 1 ? " one" : ""}">${shots.map(([src], i) =>
           `<button type="button" data-full="${esc(src)}" aria-label="Enlarge still ${i + 1}"><img src="${esc(src)}" alt="Still from ${esc(p.title)}" loading="lazy"></button>`).join("")}</div>`
       : "";
     panel = `<div class="prose">${paras(p.summary)}</div>${gallery}
@@ -640,6 +643,7 @@ function renderProject(idx, tab) {
         <div class="panel">${panel}</div>
       </div>
       <aside>
+        ${p.poster ? `<img class="poster" src="${esc(p.poster)}" alt="Poster for ${esc(p.title)}" loading="lazy">` : ""}
         <dl class="facts">
           <div><dt>Format</dt><dd>${esc(p.format)}</dd></div>
           <div><dt>Status</dt><dd>${esc(p.status)}</dd></div>

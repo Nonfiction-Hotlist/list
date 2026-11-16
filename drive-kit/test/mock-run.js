@@ -28,6 +28,7 @@ function Sheet(ss, name) {
   const api = chain({
     setName: n => { sh.name = n; return api; }, getName: () => sh.name, getSheetId: () => sh.id,
     getMaxRows: () => sh.maxRows, getMaxColumns: () => sh.maxCols,
+    getLastRow: () => Math.max(0, ...Object.keys(sh.cells).filter(k => sh.cells[k] !== "").map(k => +k.split(",")[0])),
     deleteRows: (a, n) => { sh.maxRows -= n; return api; }, deleteColumns: (a, n) => { sh.maxCols -= n; return api; },
     clear: () => { sh.cells = {}; return api; },
     getRange: (r, c, nr = 1, nc = 1) => {
@@ -85,15 +86,22 @@ function Doc(name) {
   });
   return chain({ getId: () => id, getBody: () => body });
 }
+const folders = {};
 const folder = name => {
-  const kids = {}; const fileNames = new Set(); const id = `folder${nextId++}`;
+  const kids = {}; const fileNames = new Set(); const held = []; const id = `folder${nextId++}`;
+  const fileApi = f => chain({ getName: () => f.name, getId: () => f.id, getMimeType: () => "image/jpeg", getSize: () => 1000,
+    getLastUpdated: () => new Date(0), setSharing: () => {},
+    moveTo: dest => { held.splice(held.indexOf(f), 1); fileNames.delete(f.name); dest._take(f); } });
   const api = chain({
+    _take: f => { held.push(f); fileNames.add(f.name); },
+    getFiles: () => { const list = held.slice(); let i = 0; return { hasNext: () => i < list.length, next: () => fileApi(list[i++]) }; },
     getId: () => id,
     getFoldersByName: n => { const has = !!kids[n]; return { hasNext: () => has, next: () => kids[n] }; },
     createFolder: n => (kids[n] = folder(n)),
     getFilesByName: n => ({ hasNext: () => fileNames.has(n) }),
-    createFile: blob => { fileNames.add(blob.name); return chain({}); }
+    createFile: blob => { const f = { name: blob.name, id: `file${nextId++}` }; held.push(f); fileNames.add(f.name); return chain({}); }
   });
+  folders[id] = api;
   return api;
 };
 const root = folder(`NFH ${Y.Y}`);
@@ -103,7 +111,7 @@ const sandbox = {
   PropertiesService: { getScriptProperties: () => ({ getProperty: k => props[k] || null, setProperty: (k, v) => { if (v.length > 9000) throw new Error(`property ${k} is ${v.length} bytes, over Apps Script's 9KB limit`); props[k] = v; }, deleteProperty: k => delete props[k] }) },
   UrlFetchApp: { fetch: url => { calls.fetch++; return { getContentText: () => url.endsWith("content.json") ? content : layout, getBlob: () => { const b = { setName: n => { b.name = n; return b; } }; return b; } }; } },
   // --refuse-sharing: the Workspace turns down "anyone with the link" sharing, as a locked-down one does.
-  DriveApp: { getFolderById: () => root, Access: {}, Permission: {},
+  DriveApp: { getFolderById: id => folders[id] || root, Access: {}, Permission: {},
     getFileById: () => chain({ getLastUpdated: () => new Date(),
       ...(process.argv.includes("--refuse-sharing") && { setSharing: () => { throw new Error("Access denied: DriveApp."); } }) }) },
   SpreadsheetApp: chain({
@@ -128,6 +136,20 @@ let runs = 0;
 do { const before = calls.triggers; runs++; vm.runInContext(runs === 1 ? "buildKit()" : "continueKit()", sandbox); if (calls.triggers === before) break; } while (runs < 100);
 console.log(`runs: ${runs}`);
 if (!triggers.includes("renameProjects")) throw new Error("buildKit did not finish: no renameProjects trigger");
+if (!triggers.includes("listImages")) throw new Error("buildKit did not schedule listImages");
+
+// Images: every copied-in image sits in its Key, Hero or Gallery folder and is listed on the Images tab.
+vm.runInContext("listImages()", sandbox);
+{
+  const man = Object.values(files).find(f => f.kind === "sheet" && f.sheets.some(s => s.name === "Images"));
+  if (!man) throw new Error("no Images tab on the manifest");
+  const tab = man.sheets.find(s => s.name === "Images");
+  const rows = Object.keys(tab.cells).filter(k => k.endsWith(",2") && +k.split(",")[0] > 1).map(k => tab.cells[k]);
+  const L = JSON.parse(layout).projects;
+  const want = Object.values(L).reduce((n, l) => n + (l.key ? 1 : 0) + (l.hero ? 1 : 0) + (l.stills || []).length, 0);
+  if (rows.length !== want) throw new Error(`Images tab lists ${rows.length} images, expected ${want}`);
+  console.log(`images listed: ${rows.length} (${["key", "hero", "gallery"].map(s => `${rows.filter(r => r === s).length} ${s}`).join(", ")})`);
+}
 
 // --titles "A,B": type project titles into the Running order sheet's Projects tab, then run addProjects.
 const ti = process.argv.indexOf("--titles");
