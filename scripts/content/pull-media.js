@@ -77,9 +77,10 @@ function fitTo(src, dest, max) {
 /**
  * rows: [{ slug, slot, id, name, bytes, updated }] from the Images tab.
  * titles: { slug: title } for the projects on the site. renamed: { oldSlug: newSlug }.
+ * removed: slugs of projects taken out of the kit.
  * Returns the titles of projects whose images changed.
  */
-async function syncMedia({ rows, titles, renamed = {}, warn }) {
+async function syncMedia({ rows, titles, renamed = {}, removed = [], warn }) {
   const layout = JSON.parse(fs.readFileSync(LAYOUT, "utf8"));
   layout.projects = layout.projects || {};
   const sources = fs.existsSync(SOURCES) ? JSON.parse(fs.readFileSync(SOURCES, "utf8")) : {};
@@ -87,6 +88,13 @@ async function syncMedia({ rows, titles, renamed = {}, warn }) {
   for (const [old, key] of Object.entries(renamed)) {
     if (layout.projects[old]) { layout.projects[key] = layout.projects[old]; delete layout.projects[old]; }
     if (sources[old]) { sources[key] = sources[old]; delete sources[old]; }
+  }
+
+  // Projects taken out of the kit: their framing, sources and image files go too.
+  const img0 = path.join(Y.OUT, "img");
+  for (const slug of removed) {
+    delete layout.projects[slug]; delete sources[slug];
+    if (fs.existsSync(img0)) for (const f of fs.readdirSync(img0)) if (f.startsWith(slug + "-") && /^(key|hero|poster|g\d+)\.jpg$/.test(f.slice(slug.length + 1))) fs.rmSync(path.join(img0, f));
   }
 
   // rows null: the image list couldn't be read, so only carry renames over.

@@ -250,6 +250,16 @@ function readDoc(key, md, prev) {
     next.projects[m.key] = await readProject(m, next.projects[m.key]);
   }
 
+  // A project no longer in the manifest was taken out with removeProjects: drop it from the site.
+  // (A manifest with no projects at all is treated as a bad read, not as "remove everything".)
+  const inKit = new Set(manifest.filter(m => m.kind === "project").map(m => m.key));
+  const removed = inKit.size ? Object.keys(next.projects).filter(s => !inKit.has(s)) : [];
+  for (const s of removed) {
+    console.log(`Removed from the kit: ${next.projects[s].title}`);
+    delete next.projects[s]; delete nextDrive.projects[s];
+    next.order = next.order.filter(x => x !== s);
+  }
+
   // Running order: a dropdown of project names per slot. Duplicates keep the first slot;
   // projects left out are added at the end so nothing disappears by accident.
   const om = manifest.find(m => m.kind === "order");
@@ -289,13 +299,13 @@ function readDoc(key, md, prev) {
       if (im) rows = parseCsv(await sheetCsv(drive.manifestId, im.tabs.gid)).slice(1).filter(r => clean(r[0]))
         .map(r => ({ slug: clean(r[0]), slot: clean(r[1]), id: clean(r[2]), name: clean(r[3]), bytes: +clean(r[4]) || 0, updated: clean(r[5]) }));
     } catch (e) { warn("Images", `${e.message}; kept the current images`); }
-    imagesChanged.push(...await syncMedia({ rows, titles, renamed, warn }));
+    imagesChanged.push(...await syncMedia({ rows, titles, renamed, removed, warn }));
   }
 
   // Report
   const changed = imagesChanged.map(t => `${t} images`);
   for (const s of new Set([...Object.keys(content.projects).filter(s => !renamed[s]), ...Object.keys(next.projects)]))
-    if (JSON.stringify(content.projects[s]) !== JSON.stringify(next.projects[s])) changed.push(next.projects[s] ? next.projects[s].title : s);
+    if (JSON.stringify(content.projects[s]) !== JSON.stringify(next.projects[s])) changed.push(next.projects[s] ? next.projects[s].title : `removed ${(content.projects[s] || {}).title || s}`);
   for (const k of Object.keys(DOCS)) if (JSON.stringify(content[k]) !== JSON.stringify(next[k])) changed.push(`${DOCS[k].title} page`);
   if (JSON.stringify(content.order) !== JSON.stringify(next.order)) changed.push("Running order");
 

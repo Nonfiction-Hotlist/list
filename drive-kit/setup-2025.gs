@@ -396,6 +396,40 @@ function addProjects() {
 }
 
 /**
+ * Takes out every project whose title is no longer in the Projects tab. Its folder (Copysheet and
+ * Media) moves to "Removed projects" in the kit, so nothing is deleted; to bring one back, move the
+ * folder back to 03 Projects and add its title to the Projects tab again (addProjects makes a new
+ * one, so copy the text across). The site drops removed projects at its next update.
+ */
+function removeProjects() {
+  const state = loadState_();
+  if (!state.order || !state.manifest) throw new Error("Run buildKit first.");
+  const keep = projectTitles_(state);
+  if (!keep.length) throw new Error("The Projects tab is empty. Removing every project is not allowed; leave at least one title.");
+  const root = root_(state);
+  const removed = folder_(root, "Removed projects");
+  const gone = [];
+  for (const [slug, r] of Object.entries(state.projects)) {
+    if (keep.includes(r.title)) continue;
+    if (r.folder) DriveApp.getFolderById(r.folder).moveTo(removed);
+    delete state.projects[slug];
+    gone.push(r.title);
+    Logger.log("Removed: " + r.title);
+  }
+  if (!gone.length) { Logger.log("Every project is still in the Projects tab. Nothing removed."); return; }
+  saveState_(state);
+  // Clear removed titles from the running order before narrowing its choices.
+  const sh = SpreadsheetApp.openById(state.order.fileId).getSheetByName(KIT.spec.ORDER.tab);
+  const range = sh.getRange(FIRST_ROW, 3, KIT.spec.ORDER.pages * KIT.spec.ORDER.perPage, 1);
+  range.clearDataValidations();
+  range.setValues(range.getValues().map(([v]) => [gone.includes(String(v).trim()) ? "" : v]));
+  refreshOrderChoices_(state);
+  state.manifest = writeManifest_(root, state, loadContent_());
+  saveState_(state);
+  Logger.log(`Done. ${gone.length} project(s) removed, ${Object.keys(state.projects).length} in the kit.`);
+}
+
+/**
  * Brings each project in line with the Title in its Copysheet: its folder, Copysheet name, tab banners,
  * the Projects tab and the running order. A project still named "Project 07" (a placeholder slot) also
  * takes a new web address from its title; projects with real names keep theirs so links don't break.
