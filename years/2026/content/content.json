@@ -59,23 +59,19 @@
     "our-home-is-not-of-this-world",
     "the-prison-outside",
     "shiitake",
+    "a-tender-weapon",
+    "the-dead-zone",
+    "crystal-city",
     "hares-on-the-mountain",
-    "immortal-flowers",
     "who-goes-fascist",
     "the-vodou-project",
     "border-hacker",
-    "ash-street-jail",
-    "do-not-go-gentle",
+    "young-lions",
+    "kamnop-a-treasure-is-waiting-for-you",
     "power",
     "meant-to-be-maddie",
-    "young-lions",
-    "the-coma-club",
-    "a-tender-weapon",
     "love-and-justice",
-    "german-soul",
-    "the-dead-zone",
-    "big-in-gazi-baba",
-    "sing-peak"
+    "ski-the-wong-way"
   ],
   "projects": {
     "my-first-phone": {
@@ -305,29 +301,6 @@
       "laurels": [],
       "updates": []
     },
-    "immortal-flowers": {
-      "title": "Immortal Flowers",
-      "format": "Feature documentary",
-      "status": "In final post-production, with a festival-ready cut.",
-      "logline": "In wartime Kyiv, an underground rapper and his friends live fast between afterparties, curfews and air raids.",
-      "summary": "Immortal Flowers follows young friends in wartime Ukraine living between afterparties, curfews, air raids and the growing pressure of mobilization. Tarik is a rebellious underground rapper. Svyatoi is a dancer who turns fear into movement. Ivanna is a volunteer moving between Kyiv's creative underground and soldiers near the front.\n\nTheir world is wild, funny and defiantly alive until the war starts pulling people out of it. When their friend Sergey, a breakdancer from Mariupol, is drafted and goes missing in action, the war they have tried to outrun begins to pull them in.",
-      "team": [
-        [
-          "Tetiana Khodakivska",
-          "Editor"
-        ],
-        [
-          "Krystyna Lizogub",
-          "Cinematographer"
-        ]
-      ],
-      "help": [],
-      "links": [],
-      "onRequest": "",
-      "contact": "brian.logvinsky@gmail.com",
-      "laurels": [],
-      "updates": []
-    },
     "who-goes-fascist": {
       "title": "Who Goes Fascist",
       "format": "Documentary podcast, 6 parts",
@@ -393,52 +366,6 @@
       "laurels": [],
       "updates": []
     },
-    "ash-street-jail": {
-      "title": "Ash Street Jail",
-      "format": "Short documentary",
-      "status": "In early post-production.",
-      "logline": "Inside the oldest operating jail in the US, open since 1888. A new sheriff wants to close it. Can he?",
-      "summary": "The Ash Street Jail opened in 1888 and still holds pretrial defendants in a small Massachusetts city. A sheriff elected on reform wants to close it, but the political establishment has ignored him.\n\nInmates struggle to cope in cramped, decaying cells, and the jail has the highest suicide rate of any Massachusetts county jail. Still, some feel deeply tied to its walls. One lives in the same cell his late father once did.",
-      "team": [
-        [
-          "Ben Berke",
-          "Co-director and producer"
-        ]
-      ],
-      "help": [],
-      "links": [],
-      "onRequest": "",
-      "contact": "anna@practicaleffectsfilm.com",
-      "laurels": [],
-      "updates": []
-    },
-    "do-not-go-gentle": {
-      "title": "Do Not Go Gentle",
-      "format": "Feature documentary",
-      "status": "In development, with access secured and early footage shot.",
-      "logline": "Self-proclaimed immortalist Bill Faloon has spent his life trying not to die. Fantasy, con, or within reach?",
-      "summary": "Do Not Go Gentle follows Bill Faloon, 73, who has devoted his adult life to not dying. With his late partner Saul Kent, he battled government crackdowns, scandals and mortality itself. Now Bill presses on alone, facing FDA fights, fraud claims, family conflict and his own eccentric church.\n\nThe longevity movement is no longer a Florida curiosity. Governments and investors pour billions into life extension, and trained researchers work alongside influencers and supplement sellers. The film asks whether immortality is a fantasy or truly within reach.",
-      "team": [
-        [
-          "Michael LaPointe",
-          "Executive producer"
-        ],
-        [
-          "Chris Hamilton",
-          "Producer"
-        ],
-        [
-          "Charles Meunier",
-          "Producer"
-        ]
-      ],
-      "help": [],
-      "links": [],
-      "onRequest": "",
-      "contact": "michael.p.lapointe@gmail.com",
-      "laurels": [],
-      "updates": []
-    },
     "power": {
       "title": "Power",
       "format": "Feature documentary",
@@ -500,33 +427,6 @@
       "laurels": [],
       "updates": []
     },
-    "the-coma-club": {
-      "title": "The Coma Club",
-      "format": "Short documentary",
-      "status": "In post-production.",
-      "logline": "Two families lean on each other as loved ones wake from comas caused by combat injuries.",
-      "summary": "Over eight years, The Coma Club follows two families, and especially their children, as their loved ones emerge from comas caused by combat injuries in America's recent wars.\n\nSevere traumatic brain injury remains one of the least understood areas of modern medicine, and it reshapes everyone close to the patient. As the children grow into young adults, the families build a community that helps them find a new normal.",
-      "team": [
-        [
-          "Ben Altarescu",
-          "Producer"
-        ],
-        [
-          "Josh Chertoff",
-          "Producer"
-        ],
-        [
-          "Drigan Lee",
-          "Editor"
-        ]
-      ],
-      "help": [],
-      "links": [],
-      "onRequest": "",
-      "contact": "erinksanger@gmail.com",
-      "laurels": [],
-      "updates": []
-    },
     "a-tender-weapon": {
       "title": "A Tender Weapon",
       "format": "Short documentary",
@@ -585,37 +485,6 @@
       "laurels": [],
       "updates": []
     },
-    "german-soul": {
-      "title": "German Soul",
-      "format": "Live documentary",
-      "status": "In production, with a 45-minute work in progress.",
-      "logline": "Musician Justin Robinson traces the German lineage in the Southern recipes he was raised on.",
-      "summary": "German Soul is a live documentary from filmmaker DL Anderson and Grammy-winning musician Justin Robinson of the Carolina Chocolate Drops. A mysterious German ancestor sends Justin from his grandparents' kitchen table in South Carolina to Nigeria, Germany and Austria.\n\nTracing the roots of dishes like fried chicken, collard greens and pulled pork, he finds the lesser known Central European origins of soul food, and a larger story of diaspora, ancestry and the myths woven through Southern history.",
-      "team": [
-        [
-          "Justin Robinson",
-          "Co-director, writer and narrator"
-        ],
-        [
-          "Rebekah Fergusson",
-          "Producer"
-        ],
-        [
-          "Rhiannon Giddens",
-          "Executive producer"
-        ],
-        [
-          "Jordan Baese",
-          "Editor"
-        ]
-      ],
-      "help": [],
-      "links": [],
-      "onRequest": "",
-      "contact": "dla@vittles.us",
-      "laurels": [],
-      "updates": []
-    },
     "the-dead-zone": {
       "title": "The Dead Zone",
       "format": "Feature documentary",
@@ -635,57 +504,80 @@
       "laurels": [],
       "updates": []
     },
-    "big-in-gazi-baba": {
-      "title": "Big In Gazi Baba",
+    "crystal-city": {
+      "title": "Crystal City",
       "format": "Feature documentary",
-      "status": "In late production and editing, after three years of filming.",
-      "logline": "Raised as her family's son, Sadije is the only girl in her North Macedonian wrestling club. Can she reclaim her girlhood?",
-      "summary": "In Skopje's working-class Gazi Baba, Sadije, 13, is raised as a substitute son, expected by tradition to provide for her household. The only girl in her wrestling club, she rises to become the country's top champion, yet feels accepted in neither male sports nor female spaces.\n\nWhen extreme weight cuts make her faint at the European Championships, she loses her title. Her coach quits and her club edges her out as puberty arrives. Close to quitting, she begins therapy and starts to find a sense of worth beyond the mat.",
+      "status": "Early production. Over $200,000 raised in grants, with a rough cut expected in summer 2027.",
+      "logline": "Barred from the cheer squad by a racist quota, a Texas teenager sparks a 1969 student walkout that remakes her town's politics.",
+      "summary": "It's 1969 in Crystal City, Texas, and sixteen-year-old Diana Palacios, the daughter of migrant farmworkers, just wants to be a cheerleader. Mexican American students make up 85 percent of the school, but an unofficial quota allows only one Chicana on the squad, and Diana is turned away.\n\nHer best friend Severita Lara sees that the squad was never the real problem. The same rules run the whole town. The students write a list of demands, the school board ignores them, and in December 1969 nearly 2,000 students walk out over seventeen days.\n\nA fight over a cheerleading squad becomes a lesson in civic power: who gets heard, who gets counted, and what happens when a community shut out of the process organizes itself.",
       "team": [
         [
-          "Pauline Blanchet",
-          "Director and producer"
+          "Sam Osborn",
+          "Co-Director and Editor"
         ],
         [
-          "Avdi Thachi",
-          "Producer and editor"
-        ],
-        [
-          "Kreshnik Jonuzi",
+          "Bennett Elliott",
           "Producer"
         ],
         [
-          "Fisnik Halili",
-          "Director of photography"
+          "Cristina Aleman",
+          "Archival Producer"
         ]
       ],
       "help": [],
       "links": [],
       "onRequest": "",
-      "contact": "Kreshnik.Jonuzi@gmail.com",
+      "contact": "alejandra@masa.film",
       "laurels": [],
       "updates": []
     },
-    "sing-peak": {
-      "title": "Sing Peak",
+    "kamnop-a-treasure-is-waiting-for-you": {
+      "title": "Kamnop: A Treasure is Waiting For You",
       "format": "Feature documentary",
-      "status": "In production and editing a first assembly.",
-      "logline": "Each year, Asian American hikers trek without a trail to a peak named for a forgotten Chinese chef. This film asks why.",
-      "summary": "Sing Peak is a hybrid documentary written as a collective letter to Tie Sing, a Chinese American backcountry chef who cooked for the first mapmakers of the Sierra Nevada and led the kitchen on the 1915 expedition that helped create the National Park Service. Then he was forgotten.\n\nThe peak was named for him in 1899, while the Chinese Exclusion Act was in force. More than a century later, an intergenerational community of Asian American backpackers makes an annual pilgrimage there. There is no trail, and getting there is hard.",
+      "status": "Late development, starting production. The first filming trip in Cambodia is complete.",
+      "logline": "A daughter and mother travel from Colorado to Cambodia in search of treasure buried in the first days of the Khmer Rouge genocide.",
+      "summary": "Kanika, 70, lives a quiet, withdrawn life in suburban Colorado, haunted by a recurring dream in which the Buddha tells her a kamnop, a treasure, awaits her. At 16 she fled Cambodia during the Khmer Rouge regime, remembering her father burying gold and jewels at their home before she left. Five of her siblings and both parents were killed in the genocide.\n\nHer daughter Kanitha, 39, born in the U.S., has spent years trying to understand her mother's past. When she learns the childhood home still stands, occupied by a stranger and threatened with demolition, she convinces her mother the dream might be true.\n\nWhat begins as a treasure hunt becomes a search for what one generation passes to the next.",
       "team": [
         [
-          "Kristy Hyunsoo Choi",
-          "Writer, director and producer"
+          "Guillermo Roqués",
+          "Director and Co-producer"
         ],
         [
-          "Daniel Pravit Fethke",
+          "Audrey Maurion",
+          "Editor"
+        ],
+        [
+          "Christian Popp",
           "Producer"
         ]
       ],
       "help": [],
       "links": [],
       "onRequest": "",
-      "contact": "kristyhyunsoochoi@gmail.com",
+      "contact": "kanitha@kanithaheng.com",
+      "laurels": [],
+      "updates": []
+    },
+    "ski-the-wong-way": {
+      "title": "Ski The Wong Way",
+      "format": "Feature documentary",
+      "status": "Late development. About three quarters financed, with Telefilm and Creative BC funding in place.",
+      "logline": "Freestyle skiing icon Wayne Wong, grieving the loss of his wife, sets out for his 65th ski season in Park City, Utah.",
+      "summary": "Ski the Wong Way is the untold story of Wayne Wong, the Chinese Canadian from Vancouver who became the unlikely face of hot-dog skiing in the 1970s and 80s. His signature move, the Wongbanger, hung on bedroom walls across the era, and Powder Magazine named him one of the most influential skiers of all time.\n\nNow, still grieving the sudden loss of his wife Karen, Wayne sets out from Reno for his 65th season as ambassador for Deer Valley Resort, despite worries from his doctor, his daughters and his 90-something mother.\n\nWith rare access to Wayne, his family and the ski world, and a trove of archival footage, the film is a romp through the roots of the sport and a love story about a man who dared to be himself.",
+      "team": [
+        [
+          "Leah Mallen",
+          "Producer"
+        ],
+        [
+          "Joanna Wong",
+          "Producer"
+        ]
+      ],
+      "help": [],
+      "links": [],
+      "onRequest": "",
+      "contact": "daniel@blackrhinocreative.com",
       "laurels": [],
       "updates": []
     }

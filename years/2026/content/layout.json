@@ -173,25 +173,6 @@
     ]
    ]
   },
-  "immortal-flowers": {
-   "key": "img/immortal-flowers-key.jpg",
-   "hero": "img/immortal-flowers-hero.jpg",
-   "focus": 50,
-   "focusY": 50,
-   "poster": "img/immortal-flowers-poster.jpg",
-   "gallery": [
-    [
-     "img/immortal-flowers-g1.jpg",
-     960,
-     640
-    ],
-    [
-     "img/immortal-flowers-g2.jpg",
-     960,
-     640
-    ]
-   ]
-  },
   "who-goes-fascist": {
    "key": "img/who-goes-fascist-key.jpg",
    "hero": "img/who-goes-fascist-hero.jpg",
@@ -244,44 +225,6 @@
     ],
     [
      "img/border-hacker-g2.jpg",
-     480,
-     320
-    ]
-   ]
-  },
-  "ash-street-jail": {
-   "key": "img/ash-street-jail-key.jpg",
-   "hero": "img/ash-street-jail-hero.jpg",
-   "focus": 50,
-   "focusY": 50,
-   "poster": "img/ash-street-jail-poster.jpg",
-   "gallery": [
-    [
-     "img/ash-street-jail-g1.jpg",
-     480,
-     320
-    ],
-    [
-     "img/ash-street-jail-g2.jpg",
-     480,
-     320
-    ]
-   ]
-  },
-  "do-not-go-gentle": {
-   "key": "img/do-not-go-gentle-key.jpg",
-   "hero": "img/do-not-go-gentle-hero.jpg",
-   "focus": 50,
-   "focusY": 50,
-   "poster": "img/do-not-go-gentle-poster.jpg",
-   "gallery": [
-    [
-     "img/do-not-go-gentle-g1.jpg",
-     480,
-     320
-    ],
-    [
-     "img/do-not-go-gentle-g2.jpg",
      480,
      320
     ]
@@ -344,25 +287,6 @@
     ]
    ]
   },
-  "the-coma-club": {
-   "key": "img/the-coma-club-key.jpg",
-   "hero": "img/the-coma-club-hero.jpg",
-   "focus": 50,
-   "focusY": 50,
-   "poster": "img/the-coma-club-poster.jpg",
-   "gallery": [
-    [
-     "img/the-coma-club-g1.jpg",
-     480,
-     320
-    ],
-    [
-     "img/the-coma-club-g2.jpg",
-     480,
-     320
-    ]
-   ]
-  },
   "a-tender-weapon": {
    "key": "img/a-tender-weapon-key.jpg",
    "hero": "img/a-tender-weapon-hero.jpg",
@@ -401,25 +325,6 @@
     ]
    ]
   },
-  "german-soul": {
-   "key": "img/german-soul-key.jpg",
-   "hero": "img/german-soul-hero.jpg",
-   "focus": 50,
-   "focusY": 50,
-   "poster": "img/german-soul-poster.jpg",
-   "gallery": [
-    [
-     "img/german-soul-g1.jpg",
-     480,
-     320
-    ],
-    [
-     "img/german-soul-g2.jpg",
-     480,
-     320
-    ]
-   ]
-  },
   "the-dead-zone": {
    "key": "img/the-dead-zone-key.jpg",
    "hero": "img/the-dead-zone-hero.jpg",
@@ -439,39 +344,58 @@
     ]
    ]
   },
-  "big-in-gazi-baba": {
-   "key": "img/big-in-gazi-baba-key.jpg",
-   "hero": "img/big-in-gazi-baba-hero.jpg",
+  "crystal-city": {
+   "key": "img/crystal-city-key.jpg",
+   "hero": "img/crystal-city-hero.jpg",
    "focus": 50,
    "focusY": 50,
-   "poster": "img/big-in-gazi-baba-poster.jpg",
+   "poster": "img/crystal-city-poster.jpg",
    "gallery": [
     [
-     "img/big-in-gazi-baba-g1.jpg",
+     "img/crystal-city-g1.jpg",
      480,
      320
     ],
     [
-     "img/big-in-gazi-baba-g2.jpg",
+     "img/crystal-city-g2.jpg",
      480,
      320
     ]
    ]
   },
-  "sing-peak": {
-   "key": "img/sing-peak-key.jpg",
-   "hero": "img/sing-peak-hero.jpg",
+  "kamnop-a-treasure-is-waiting-for-you": {
+   "key": "img/kamnop-a-treasure-is-waiting-for-you-key.jpg",
+   "hero": "img/kamnop-a-treasure-is-waiting-for-you-hero.jpg",
    "focus": 50,
    "focusY": 50,
-   "poster": "img/sing-peak-poster.jpg",
+   "poster": "img/kamnop-a-treasure-is-waiting-for-you-poster.jpg",
    "gallery": [
     [
-     "img/sing-peak-g1.jpg",
+     "img/kamnop-a-treasure-is-waiting-for-you-g1.jpg",
      480,
      320
     ],
     [
-     "img/sing-peak-g2.jpg",
+     "img/kamnop-a-treasure-is-waiting-for-you-g2.jpg",
+     480,
+     320
+    ]
+   ]
+  },
+  "ski-the-wong-way": {
+   "key": "img/ski-the-wong-way-key.jpg",
+   "hero": "img/ski-the-wong-way-hero.jpg",
+   "focus": 50,
+   "focusY": 50,
+   "poster": "img/ski-the-wong-way-poster.jpg",
+   "gallery": [
+    [
+     "img/ski-the-wong-way-g1.jpg",
+     480,
+     320
+    ],
+    [
+     "img/ski-the-wong-way-g2.jpg",
      480,
      320
     ]

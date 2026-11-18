@@ -53,12 +53,6 @@
   "poster": "1GvzQKoSaHZqomeMv217-w61jVkbxGvDq@2026-11-16T19:57:57.473Z",
   "gallery": "1TrapeuHVKUAH0tE58Mx2E3wL7jNGu3wP@2026-11-16T19:58:01.718Z|1c9r_vr4Xgh3gFtVAc_yuz-9etlylcCLr@2026-11-16T19:58:05.895Z"
  },
- "immortal-flowers": {
-  "key": "1AWiQRxcYEP2EihPHBeha6tQ5l-CuVuwB@2026-11-16T19:58:10.639Z",
-  "hero": "1vLbZGK6x0z2bMLhq4-tooadTqmtZcnkE@2026-11-16T19:58:16.777Z",
-  "poster": "1nLxydIXa88ixsMxAWVAYAvnDCyz-CauV@2026-11-16T19:58:21.092Z",
-  "gallery": "1-aAKtBe-M6By-n_TyNPPpoUhS6LmS3rQ@2026-11-16T19:58:30.121Z|12ff4jfCe8hMEQwMRPjtlJG18nUm3jN_6@2026-11-16T19:58:25.556Z"
- },
  "who-goes-fascist": {
   "key": "1EUQ9UQa-sdElX9lb0mNW_CoILbI5Q1jo@2026-11-16T19:58:35.387Z",
   "hero": "1eR46fuUyGX_KCv6RETIg8mqkW0UHWheY@2026-11-16T19:58:40.687Z",
@@ -76,18 +70,6 @@
   "hero": "1t54VlbGiYXy0YWRhR5VCcQfyNyU-wYbT@2026-11-17T16:24:33.307Z",
   "poster": "1chHYHPn03NZkqH0XMJ3qfxElajaYVUwE@2026-11-17T16:24:35.454Z",
   "gallery": "1m28myRj3A_gZocsjnmFEx5TMbrQEJpa5@2026-11-17T16:24:37.743Z|1ocF7HNRR2Z8LoPfBoQrS6K57s_Frl4sb@2026-11-17T16:24:40.412Z"
- },
- "ash-street-jail": {
-  "key": "1KM9UiTgwTGauYW-5D-axMmLUMbXqh6ek@2026-11-17T16:24:42.792Z",
-  "hero": "1x-QzwA87uieVEP5b98IUMiF4G5ugK9WQ@2026-11-17T16:24:45.200Z",
-  "poster": "18ANRBcXOGQWusTdyUDEtvm2Vb_9wS_hZ@2026-11-17T16:24:47.384Z",
-  "gallery": "1Q5rqoo2_kFoih_GDSgNmRKSzAcW8DG1X@2026-11-17T16:24:51.818Z|1Up1ng7_mS8w4Z3skfbZpvE1G450yVb_y@2026-11-17T16:24:49.549Z"
- },
- "do-not-go-gentle": {
-  "key": "19YmjU5kojP_a5lu-w19XuAvbrqs4F_hK@2026-11-17T16:24:54.196Z",
-  "hero": "1r_y4cP_bgaDV2DNOOUukur9a6aoYuJPT@2026-11-17T16:24:56.406Z",
-  "poster": "1oAVGa2p6q5GrZISq0TAXtCfYg1TO0ViL@2026-11-17T16:24:58.514Z",
-  "gallery": "1CvBpryYbQEsK7fMOeFVgC2rsROquyDzY@2026-11-17T16:25:00.628Z|1r-POxzJQt2ZBgu4Etyi_Lu9zc_ts-SLr@2026-11-17T16:25:02.761Z"
  },
  "power": {
   "key": "1aeTx-S8JWLeKF8dsmZwF4R2RtoQB_iZo@2026-11-17T16:25:05.170Z",
@@ -107,12 +89,6 @@
   "poster": "1HAkebYVrVZ_J-Bd4Hu5d7ss-rXwcLxbP@2026-11-17T16:25:32.200Z",
   "gallery": "1Asn-7OZtWtzGHGKlWEN1A43br_ACLT7Z@2026-11-17T16:25:34.342Z|1UvChKTVQOQ-y_OV3mbBsk8c6e5Fj8Oz0@2026-11-17T16:25:36.476Z"
  },
- "the-coma-club": {
-  "key": "1XD3cuEjSqammDIA57ltLwQiSKKyPmjwy@2026-11-17T16:25:38.611Z",
-  "hero": "140CGjYQ8Q9QJgYHuC6kIQB9sIISGrPvk@2026-11-17T16:25:41.396Z",
-  "poster": "1ZJFQt1iiX73b9GzDg4BDElWxoUqb2ewI@2026-11-17T16:25:43.859Z",
-  "gallery": "1BGOGy6yn6Ncmq-Z_slPGV4X9MCoqXQao@2026-11-17T16:25:45.965Z|1HOs7MnGqmmcCdaqD9VRzGGpEk-Kcx8r8@2026-11-17T16:25:48.046Z"
- },
  "a-tender-weapon": {
   "key": "1vuCcXU7rhLdxhRXufrcNNJpjBYZVkOwI@2026-11-17T16:25:50.113Z",
   "hero": "1k3Y9yF9wGYXeZNzhm1UOs85PqjNK7lh5@2026-11-17T16:25:52.604Z",
@@ -125,28 +101,28 @@
   "poster": "1Pkf7k9AkHd6EFxaoyfSjGN91dmVHvK7u@2026-11-17T16:26:05.535Z",
   "gallery": "1PBlnzkgFjti-uctd_FaRJe7JBhwSQ2-Z@2026-11-17T16:26:10.335Z|1SE7iproy3BStNpa7HcW1kWn91i8sa4wA@2026-11-17T16:26:08.001Z"
  },
- "german-soul": {
-  "key": "1CI12rTXwOzjZQgUIz2Wk1IcHjRz4pk6W@2026-11-17T16:26:12.283Z",
-  "hero": "1wID1VK8J2zRWGHiynR5Na1Cm7eiKiNgB@2026-11-17T16:26:14.427Z",
-  "poster": "1BSNSIUnl2wGHjS7sbpRTeCp9Z929h-qH@2026-11-17T16:26:16.761Z",
-  "gallery": "1H3bmNtXOEFF22sRzafJq_2kU98560W1l@2026-11-17T16:26:19.169Z|1NN_FYW4LO-X2eUZpiPF_JCTV21JzMnU_@2026-11-17T16:26:21.094Z"
- },
  "the-dead-zone": {
   "key": "17BlK1kk--u6-NstHkIwWt1HpZoh5J0tC@2026-11-17T16:26:23.517Z",
   "hero": "1fPbinPcoKlgup0QkB692VQodeU7mfFhE@2026-11-17T16:26:25.655Z",
   "poster": "1w8M2JTIFxN6Zy60YIXR5EycLxxiL6xPX@2026-11-17T16:26:27.983Z",
   "gallery": "1OjPOnBewYlaAkVgETr2I_uj_Pvsr9FLG@2026-11-17T16:26:32.763Z|1wynhMDSJx4CB-2XLW1IpKGkc0ArPUVJN@2026-11-17T16:26:30.637Z"
  },
- "big-in-gazi-baba": {
-  "key": "1tIx7ZTCCMG8hX3P7frtmd9KUI2mAv3v6@2026-11-17T16:26:35.207Z",
-  "hero": "1prrrDSPM9qc5vyEo0Jr_AvoArpKgy8aE@2026-11-17T16:26:37.603Z",
-  "poster": "1Q-NqNXCFTJ8eGGwTq938WpWbMfu5YDpT@2026-11-17T16:26:40.636Z",
-  "gallery": "1QSzwt7R8Sxhor8mRmoCC7IdA5upU7gdt@2026-11-17T16:26:42.962Z|1zwPloI6TvtBbc5Dfqknzu8RlM2HMQ_vk@2026-11-17T16:26:45.421Z"
+ "crystal-city": {
+  "key": "1q18F2tXyduPYnoKCrN-sdHsp1Wa88ZCy@2026-11-18T21:06:41.412Z",
+  "hero": "13HEom5KJqYM4N4CwYvipEGx4_y5VhmGz@2026-11-18T21:06:44.454Z",
+  "poster": "1KnqG2vOTFZtGgrqVj8oX4PaMZceE-mJp@2026-11-18T21:06:47.754Z",
+  "gallery": "17okJ-qKyPRtDk7e6u9212XJTDN8H3n5V@2026-11-18T21:06:50.362Z|1bAoS23h0TnAQ6RlKqfihfZQINDfsbIRT@2026-11-18T21:06:53.185Z"
  },
- "sing-peak": {
-  "key": "19eKXd3m_s-JJucF7I64TSmtDYTczFtdl@2026-11-17T16:26:47.494Z",
-  "hero": "1547Lq76byjIy-d9Rk5zCnX3VFK_K6Kh6@2026-11-17T16:26:49.876Z",
-  "poster": "1xa9Ttm-ff293QUfgAwZndj92Cygrm0g6@2026-11-17T16:26:52.014Z",
-  "gallery": "1JzbqesX2Pl7MCiHRYPON5-ziWzXTXta-@2026-11-17T16:26:56.294Z|1dQBY-tMKWmk3joPDO_L7Jb4xetM83O3U@2026-11-17T16:26:54.114Z"
+ "kamnop-a-treasure-is-waiting-for-you": {
+  "key": "16CetRmvfTAc5Li7TQTisWte2JUnZiFRM@2026-11-18T21:06:56.047Z",
+  "hero": "1iB0SvdahhguFGU4J58ivILcmXmaO-k44@2026-11-18T21:06:58.907Z",
+  "poster": "1ASzkJvPjBQb2oOkmuZEfvj9SqfPWC_EC@2026-11-18T21:07:01.763Z",
+  "gallery": "12LnWfasJ-2-tn1D1eyiyig-_tYS6AOY-@2026-11-18T21:07:04.586Z|1gtDtjswWyP9rNIgq5npsGjFHMVUJPvKs@2026-11-18T21:07:07.128Z"
+ },
+ "ski-the-wong-way": {
+  "key": "1LIiOJVHnDMPSrgWWj76atYCLAb3qqyQr@2026-11-18T21:07:09.992Z",
+  "hero": "183VmuDGOu2iszU6c3HnggLPdFqnMA1Af@2026-11-18T21:07:12.630Z",
+  "poster": "1tmwtrjJtPOYyjMYV864wdHP3lL4yA4Yh@2026-11-18T21:07:15.372Z",
+  "gallery": "1eGZF4LjqljzP3nAkttTXV7_XW-S8Mznd@2026-11-18T21:07:17.895Z|1qjKTQh1jErFOtYNcTDgBSyj4VCxwHbIq@2026-11-18T21:07:20.548Z"
  }
 }

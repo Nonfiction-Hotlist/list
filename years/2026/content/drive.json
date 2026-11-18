@@ -47,11 +47,6 @@
       "folder": "1-AN95NrZgvTC8SYhgtDp-loCiO8_BwRU",
       "media": "1IfRf5h-jZULDB0o0jX2hr9ojnyTxx3x9"
     },
-    "immortal-flowers": {
-      "sheet": "1RJFvhzpYouxmfUAtQiTfL8hN6oxQY4_RxLDidqHVoe4",
-      "folder": "1GmY-ckFexuVSaWQqj_df1DZKW02S6fqL",
-      "media": "1xXBdLWeKqT2XDVYrD4uNmjFoTy7NkuCJ"
-    },
     "who-goes-fascist": {
       "sheet": "1__BB5Fhh9ADfpazSOCqLBp_Uato0DiBlsCSVwds4I-4",
       "folder": "1kNGLKbmztMn80sn40ayUNG2r70C4Tl08",
@@ -66,16 +61,6 @@
       "sheet": "15cckrfvimLckoQtTbmOH4N3YJwd3PweKt797xydbCyI",
       "folder": "1qsVoWDVaLIyiiquhjJ06KjkJLIWo1Wa8",
       "media": "17RI5fEv_W7TV84plnhRh4nBkEEMcctwE"
-    },
-    "ash-street-jail": {
-      "sheet": "13sqnHEKp5XTHPebtcpmKysRGn25BRXGDrUkYRi8M1rU",
-      "folder": "17LpZn9YdMjBxitxMRLFvJ6e6tL2pcEAK",
-      "media": "1rMbEA7_X2ccKq8GJh2CQhzARR18cEbDz"
-    },
-    "do-not-go-gentle": {
-      "sheet": "10Y3K92ti7eajVJaHGWIEuvUvu4nsiW65SzPjzE3h-mo",
-      "folder": "1PzSs-4v1_cZw8F8DLoQC0_IYFSv03MTs",
-      "media": "1K6x9rAwtantJe27VNhAaFj7inVbjAR8w"
     },
     "power": {
       "sheet": "19FDeanSXoW7JLbhWWOPdRbQYxq6nSq9bl4VagfY4S2A",
@@ -92,11 +77,6 @@
       "folder": "1hEaUhyBFqPsfGZ5w5bY95dQJNvZSuD3h",
       "media": "1-Pu6zk1Ysh3mWoHCQhiSpxeCteIeNzeG"
     },
-    "the-coma-club": {
-      "sheet": "1JWdUpkFh1tp0g6TYV4I9r-jG-IfCwh0MwfLXoQLSa7k",
-      "folder": "1Q2OOtoC0JTBaa4isV5EHly8hjbpmkidC",
-      "media": "14x08XvvQxVSQMBKF2cYkPdxC3NZwtWA5"
-    },
     "a-tender-weapon": {
       "sheet": "1lX13z3I6LPqqa1Kqr2XVrCga7AugGiEH6IHfxzHUsr0",
       "folder": "1BXqwLe4iQnk1fyv0plslTv_SEi6tlhmy",
@@ -107,25 +87,25 @@
       "folder": "1ARo5EqJb18M2ObuHrrmiHTFTw4dnZTOi",
       "media": "1Ed-BNwUH78DtMmNZkzIPn0Fm9JFNugjR"
     },
-    "german-soul": {
-      "sheet": "1pwRFemg4klVOcYobAqTlnUViASPxNDcFIEN6jLaDdmI",
-      "folder": "1sYSd7uQnyQaRpzDTdX6dvd9eo6V6J3t4",
-      "media": "1jPWz0XeEOMPfiNq9QFq_xdNr1Y6pGLFH"
-    },
     "the-dead-zone": {
       "sheet": "16QOhGQdM6LdPilKrvO2KprAy5wLbykaB5pd-wMLakmk",
       "folder": "1FumT5KhMnV1a7ZrOHDExIS3ZRedw7RNW",
       "media": "1lyBkaS0Xq_AaXiB0AWJWI9O9T0sfDcDo"
     },
-    "big-in-gazi-baba": {
-      "sheet": "1J8myZH7kJjOQlc2JY0TZeCLU5BlNvDClWi-L75iyiGA",
-      "folder": "1RDK3JQHqiHgV_PMoggi5F13j0OD_9Clr",
-      "media": "1V_Js2sWDDqSkkPjH7-4rUhj5KtP8wD39"
+    "crystal-city": {
+      "sheet": "1tJi3TJfkTU_8SHwQ4C0lPQJoX96oHREuxHAaiKbhvcM",
+      "folder": "1ejxNmbCoqRBQZymtEI-GrmvPlQm9EkXp",
+      "media": "12fpAP9X0w3AqG6PPb-DZ43N_ZPQcHnxL"
     },
-    "sing-peak": {
-      "sheet": "1LdFI6v5gnqEm5rjGaMU-aR3iE033ZFDOAeEgzAt8w2Q",
-      "folder": "13N1rHaEo9qRZSToNyBBAEq41XiuLwuMP",
-      "media": "1WnDu-tPnEMFFcHzYeTGy6hcFdM1BJP01"
+    "kamnop-a-treasure-is-waiting-for-you": {
+      "sheet": "1-6pRpKVn8OWtUMgVtS4TmNo-r_iwTpPUC1Jk-IfkuvU",
+      "folder": "1jnKFdCI5sU9x0uOb7uu7aOg6BRMaQDtP",
+      "media": "1tytL2BpPXO6C8ZBWTjmNMb1-vPOEXH_b"
+    },
+    "ski-the-wong-way": {
+      "sheet": "1wUZ1_eV38WVzZvWi4YsaEiqLHZz9aMd2ZV_SqAxKlmE",
+      "folder": "1qnwP-a5BPeiwW2GBX3PS-zNXy-sTYY1L",
+      "media": "1yBLXOEcrHZ2dASTCHo7mT711Fs-SlK2I"
     }
   },
   "front": {
