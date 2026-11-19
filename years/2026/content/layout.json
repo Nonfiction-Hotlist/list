@@ -400,6 +400,44 @@
      320
     ]
    ]
+  },
+  "a-banner-year": {
+   "key": "img/a-banner-year-key.jpg",
+   "hero": "img/a-banner-year-hero.jpg",
+   "focus": 50,
+   "focusY": 50,
+   "poster": "img/a-banner-year-poster.jpg",
+   "gallery": [
+    [
+     "img/a-banner-year-g1.jpg",
+     480,
+     320
+    ],
+    [
+     "img/a-banner-year-g2.jpg",
+     480,
+     320
+    ]
+   ]
+  },
+  "ash-street-jail": {
+   "key": "img/ash-street-jail-key.jpg",
+   "hero": "img/ash-street-jail-hero.jpg",
+   "focus": 50,
+   "focusY": 50,
+   "poster": "img/ash-street-jail-poster.jpg",
+   "gallery": [
+    [
+     "img/ash-street-jail-g1.jpg",
+     480,
+     320
+    ],
+    [
+     "img/ash-street-jail-g2.jpg",
+     480,
+     320
+    ]
+   ]
   }
  }
 }

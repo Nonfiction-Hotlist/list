@@ -71,7 +71,9 @@
     "power",
     "meant-to-be-maddie",
     "love-and-justice",
-    "ski-the-wong-way"
+    "ski-the-wong-way",
+    "a-banner-year",
+    "ash-street-jail"
   ],
   "projects": {
     "my-first-phone": {
@@ -578,6 +580,76 @@
       "links": [],
       "onRequest": "",
       "contact": "daniel@blackrhinocreative.com",
+      "laurels": [],
+      "updates": []
+    },
+    "a-banner-year": {
+      "title": "A Banner Year",
+      "format": "Feature documentary",
+      "status": "Post-production. Filming is complete and a rough cut is in progress, aiming for a spring 2027 festival premiere.",
+      "logline": "A year inside the Baltimore Banner, a nonprofit newsroom built from scratch to prove that local journalism can still be saved.",
+      "summary": "Every week, two American newspapers shut down. In Baltimore, after a hedge fund bought the Sun, a local philanthropist started the Baltimore Banner as a nonprofit alternative. A Banner Year follows its newsroom through the year it grows up: a city hall reporter covering a tight mayoral race, an investigative team chasing decades of covered-up abuse at a megachurch, and the collapse of the Key Bridge.\n\nWith access no other cameras had inside a newsroom of more than 100 journalists, the film follows editor-in-chief Kimi Yoshino and her reporters as they build something new while the industry around them shrinks, all the way to a Pulitzer Prize for local reporting. It asks whether this experiment is the future of local news or proof that it can't be saved.",
+      "team": [
+        [
+          "Josh Davidsburg",
+          "Director"
+        ],
+        [
+          "Adam Evans",
+          "Editor"
+        ],
+        [
+          "Alanna Delfino-Kopania",
+          "Producer and Additional Cinematography"
+        ],
+        [
+          "Gene Deems",
+          "Producer"
+        ],
+        [
+          "Keniera Wagstaff",
+          "Co-producer"
+        ],
+        [
+          "Dan Baglio",
+          "Executive Producer"
+        ],
+        [
+          "Paul Crompton",
+          "Executive Producer"
+        ],
+        [
+          "Annette Porter",
+          "Executive Producer"
+        ],
+        [
+          "Richard Hankin",
+          "Executive Producer"
+        ]
+      ],
+      "help": [],
+      "links": [],
+      "onRequest": "",
+      "contact": "josh.davidsburg@gmail.com",
+      "laurels": [],
+      "updates": []
+    },
+    "ash-street-jail": {
+      "title": "Ash Street Jail",
+      "format": "Short documentary",
+      "status": "In early post-production.",
+      "logline": "Inside the oldest operating jail in the US, open since 1888. A new sheriff wants to close it. Can he?",
+      "summary": "The Ash Street Jail opened in 1888 and still holds pretrial defendants in a small Massachusetts city. A sheriff elected on reform wants to close it, but the political establishment has ignored him.\n\nInmates struggle to cope in cramped, decaying cells, and the jail has the highest suicide rate of any Massachusetts county jail. Still, some feel deeply tied to its walls. One lives in the same cell his late father once did.",
+      "team": [
+        [
+          "Ben Berke",
+          "Co-director and producer"
+        ]
+      ],
+      "help": [],
+      "links": [],
+      "onRequest": "",
+      "contact": "anna@practicaleffectsfilm.com",
       "laurels": [],
       "updates": []
     }
