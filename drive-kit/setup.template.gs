@@ -121,12 +121,16 @@ function addProjects() {
     if (Date.now() - started > BUDGET_MS) { saveState_(state); Logger.log("Stopped to stay under Google's time limit. Run addProjects again to finish."); break; }
     let slug = slugify_(title), n = 2;
     while (state.projects[slug]) slug = slugify_(title) + "-" + n++;
-    const pf = folder_(projects, title);
-    const media = folder_(pf, "Media");
-    state.projects[slug] = Object.assign({ title, images: true, folder: pf.getId(), media: media.getId(), slots: mediaFolders_(media) }, makeProjectSheet_(pf, { title }));
+    const back = restoreProject_(root, projects, title);
+    if (back) state.projects[slug] = back;
+    else {
+      const pf = folder_(projects, title);
+      const media = folder_(pf, "Media");
+      state.projects[slug] = Object.assign({ title, images: true, folder: pf.getId(), media: media.getId(), slots: mediaFolders_(media) }, makeProjectSheet_(pf, { title }));
+    }
     taken[title] = slug; added++;
     saveState_(state);
-    Logger.log("Added: " + title);
+    Logger.log((back ? "Brought back: " : "Added: ") + title);
   }
   refreshOrderChoices_(state);
   state.manifest = writeManifest_(root, state, data);
@@ -137,9 +141,9 @@ function addProjects() {
 
 /**
  * Takes out every project whose title is no longer in the Projects tab. Its folder (Copysheet and
- * Media) moves to "Removed projects" in the kit, so nothing is deleted; to bring one back, move the
- * folder back to 03 Projects and add its title to the Projects tab again (addProjects makes a new
- * one, so copy the text across). The site drops removed projects at its next update.
+ * Media) moves to "Removed projects" in the kit, so nothing is deleted. To bring one back, add its
+ * title to the Projects tab again and run addProjects: the folder returns with its text and images.
+ * The site drops removed projects at its next update.
  */
 function removeProjects() {
   const state = loadState_();
@@ -167,6 +171,20 @@ function removeProjects() {
   state.manifest = writeManifest_(root, state, loadContent_());
   saveState_(state);
   Logger.log(`Done. ${gone.length} project(s) removed, ${Object.keys(state.projects).length} in the kit.`);
+}
+
+// A project taken out by removeProjects, back from "Removed projects" as it was. Null if there's none.
+function restoreProject_(root, projects, title) {
+  const bin = root.getFoldersByName("Removed projects");
+  if (!bin.hasNext()) return null;
+  const found = bin.next().getFoldersByName(title);
+  if (!found.hasNext()) return null;
+  const pf = found.next(), sheets = pf.getFilesByType(MimeType.GOOGLE_SHEETS), media = pf.getFoldersByName("Media");
+  if (!sheets.hasNext() || !media.hasNext()) return null;
+  const ss = SpreadsheetApp.openById(sheets.next().getId()), m = media.next();
+  pf.moveTo(projects);
+  return { title, images: true, folder: pf.getId(), media: m.getId(), slots: mediaFolders_(m), fileId: ss.getId(),
+    tabs: Object.fromEntries(ss.getSheets().map(sh => [sh.getName(), sh.getSheetId()])) };
 }
 
 /**
