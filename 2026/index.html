@@ -1,0 +1,819 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="The 2026 Nonfiction Hotlist: 23 exceptional unproduced nonfiction projects, what each needs, and how to help.">
+<meta name="theme-color" content="#ffffff">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://list.nonfictionhotlist.com/2026/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/brand/v1/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="nonfiction hotlist.">
+<meta property="og:title" content="The 2026 Nonfiction Hotlist">
+<meta property="og:description" content="The 2026 Nonfiction Hotlist: 23 exceptional unproduced nonfiction projects, what each needs, and how to help.">
+<meta property="og:url" content="https://list.nonfictionhotlist.com/2026/">
+<meta property="og:image" content="https://list.nonfictionhotlist.com/2026/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body { margin: 0; font: 14px system-ui, -apple-system, sans-serif; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+</style>
+<link rel="preload" href="/brand/v1/fonts/LeagueSpartan-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/brand/v1/fonts/RobotoSerif-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/brand/v1/nfh.css">
+<script src="/brand/v1/nfh.js" defer></script>
+<title>The 2026 Nonfiction Hotlist</title>
+<style>
+/* The list, in the Nonfiction Hotlist design (build brief, November 2026): the same type, colors, buttons and
+   cards as nonfictionhotlist.com. On the website the brand kit (/brand/v1/nfh.css) also loads, with the
+   shared top bar and footer; the tokens below repeat its values so the Claude artifact version looks the same.
+   Cover: black, outlined year, edition label, big lowercase headline. Grid: poster cards that fill green on
+   hover. Project: the still under the green overlay, then the logline and details. */
+:root {
+  --white: #ffffff; --paper: #f2f2f2; --black: #000000;
+  --green: #588257; --green-glow: #5c965e; --green-shade: #45684d;
+  --forest: #3a5a40; --pine: #324d3f; --pine-deep: #1a2821;
+  --spark: #fcb100; --rule: #d5ddd6; --rule-dark: #3f5a4b;
+  --sage: #c9d6cb; --green-label: #8fbf90; --mint: #c9e3ca; --muted: #4d5a50;
+  --gradient-green: linear-gradient(135deg, #5c965e 0%, #45684d 100%);
+  --gradient-green-text: linear-gradient(135deg, #588257 0%, #3a5a40 100%);
+  --gradient-forest: linear-gradient(135deg, #1a2821 0%, #324d3f 100%);
+  --photo-overlay: linear-gradient(135deg, rgba(92,150,94,.88) 0%, rgba(69,104,77,.92) 60%, rgba(26,40,33,.95) 100%);
+  --font-display: "League Spartan", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Roboto Serif", Georgia, serif;
+  --display: var(--font-display); --body: var(--font-body);
+  --max: 1440px; --gutter: clamp(16px, 5vw, 64px);
+  --radius-sm: 6px; --radius-md: 14px; --radius-pill: 9999px;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { background: var(--white); }
+body { margin: 0; background: var(--white); color: var(--black); font-family: var(--font-body); font-size: 17px; line-height: 27px; -webkit-font-smoothing: antialiased; }
+a { color: var(--forest); }
+a:hover { color: var(--pine-deep); }
+:focus-visible { outline: 3px solid var(--forest); outline-offset: 3px; }
+.dark :focus-visible { outline-color: var(--spark); }
+.gutter { padding-left: var(--gutter); padding-right: var(--gutter); }
+.wrap { max-width: var(--max); margin: 0 auto; padding-left: var(--gutter); padding-right: var(--gutter); }
+.label { font: 700 14px/18px var(--font-display); letter-spacing: .12em; text-transform: lowercase; color: var(--forest); }
+.dark .label { color: var(--green-label); }
+.h { font-family: var(--font-display); font-weight: 700; text-transform: lowercase; letter-spacing: -0.03em; line-height: .92; margin: 0; }
+
+/* Buttons: 6px corners, lowercase League Spartan, at least 44px */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 18px; border: 2px solid currentColor; border-radius: var(--radius-sm);
+  background: transparent; color: var(--black); font: 700 16px/1 var(--font-display); text-transform: lowercase; text-decoration: none; cursor: pointer; white-space: nowrap;
+  transition: background-color .2s, color .2s, border-color .2s; }
+.btn:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+.btn.solid { background: var(--forest); color: var(--white); border-color: var(--forest); }
+.btn.solid:hover { background: var(--pine-deep); border-color: var(--pine-deep); }
+.dark .btn { color: var(--white); }
+.dark .btn:hover { background: var(--white); color: var(--black); border-color: var(--white); }
+.dark .btn.solid { background: var(--white); color: var(--black); border-color: var(--white); }
+.dark .btn.solid:hover { background: var(--sage); border-color: var(--sage); }
+.btn.big { min-height: 52px; padding: 0 26px; font-size: 18px; }
+.icon-btn { width: 44px; padding: 0; font-size: 18px; }
+.icon-btn[aria-disabled="true"] { opacity: .3; pointer-events: none; }
+
+/* The list's own bar: its controls (under the website's top bar on the website) */
+.bar { position: sticky; top: 0; z-index: 5; background: var(--white); border-bottom: 1px solid var(--rule); }
+.bar-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 10px; max-width: var(--max); margin: 0 auto; }
+.wordmark { font: 700 20px/1 var(--font-display); letter-spacing: -0.01em; text-transform: lowercase; color: var(--black); text-decoration: none; white-space: nowrap; }
+.wordmark span { color: var(--forest); margin-left: 6px; }
+.bar-nav { display: flex; align-items: center; gap: 8px; }
+.counter { font: 700 14px/1 var(--font-display); letter-spacing: .12em; text-transform: lowercase; color: var(--forest); min-width: 4.5em; text-align: center; font-variant-numeric: tabular-nums; }
+.toast { position: fixed; z-index: 40; left: 50%; transform: translateX(-50%); bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  background: var(--black); color: var(--white); font: 700 16px/1.2 var(--font-display); padding: 12px 18px; border-radius: var(--radius-sm); max-width: calc(100% - 32px); }
+@media (max-width: 560px) { #pdfBtn { padding: 0 12px; } .bar-nav { gap: 6px; } #prevBtn, #nextBtn { display: none; } }
+
+/* Index drawer */
+.index-panel { position: fixed; inset: 0; z-index: 50; background: rgba(0, 0, 0, .45); display: flex; justify-content: flex-end; }
+.index-sheet { width: min(420px, 100%); height: 100%; overflow-y: auto; background: var(--white);
+  padding: calc(24px + env(safe-area-inset-top, 0px)) max(28px, env(safe-area-inset-right, 0px)) calc(24px + env(safe-area-inset-bottom, 0px)) 28px; }
+.index-sheet h2 { font: 700 44px/1 var(--font-display); letter-spacing: -0.02em; text-transform: lowercase; margin: 0 0 16px; }
+.index-sheet ol { list-style: none; margin: 0; padding: 0; display: grid; }
+.index-sheet a { display: flex; gap: 12px; align-items: baseline; min-height: 44px; padding: 10px 0; text-decoration: none; color: var(--black); border-bottom: 1px solid var(--rule);
+  font: italic 600 18px/1.25 var(--font-body); }
+.index-sheet a:hover { color: var(--forest); }
+.index-sheet .n { font: 700 14px/1 var(--font-display); font-style: normal; letter-spacing: .12em; color: var(--forest); width: 2.2ch; font-variant-numeric: tabular-nums; }
+.index-head { display: flex; justify-content: space-between; align-items: flex-start; }
+
+main { padding-bottom: 0; }
+
+/* Cover: black, the outlined year behind, edition label, big lowercase headline */
+.cover { position: relative; overflow: hidden; background: var(--black); color: var(--white); }
+.cover-year { position: absolute; right: -2vw; top: -4vw; font: 700 clamp(240px, 38vw, 560px)/.8 var(--font-display); letter-spacing: -0.05em;
+  color: transparent; -webkit-text-stroke: 2px var(--year-stroke, var(--green)); pointer-events: none; user-select: none; }
+.cover-year.y2025 { --year-stroke: var(--white); }   /* 2025 white, later years green; the year sits up top on every edition */
+.cover-in { position: relative; display: flex; flex-direction: column; gap: 28px; padding-block: clamp(72px, 9vw, 128px) clamp(64px, 7vw, 104px); }
+.cover h1 { font: 700 clamp(60px, 9vw, 140px)/.88 var(--font-display); letter-spacing: -0.035em; text-transform: lowercase; margin: 0; max-width: 1000px; }
+.cover-foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 28px 48px; flex-wrap: wrap; }
+.cover p.lede { max-width: 640px; font-size: clamp(20px, 2vw, 24px); line-height: 1.4; margin: 0; }
+.cover-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.cover-strip { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.cover-strip a { display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px; border-radius: var(--radius-pill); border: 1.5px solid #333333; color: var(--muted-on-black, #cfcfcf);
+  font: italic 600 14px/1.2 var(--font-body); text-decoration: none; }
+.cover-strip a:hover { border-color: var(--white); color: var(--white); }
+
+/* Welcome */
+.mosaic { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; margin-top: clamp(32px, 4vw, 56px); }
+.mosaic a { aspect-ratio: 3 / 2; overflow: hidden; border-radius: 8px; display: block; background: var(--pine-deep); position: relative; }
+.mosaic a::after { content: ""; position: absolute; inset: 0; background: var(--pine-deep); transform-origin: right center; pointer-events: none; }
+.mosaic a.v::after { transform-origin: center top; }
+.mosaic img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; }
+.mosaic a.in img { opacity: 1; animation: tile-settle 1.6s cubic-bezier(0.16, 1, 0.3, 1); }
+.mosaic a.in::after { transform: scaleX(0); animation: tile-wipe 0.9s cubic-bezier(0.76, 0, 0.24, 1); }
+.mosaic a.in.v::after { transform: scaleY(0); animation-name: tile-wipe-v; }
+@keyframes tile-wipe { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+@keyframes tile-wipe-v { from { transform: scaleY(1); } to { transform: scaleY(0); } }
+@keyframes tile-settle { from { transform: scale(1.28); } to { transform: scale(1); } }
+.mosaic a:hover img { transform: scale(1.04); transition: transform .4s ease; }
+@media (prefers-reduced-motion: reduce) { .mosaic img { opacity: 1; animation: none !important; } .mosaic a::after { display: none; } }
+/* **highlights** in the text: a soft green marker */
+.hi { background: linear-gradient(transparent 55%, rgba(92, 150, 94, .32) 55%, rgba(92, 150, 94, .32) 92%, transparent 92%); padding: 0 .06em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.dark .hi { background: linear-gradient(transparent 55%, rgba(255, 255, 255, .22) 55%, rgba(255, 255, 255, .22) 92%, transparent 92%); }
+.hi .num { font-family: var(--font-display); font-weight: 700; }
+.w-intro, .why-top { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 32px clamp(32px, 6vw, 96px); padding-block: clamp(56px, 7vw, 104px) 0; align-items: start; }
+.w-intro h2, .why-top h2 { font: 700 clamp(48px, 5.6vw, 84px)/.92 var(--font-display); letter-spacing: -0.03em; text-transform: lowercase; color: var(--forest); margin: 0; }
+.w-lede p { font-size: 21px; line-height: 1.5; font-weight: 500; margin: 0 0 .7em; }
+.w-lede p:last-child { color: var(--forest); font-weight: 400; font-size: 19px; }
+.why-top p { margin: 0 0 1em; max-width: 36em; }
+.why-top p:first-child { font-size: 21px; line-height: 1.5; font-weight: 500; }
+/* Green panels: square color blocks, white text */
+.panel-dark, .select { background: var(--gradient-green-text); color: var(--white); padding: clamp(32px, 4vw, 56px); }
+.w-row { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 20px clamp(32px, 6vw, 96px); margin-top: clamp(48px, 6vw, 80px); }
+.w-label { font: 700 14px/18px var(--font-display); letter-spacing: .12em; text-transform: lowercase; color: var(--forest); padding-top: 4px; }
+.panel-dark .w-label, .select .w-label { color: var(--mint); }
+.w-row p { margin: 0 0 .8em; max-width: 36em; font-size: 19px; line-height: 30px; }
+.w-row p:last-child { margin: 0; }
+.w-next { display: flex; justify-content: flex-end; gap: 12px; margin-top: 32px; padding-bottom: clamp(56px, 7vw, 104px); flex-wrap: wrap; }
+.select { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 24px clamp(32px, 6vw, 96px); margin-top: clamp(40px, 5vw, 64px); }
+.select .big { font: 700 clamp(56px, 7vw, 108px)/.86 var(--font-display); letter-spacing: -0.04em; }
+.select .big small { display: block; font: 700 14px/1.4 var(--font-display); letter-spacing: .12em; text-transform: lowercase; color: var(--mint); margin-top: 16px; }
+.criteria { list-style: none; margin: 0 0 18px; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.criteria li { display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: var(--radius-pill); border: 1.5px solid var(--white); font: 700 16px/1.1 var(--font-display); text-transform: lowercase; }
+.select p { margin: 0; font-size: 17px; line-height: 27px; }
+.steps { list-style: none; margin: 20px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.steps li { padding: 24px; display: grid; gap: 10px; align-content: start; border: 1px solid var(--rule); border-radius: var(--radius-md); }
+.steps .k { font: 700 14px/1 var(--font-display); letter-spacing: .12em; color: var(--forest); font-variant-numeric: tabular-nums; }
+.steps b { font: 700 24px/1.05 var(--font-display); letter-spacing: -0.01em; text-transform: lowercase; }
+.steps span { font-size: 16px; line-height: 25px; }
+.close-line { font: 700 clamp(28px, 3vw, 44px)/1.08 var(--font-display); letter-spacing: -0.02em; text-transform: lowercase; color: var(--forest); max-width: 24em; margin: clamp(48px, 6vw, 80px) 0 0; }
+.prose p { margin: 0 0 1em; }
+
+/* Grid pages */
+.page-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; padding-block: clamp(48px, 6vw, 88px) 32px; }
+.page-head h2 { font: 700 clamp(48px, 5.6vw, 84px)/.92 var(--font-display); letter-spacing: -0.03em; text-transform: lowercase; margin: 0; }
+.page-head .range { display: block; margin-top: 12px; font: 700 14px/18px var(--font-display); letter-spacing: .12em; color: var(--forest); font-variant-numeric: tabular-nums; }
+.dots { display: flex; gap: 8px; flex-wrap: wrap; }
+.dots a { min-width: 44px; height: 44px; padding: 0 12px; border-radius: var(--radius-pill); display: grid; place-items: center; border: 1.5px solid var(--forest); color: var(--forest);
+  font: 700 16px/1 var(--font-display); text-decoration: none; font-variant-numeric: tabular-nums; }
+.dots a:hover { background: var(--forest); color: var(--white); }
+.dots a[aria-current="page"] { background: var(--forest); color: var(--white); }
+.grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+/* Poster cards: 14px corners, italic titles, format pill; they fill green on hover (as the homepage's cards do) */
+.card { display: flex; flex-direction: column; gap: 12px; padding: 12px 12px 22px; min-width: 0; border: 1px solid var(--rule); border-radius: var(--radius-md); color: var(--black); text-decoration: none;
+  transition: background-color .25s, color .25s, border-color .25s; }
+.card > :not(.poster) { margin-left: 8px; margin-right: 8px; }
+.card .meta { align-self: flex-start; display: inline-flex; padding: 4px 12px; border-radius: var(--radius-pill); border: 1.5px solid var(--forest); color: var(--forest); font: 700 13px/18px var(--font-display); text-transform: lowercase; }
+.card h3 { font: italic 600 21px/1.2 var(--font-body); margin: 0; }
+.card p { margin: 0; font-size: 16px; line-height: 25px; }
+.card:hover, .card:focus-visible { background: var(--gradient-green-text); color: var(--white); border-color: transparent; }
+.card:hover .meta, .card:focus-visible .meta { border-color: var(--white); color: var(--white); }
+.card:hover .accolade, .card:hover .accolade b { color: var(--white); }
+
+/* Poster: the key image, or a typographic fallback */
+.poster { aspect-ratio: 3 / 2; width: 100%; border-radius: 8px; overflow: hidden; position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 14px; }
+.poster img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.poster.t0 { background: var(--gradient-forest); color: var(--white); }
+.poster.t1 { background: var(--gradient-green-text); color: var(--white); }
+.poster.t2 { background: var(--black); color: var(--white); }
+.poster .p-title { font: 700 clamp(19px, 1.2vw + 10px, 26px)/.92 var(--font-display); letter-spacing: -0.02em; text-transform: lowercase; }
+.poster .p-foot { display: flex; justify-content: space-between; font: 700 12px/1 var(--font-display); letter-spacing: .12em; text-transform: lowercase; opacity: .8; }
+
+/* Project page: the key photo as it is (no overlay), then the label and title on white */
+.p-hero { height: clamp(280px, 38vw, 560px); background: var(--pine-deep); overflow: hidden; }
+.p-hero > img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.p-head { display: flex; flex-direction: column; gap: 14px; padding-top: 20px; }
+.p-head h1 { font: 700 clamp(48px, 6.4vw, 100px)/.9 var(--font-display); letter-spacing: -0.03em; text-transform: lowercase; margin: 0; max-width: 1100px; }
+.crumb a { display: inline-flex; align-items: center; min-height: 44px; font: 700 16px/1 var(--font-display); text-transform: lowercase; color: var(--forest); text-decoration: none; }
+.crumb a:hover { text-decoration: underline; text-underline-offset: 5px; }
+.project { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 300px); gap: 48px clamp(32px, 6vw, 96px); padding-block: clamp(40px, 5vw, 72px); }
+.project aside { display: grid; gap: 16px; align-content: start; position: sticky; top: 84px; align-self: start; }
+.project aside .poster { display: block; width: 100%; max-width: 320px; aspect-ratio: 2 / 3; object-fit: cover; border-radius: 14px; }
+.facts { display: grid; gap: 18px; margin: 0; }
+.facts div { display: grid; gap: 6px; }
+.facts dt { font: 700 14px/18px var(--font-display); letter-spacing: .12em; text-transform: lowercase; color: var(--forest); }
+.facts dd { margin: 0; overflow-wrap: anywhere; font-size: 16px; line-height: 24px; }
+.copy-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.copy-row code { font-family: var(--font-body); user-select: all; overflow-wrap: anywhere; }
+.copy-btn { min-height: 36px; padding: 0 12px; font-size: 14px; border-width: 1.5px; }
+.logline { font-size: clamp(21px, 2vw, 26px); line-height: 1.35; margin: 0 0 28px; max-width: 30em; }
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--rule); margin-bottom: 28px; overflow-x: auto; }
+.tabs a { display: inline-flex; align-items: center; min-height: 48px; padding: 0 14px; font: 700 17px/1 var(--font-display); text-transform: lowercase; text-decoration: none; color: var(--muted);
+  border-bottom: 3px solid transparent; margin-bottom: -1px; white-space: nowrap; }
+.tabs a[aria-current="true"] { color: var(--black); border-bottom-color: var(--forest); }
+.tabs a:hover { color: var(--forest); }
+.tabs .count { display: inline-grid; place-items: center; min-width: 1.5em; height: 1.5em; margin-left: 6px; border-radius: var(--radius-pill); background: var(--forest); color: var(--white); font-size: .75em; font-variant-numeric: tabular-nums; }
+.panel { max-width: 46em; }
+.panel h4 { font: 700 14px/18px var(--font-display); letter-spacing: .12em; text-transform: lowercase; color: var(--forest); margin: 36px 0 14px; }
+.panel h4:first-child { margin-top: 0; }
+.team { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px 24px; }
+.team li { display: grid; gap: 2px; }
+.team b { font: 700 20px/1.1 var(--font-display); text-transform: lowercase; letter-spacing: -0.01em; }
+.team span { font-size: 15px; line-height: 22px; color: var(--muted); }
+/* How to help: forest pills */
+.needs { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.needs li { display: inline-flex; align-items: center; padding: 10px 18px; border-radius: 24px; background: var(--forest); color: var(--white); font-size: 16px; line-height: 22px; }
+.links { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+.note { color: var(--muted); font-size: 15px; }
+.updates { list-style: none; padding: 0; margin: 0; }
+.updates li { padding: 16px 0; border-top: 1px solid var(--rule); display: grid; grid-template-columns: 8em minmax(0, 1fr); gap: 16px; }
+.updates li:first-child { border-top: 0; padding-top: 0; }
+.updates time { font: 700 14px/18px var(--font-display); letter-spacing: .08em; text-transform: lowercase; color: var(--forest); padding-top: 4px; }
+.updates li > div { display: grid; gap: 4px; }
+.empty { border: 1px solid var(--rule); border-radius: var(--radius-md); padding: 20px; color: var(--muted); font-size: 16px; }
+.stills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.stills.one { grid-template-columns: minmax(0, 1fr); }
+.stills button { padding: 0; border: 0; background: var(--pine-deep); cursor: zoom-in; border-radius: var(--radius-md); overflow: hidden; display: block; }
+.stills img { display: block; width: 100%; height: 100%; object-fit: cover; aspect-ratio: 3 / 2; transition: transform .4s ease; }
+.stills button:hover img { transform: scale(1.03); }
+.stills.three button:first-child { grid-column: 1 / -1; }
+.stills.three button:first-child img { aspect-ratio: 16 / 9; }
+.lightbox { position: fixed; inset: 0; z-index: 60; background: rgba(0, 0, 0, .94); display: grid; place-items: center; padding: 16px; cursor: zoom-out; }
+.lightbox img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: var(--radius-md); }
+.lightbox .btn { position: absolute; top: 14px; right: 14px; color: var(--white); }
+/* Laurels and news */
+.laurels { display: flex; flex-wrap: wrap; gap: 10px 22px; margin: 0 0 26px; padding: 0; list-style: none; }
+.laurel { display: grid; grid-template-columns: 22px auto 22px; align-items: center; gap: 4px; color: var(--forest); }
+.laurel svg { width: 22px; height: 52px; display: block; }
+.laurel svg.r { transform: scaleX(-1); }
+.laurel div { display: grid; justify-items: center; text-align: center; line-height: 1.1; max-width: 13.5em; }
+.laurel small { font: 700 11px/1.2 var(--font-display); letter-spacing: .12em; text-transform: lowercase; color: var(--forest); }
+.laurel b { font: 700 15px/1.15 var(--font-display); color: var(--black); margin-top: 3px; text-transform: lowercase; }
+.laurel span { font: 700 12px/1 var(--font-display); color: var(--muted); margin-top: 3px; font-variant-numeric: tabular-nums; }
+.latest { background: var(--gradient-green-text); color: var(--white); border-radius: var(--radius-md); padding: 20px 24px; margin: 0 0 28px; display: grid; gap: 6px; max-width: 46em; }
+.latest .w-label { display: flex; gap: 10px; align-items: baseline; padding: 0; color: var(--mint); }
+.latest .w-label time { color: var(--white); }
+.latest p { margin: 0; }
+.latest .src { color: var(--white); }
+.src { font: 700 14px/1 var(--font-display); color: var(--forest); text-decoration: none; white-space: nowrap; text-transform: lowercase; }
+.src:hover { text-decoration: underline; }
+.card .accolade { display: flex; gap: 6px; align-items: center; font: 700 13px/1.3 var(--font-display); color: var(--forest); }
+.card .accolade svg { width: 10px; height: 22px; flex: none; }
+.card .accolade b { color: var(--black); font-weight: 700; }
+
+.pager { display: flex; justify-content: space-between; gap: 12px; padding-block: 40px clamp(56px, 7vw, 104px); flex-wrap: wrap; }
+
+/* The list's own footer line (the website adds its footer below) */
+.list-foot { padding-block: 0 32px; color: var(--muted); font-size: 15px; }
+.list-foot .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 960px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .project { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .project aside { position: static; }
+  .w-intro, .w-row, .why-top, .select { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .grid { grid-template-columns: minmax(0, 1fr); }
+  .stills { grid-template-columns: minmax(0, 1fr); }
+  .wordmark span { display: none; }
+  .counter { display: none; }
+  .updates li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .cover-actions .btn, .w-next .btn { flex: 1 1 auto; }
+  .mosaic { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .steps { grid-template-columns: minmax(0, 1fr); }
+}
+</style>
+<style>/* The list's controls sit under the website's sticky top bar (81px). */ .bar { top: 81px; }</style>
+
+</head>
+<body>
+<header class="nfh-bar">
+  <nav class="nfh-bar__in" aria-label="Main">
+    <a class="nfh-bar__logo" href="https://new.nonfictionhotlist.com/" aria-label="nonfiction hotlist. home"><img src="/brand/v1/logos/wordmark-black.svg" alt="nonfiction hotlist." width="223" height="22"></a>
+    <div class="nfh-bar__actions">
+      <a class="nfh-btn nfh-btn--ghost nfh-btn--ink nfh-btn--nav nfh-bar__hide-sm" href="https://new.nonfictionhotlist.com/#subscribe">Subscribe</a>
+      <button type="button" class="nfh-btn nfh-btn--nav nfh-menu-btn" data-nfh-menu-button aria-expanded="false" aria-controls="nfh-menu" aria-label="Open menu"><span class="when-closed nfh-bar__hide-sm">menu</span><span class="when-open nfh-bar__hide-sm">close</span><svg class="when-closed" aria-hidden="true" viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M1 2h22"/><path d="M1 8h22"/><path d="M1 14h22"/></svg><svg class="when-open" aria-hidden="true" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 2l14 14"/><path d="M16 2L2 16"/></svg></button>
+    </div>
+    <div class="nfh-menu" id="nfh-menu" hidden>
+    <div class="nfh-menu__group"><button type="button" class="nfh-menu__top" data-nfh-sub aria-expanded="false" aria-controls="nfh-sub-about"><span>About</span><span class="chev"><svg aria-hidden="true" width="18" height="12" viewBox="0 0 18 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3l7 7 7-7"/></svg></span></button>
+      <div class="nfh-menu__sub" id="nfh-sub-about" hidden><a href="https://new.nonfictionhotlist.com/news/">News</a><a href="https://new.nonfictionhotlist.com/terms-of-use/">Terms of use</a><a href="https://new.nonfictionhotlist.com/privacy-policy/">Privacy policy</a></div></div>
+    <div class="nfh-menu__group"><button type="button" class="nfh-menu__top" data-nfh-sub aria-expanded="true" aria-controls="nfh-sub-the-hotlist"><span>The Hotlist</span><span class="chev"><svg aria-hidden="true" width="18" height="12" viewBox="0 0 18 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3l7 7 7-7"/></svg></span></button>
+      <div class="nfh-menu__sub" id="nfh-sub-the-hotlist"><a href="https://new.nonfictionhotlist.com/the-2026-hotlist/">2026</a><a href="https://list.nonfictionhotlist.com/2025/">2025</a><a href="https://new.nonfictionhotlist.com/contributors/">Contributors</a></div></div>
+    <div class="nfh-menu__group"><a class="nfh-menu__top" href="https://new.nonfictionhotlist.com/yahoo/"><span>Yahoo x NFH</span><svg width="22" height="11" aria-hidden="true" viewBox="0 0 26 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6.5c7-1 15-.6 23-.4"/><path d="M19 1.5l5 4.6-5 4.4"/></svg></a></div>
+    </div>
+  </nav>
+</header><header class="bar gutter">
+  <div class="bar-inner">
+    <a class="wordmark" href="#cover">2026 hotlist</a>
+    <nav class="bar-nav" aria-label="Deck">
+      <a class="btn icon-btn" id="prevBtn" href="#" aria-label="Previous">&larr;</a>
+      <span class="counter" id="counter"></span>
+      <a class="btn icon-btn" id="nextBtn" href="#" aria-label="Next">&rarr;</a>
+      <button class="btn" id="indexBtn" type="button" aria-expanded="false">Index</button>
+      <button class="btn solid" id="pdfBtn" type="button" hidden>Download PDF</button>
+    </nav>
+  </div>
+</header>
+
+<div class="index-panel" id="indexPanel" hidden>
+  <div class="index-sheet" role="dialog" aria-label="Project index">
+    <div class="index-head"><h2>index</h2><button class="btn icon-btn" id="indexClose" type="button" aria-label="Close index">&times;</button></div>
+    <ol id="indexList"></ol>
+  </div>
+</div>
+
+<main id="app"></main>
+
+<div class="list-foot">
+  <div class="wrap">
+    <span>nonfiction hotlist. &middot; <span id="footEmail"></span></span>
+    <span id="footNote"></span>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   SITE DATA. Generated by scripts/content/write-page.js from
+   years/2026/content/content.json (text, mirrored from the Google Drive kit) and
+   years/2026/content/layout.json (images and framing). Do not edit by hand.
+   Text uses **double asterisks** for the marker highlight.
+   ============================================================ */
+const SITE = {
+  "year": "2026",
+  "PER_PAGE": 4,
+  "intro": "20 ambitious nonfiction projects with extraordinary creative potential, each looking for the support to move forward.",
+  "footer": {
+    "email": "info@nonfictionhotlist.com",
+    "note": "Projects listed in alphabetical order"
+  },
+  "welcome": {
+    "heading": "welcome to the nonfiction hotlist",
+    "lede": [
+      "We believe creators and storytellers are the lifeblood of our industry and deserve more pathways to bring their visions to life.",
+      "This curated collection represents **20 ambitious projects** that have demonstrated extraordinary creative potential but need support to move forward."
+    ],
+    "invitation": [
+      "While funding and distribution remain universal needs for all these projects, we believe there are many ways to help reduce costs and build momentum.",
+      "Look through these projects with an eye for how you might contribute. Each page identifies specific needs, from production support to technical expertise to strategic connections."
+    ],
+    "whyHeading": "why this matters",
+    "why": [
+      "The marketplace needs ambitious, unusual, and visionary nonfiction projects. When we collaborate as a community, we create new possibilities and counter the risk-aversion of traditional gatekeepers. Every contribution, whether financial investment or in-kind support, generates meaningful momentum, giving creators more leverage.",
+      "Supporting these projects strengthens not only their individual journeys but the broader health and vibrancy of our entire nonfiction ecosystem. The hundreds of other remarkable submissions we received confirm the wealth of untapped storytelling potential waiting for champions."
+    ],
+    "criteria": [
+      "Originality",
+      "Feasibility",
+      "Compelling subjects",
+      "Evocative storytelling"
+    ],
+    "selection": "Some creators are first-time filmmakers; others are established voices who still face challenges securing support for ambitious work. What unites them is the exceptional quality of their vision.",
+    "how": [
+      [
+        "Reach out",
+        "Contact projects directly whose vision inspires you."
+      ],
+      [
+        "Give",
+        "Support their 501(c)(3) fiscal sponsorships where available."
+      ],
+      [
+        "Follow",
+        "Follow their creative journeys across social platforms."
+      ],
+      [
+        "Contribute",
+        "Review each project's How to help section and offer the specific resources they need."
+      ]
+    ],
+    "close": "This document is **meant to be used**. These projects are **meant to be made**. The future of exceptional nonfiction storytelling depends on our collective action."
+  }
+};
+
+const PROJECTS = [
+{"slug":"my-first-phone","key":"img/my-first-phone-key.jpg","hero":"img/my-first-phone-hero.jpg","focus":50,"focusY":50,"poster":"img/my-first-phone-poster.jpg","gallery":[["img/my-first-phone-g1.jpg",960,640],["img/my-first-phone-g2.jpg",960,640]],"title":"My First Phone*","format":"Feature documentary","status":"In the final stages of production, with an editor on board and the film set to finish by the end of 2027.","logline":"Four kids, their first year with a smartphone, told from inside the phones themselves.","summary":"For kids today, the defining coming-of-age milestone is no longer a driver's license. It's a phone. My First Phone follows four kids across the United States before, during and after they get their first smartphones.\n\nWith every family's full consent and a strict set of safeguards, a custom app records each kid's screen and selfie camera for their entire first year. Nothing is opened until the parents have reviewed it. The four families differ in almost every way that matters.","team":[["Zach Wechter","Director and producer"],["Mishka Kornai","Director and producer"],["Zak Piper","Producer"],["Jen Tiexiera","Editor"]],"help":["Investors and grants to close the financing gap","Producers who invest","Sales agents","Impact partners"],"links":[],"onRequest":"","contact":"myfirstphonefilm@gmail.com","laurels":[],"updates":[]},
+{"slug":"untitled-paul-robeson","key":"img/untitled-paul-robeson-key.jpg","hero":"img/untitled-paul-robeson-hero.jpg","focus":50,"focusY":50,"poster":"img/untitled-paul-robeson-poster.jpg","gallery":[["img/untitled-paul-robeson-g1.jpg",960,640],["img/untitled-paul-robeson-g2.jpg",960,640]],"title":"Untitled Paul Robeson","format":"Feature documentary","status":"In production. Early sequences cut with editor Rik Chaubet.","logline":"A hybrid portrait of Paul Robeson, the stage and screen star who paid a dear price for his political convictions.","summary":"This film reclaims the legacy of Paul Robeson, rejecting conventional biography for an immersive character study. Drawing on exclusive access to the Robeson estate archive of more than 50,000 artifacts, it centers his own words, images and music.\n\nArchival material blends with newly filmed tableaux that are not reenactments but poetic reflections on his inner life, shaped by the historical, political and psychological realities he lived through. His legacy still fuels global justice movements today.","team":[["Joe Brewster","Director"],["Michèle Stephenson","Director"],["Teddy Leifer","Producer"],["Guy Horlock","Producer"],["Susan Robeson","Producer"],["Rik Chaubet","Editor"],["Bradford Young","Cinematographer"]],"help":[],"links":[],"onRequest":"","contact":"brewster.joe@gmail.com","laurels":[],"updates":[]},
+{"slug":"fixers","key":"img/fixers-key.jpg","hero":"img/fixers-hero.jpg","focus":50,"focusY":50,"poster":"img/fixers-poster.jpg","gallery":[["img/fixers-g1.jpg",960,640],["img/fixers-g2.jpg",960,640]],"title":"Fixers","format":"Feature documentary","status":"In production, with post-production to start in November.","logline":"A legendary Mexican fixer brokers cartel access for foreign journalists, and an American filmmaker turns the camera on him.","summary":"Miguel Angel Vega, 54, is a legend among international journalists in Mexico, the go-to fixer for access to organized crime. In a single day he introduces crews to mothers of the disappeared, talks police into letting cameras onto crime scenes and coaxes narcotraffickers into allowing filming inside a fentanyl lab.\n\nWhen French journalists arrive in Culiacán wanting narcos with rifles, Miguel doesn't just secure interviews. He stages reality. A rare and at times darkly funny look at the hidden deal-making behind the stories we see, with implications for the filmmaker's own work.","team":[["Noah Amir Arjomand","Producer"]],"help":[],"links":[],"onRequest":"","contact":"pdekornfeld@gmail.com","laurels":[],"updates":[]},
+{"slug":"j-is-for-jihad","key":"img/j-is-for-jihad-key.jpg","hero":"img/j-is-for-jihad-hero.jpg","focus":50,"focusY":50,"poster":"img/j-is-for-jihad-poster.jpg","gallery":[["img/j-is-for-jihad-g1.jpg",960,640],["img/j-is-for-jihad-g2.jpg",960,640]],"title":"J is for Jihad","format":"Feature documentary","status":"In development.","logline":"People named Jihad in America gather in a meetup group to share their stories in a country they no longer recognize.","summary":"J is for Jihad is a hybrid documentary that reclaims a word flattened in the West into a synonym for terror, by returning it to the people who carry it as a name. Jihad means a righteous struggle: striving to be better, or pursuing justice.\n\nIn small-town California in 1990, Jihad Jaffer's father gives him a used BMW for his sixteenth birthday, with vanity plates reading 4 JIHAD. Gathered in a meetup group, Jihad and others share stories full of humor and complexity that no stereotype can hold.","team":[["Mustafa Zeno","Producer"]],"help":[],"links":[],"onRequest":"","contact":"amarchebib@gmail.com","laurels":[],"updates":[]},
+{"slug":"captains-don-t-cry","key":"img/captains-don-t-cry-key.jpg","hero":"img/captains-don-t-cry-hero.jpg","focus":50,"focusY":50,"poster":"img/captains-don-t-cry-poster.jpg","gallery":[["img/captains-don-t-cry-g1.jpg",960,640],["img/captains-don-t-cry-g2.jpg",960,640]],"title":"Captains Don’t Cry","format":"Feature documentary","status":"In the edit, approaching a fine cut.","logline":"An 85-year-old basketball captain leads her team to the National Senior Games, then is suddenly benched.","summary":"At 85, Sheila Tunstall McKenna doesn't just play basketball. She lives it. For more than 25 years she has been the starting guard of the Connecticut High Fives, a women's team whose players are all in their 80s, with a legacy of competition, friendship and hard-won medals.\n\nWith time closing in, the team sets out for one last run at the National Senior Games. Then Sheila is unexpectedly benched, and the decision lands as more than strategy. For the first time in decades she is off the court, facing questions of identity, purpose and what remains.","team":[["Brian Bell","Producer"],["Hannah Engleson","Co-cinematographer"]],"help":[],"links":[],"onRequest":"","contact":"jenny.schweitzer.bell@gmail.com","laurels":[],"updates":[]},
+{"slug":"our-home-is-not-of-this-world","key":"img/our-home-is-not-of-this-world-key.jpg","hero":"img/our-home-is-not-of-this-world-hero.jpg","focus":50,"focusY":50,"poster":"img/our-home-is-not-of-this-world-poster.jpg","gallery":[["img/our-home-is-not-of-this-world-g1.jpg",960,640],["img/our-home-is-not-of-this-world-g2.jpg",960,640]],"title":"Our Home Is Not Of This World","format":"Feature documentary","status":"In post-production and submitting to festivals.","logline":"A Texas medical examiner who identifies people who die crossing the border wants to retire. No one will replace her.","summary":"Our Home Is Not Of This World follows the unseen work of a medical examiner's office in Texas that identifies people who die crossing the border. Dr. Corinne Stern has done this work for more than 20 years. Border Patrol agents lead her to bodies in the brush, and the phones ring with families searching for missing loved ones.\n\nThe office has never seen this many cases. It is at its breaking point, and so is Dr. Stern, whose plan to retire puts its future in doubt because the county can't find anyone to replace her.","team":[["Russ Finkelstein","Director, producer and editor"],["Manuel Contreras","Producer and editor"],["Elaisha Stokes","Producer and editor"],["Phil Pinto","Producer"],["Alfredo Chiarappa","Cinematographer"]],"help":["A final round of funding for post-production, festivals and release","Introductions to festival programmers","Distribution partners, including alternative distribution","Impact campaign partners","Publicists and media strategy"],"links":[["Donate","https://donate.uniondocs.org/campaigns/our-home-is-not-of-this-world/"],["Instagram","https://www.instagram.com/ourhomeisnotofthisworld/"]],"onRequest":"","contact":"russfinkelstein@gmail.com","laurels":[],"updates":[]},
+{"slug":"the-prison-outside","key":"img/the-prison-outside-key.jpg","hero":"img/the-prison-outside-hero.jpg","focus":50,"focusY":50,"poster":"img/the-prison-outside-poster.jpg","gallery":[["img/the-prison-outside-g1.jpg",960,640],["img/the-prison-outside-g2.jpg",960,640]],"title":"The Prison Outside","format":"Feature documentary","status":"In post-production, finishing a rough cut of Act 1, and aiming to finish the film in 2027.","logline":"Terrence Graham won his case at the Supreme Court but came of age behind bars. Now he's out. Is life outside another prison?","summary":"Arrested at 16 and sentenced to life without parole, Terrence Graham fought his way to the Supreme Court and won. Graham v. Florida ruled that children convicted of crimes other than murder could not be sentenced to life without a chance at parole, changing sentencing for young people across the country.\n\nYet as thousands were released on his case, Terrence stayed locked up for 20 more years. In February 2024 he walked out of the Duval County Jail at 37. The film follows what freedom looks like after a childhood spent inside.","team":[["Meg Shutzer","Co-director and producer"],["Brandon Yadegari Moreno","Co-director and DP"],["Rahsaan Thomas","Producer"],["Terrence Graham","Producer and writer"]],"help":["An experienced producer to help with festivals and distribution","A supervising editor","Advice on festival strategy","Color grading, sound design and mixing","Royalty-free music from artists"],"links":[["Donate","https://www.wmm.com/sponsored-project/the-prison-outside/"],["Website","https://grahamvfloridafilm.xyz"],["Instagram","https://www.instagram.com/theprisonoutside/"]],"onRequest":"","contact":"meg@wearefamilypictures.com","laurels":[],"updates":[]},
+{"slug":"shiitake","key":"img/shiitake-key.jpg","hero":"img/shiitake-hero.jpg","focus":50,"focusY":50,"poster":"img/shiitake-poster.jpg","gallery":[["img/shiitake-g1.jpg",960,640],["img/shiitake-g2.jpg",960,640]],"title":"Shiitake","format":"Feature documentary","status":"First shoot complete. Fundraising to finish production.","logline":"After nearly dying of cancer, a young woman sets out to learn from Japan's last shiitake masters before their craft disappears.","summary":"In the mountains of Japan, a dwindling community of aging farmers keeps alive a 2,000-year-old tradition: growing shiitake on felled oak logs. The slow, physical work sustains far more than mushrooms. The forests these farmers tend hold hillsides together, catch monsoon rains and feed a cycle of water from mountain canopy to sea.\n\nAs younger generations leave for the cities and the climate shifts, that balance is coming apart. After nearly dying of cancer, a young woman sets out to learn from the last shiitake masters while there is still time.","team":[["Lewis Rapkin","Director and producer"],["Michael Sherman","Executive producer"],["Adam DeMartino","Executive producer"],["Aya Ikeda","Producer"]],"help":[],"links":[],"onRequest":"","contact":"Lewis.Rapkin@oscillatormedia.com","laurels":[],"updates":[]},
+{"slug":"a-tender-weapon","key":"img/a-tender-weapon-key.jpg","hero":"img/a-tender-weapon-hero.jpg","focus":50,"focusY":50,"poster":"img/a-tender-weapon-poster.jpg","gallery":[["img/a-tender-weapon-g1.jpg",480,320],["img/a-tender-weapon-g2.jpg",480,320]],"title":"A Tender Weapon","format":"Short documentary","status":"In post-production, raising funds to reach picture lock.","logline":"Cleve Jones turned grief into the AIDS Memorial Quilt. Decades later, he comes out of retirement to organize again.","summary":"In the early years of the AIDS epidemic, people were dying at staggering rates and the federal government largely looked away. Cleve Jones, then in his twenties in San Francisco's Castro, asked what it would take to make the rest of the country care. His answer was the AIDS Memorial Quilt, which turned a generation's grief into political force.\n\nDecades later, as sweeping healthcare cuts threaten millions of Americans, Cleve comes out of retirement to build a new movement, asking whether collective pain can still move a country to act.","team":[["Matt Nadel","Co-director and producer"],["Miranda Divozzo","Co-director"],["Gus Van Sant","Executive producer"],["Luke Hodges","Producer"],["Alex Bohs","Editor"]],"help":[],"links":[],"onRequest":"","contact":"mattsnadel@gmail.com","laurels":[],"updates":[]},
+{"slug":"the-dead-zone","key":"img/the-dead-zone-key.jpg","hero":"img/the-dead-zone-hero.jpg","focus":50,"focusY":50,"poster":"img/the-dead-zone-poster.jpg","gallery":[["img/the-dead-zone-g1.jpg",480,320],["img/the-dead-zone-g2.jpg",480,320]],"title":"The Dead Zone","format":"Feature documentary","status":"In post-production, raising the last $50,000 to finish.","logline":"Four insiders across the South fight to fix pretrial detention, where two people die every day.","summary":"Every day, two people die in pretrial detention, the stretch between arrest and conviction. From the Mississippi Delta to the Kentucky Bluegrass, The Dead Zone brings humanity to one of America's most overlooked crises.\n\nFilmed over four years, it follows four people whose lives meet inside this hidden system: an accused man who waited six years in jail for trial, a public defender, a judge and a district attorney. Together they show how poverty, politics and power collide between arrest and trial, and what reform could look like.","team":[["Emily Thomas","Director, producer and DP"],["Nicole Docta","Producer"],["John Toner","Producer"],["Caroline Kessler","Editor"]],"help":["$50,000 in finishing funds for color, sound mix, music and the online edit","Executive producers, sales agents and distributors","Introductions to festival programmers","Pro bono legal support","Connections to brand partners"],"links":[["Donate","https://www.wmm.com/sponsored-project/the-dead-zone/"],["Website","https://www.deadzonefilm.com"],["Instagram","https://www.instagram.com/Thedeadzonefilm/"]],"onRequest":"","contact":"emily@lemontreeprods.com","laurels":[],"updates":[]},
+{"slug":"crystal-city","key":"img/crystal-city-key.jpg","hero":"img/crystal-city-hero.jpg","focus":50,"focusY":50,"poster":"img/crystal-city-poster.jpg","gallery":[["img/crystal-city-g1.jpg",480,320],["img/crystal-city-g2.jpg",480,320]],"title":"Crystal City","format":"Feature documentary","status":"Early production. Over $200,000 raised in grants, with a rough cut expected in summer 2027.","logline":"Barred from the cheer squad by a racist quota, a Texas teenager sparks a 1969 student walkout that remakes her town's politics.","summary":"It's 1969 in Crystal City, Texas, and sixteen-year-old Diana Palacios, the daughter of migrant farmworkers, just wants to be a cheerleader. Mexican American students make up 85 percent of the school, but an unofficial quota allows only one Chicana on the squad, and Diana is turned away.\n\nHer best friend Severita Lara sees that the squad was never the real problem. The same rules run the whole town. The students write a list of demands, the school board ignores them, and in December 1969 nearly 2,000 students walk out over seventeen days.\n\nA fight over a cheerleading squad becomes a lesson in civic power: who gets heard, who gets counted, and what happens when a community shut out of the process organizes itself.","team":[["Sam Osborn","Co-Director and Editor"],["Bennett Elliott","Producer"],["Cristina Aleman","Archival Producer"]],"help":[],"links":[],"onRequest":"","contact":"alejandra@masa.film","laurels":[],"updates":[]},
+{"slug":"hares-on-the-mountain","key":"img/hares-on-the-mountain-key.jpg","hero":"img/hares-on-the-mountain-hero.jpg","focus":50,"focusY":50,"poster":"img/hares-on-the-mountain-poster.jpg","gallery":[["img/hares-on-the-mountain-g1.jpg",960,640],["img/hares-on-the-mountain-g2.jpg",960,640]],"title":"Hares on the Mountain","format":"Feature documentary","status":"Moving from development into production, after three scouting trips.","logline":"As coal fades and tech moves in, a homecoming film asks who decides the future of Appalachia.","summary":"Hares on the Mountain is a personal and social film about the future of the Appalachian coal fields, from the spread of data centers to Indigenous efforts to bring bison back to former mine lands. It spends time with communities living on the coal beds of West Virginia, Kentucky and Virginia.\n\nUnwilling to dismiss the people left behind by extractive industry, the film asks what this region could do if it were allowed self-determination. An environmental allegory about community ties and the mountain as a lasting site of struggle.","team":[["Dawne Langford","Producer"],["Yoni Goldstein","Director of photography"],["Timothy Fryett","Editor"]],"help":[],"links":[],"onRequest":"","contact":"hadley.austin@proton.me","laurels":[],"updates":[]},
+{"slug":"who-goes-fascist","key":"img/who-goes-fascist-key.jpg","hero":"img/who-goes-fascist-hero.jpg","focus":50,"focusY":50,"poster":"img/who-goes-fascist-poster.jpg","gallery":[["img/who-goes-fascist-g1.jpg",960,640],["img/who-goes-fascist-g2.jpg",960,640]],"title":"Who Goes Fascist","format":"Documentary podcast, 6 parts","status":"Characters secured and pre-interviews done. Seeking funding.","logline":"Not whether it could happen here, but whether it could happen to you.","summary":"In April 1967, high school history teacher Ron Jones was asked how ordinary Germans could have let the Holocaust happen. Rather than lecture, he decided to show his students.\n\nHe introduced a movement called The Third Wave, built on discipline, community and action. Within days his students were saluting, reporting on classmates who didn't comply and shutting out anyone who objected. The five-day experiment spiraled beyond anyone's control and left scars that persist nearly sixty years later.","team":[["Nate Tobey","Executive producer and co-host"],["Gretta Cohn","Editor"]],"help":[],"links":[],"onRequest":"","contact":"jasmyn@hithomemedia.com","laurels":[],"updates":[]},
+{"slug":"the-vodou-project","key":"img/the-vodou-project-key.jpg","hero":"img/the-vodou-project-hero.jpg","focus":50,"focusY":50,"poster":"img/the-vodou-project-poster.jpg","gallery":[["img/the-vodou-project-g1.jpg",960,640],["img/the-vodou-project-g2.jpg",480,320]],"title":"The Vodou Project","format":"Documentary podcast, 9 parts","status":"In production. One final reporting trip to Haiti remains.","logline":"A Haitian-American journalist travels the African diaspora to learn why he was taught to fear Vodou.","summary":"The Vodou Project follows Haitian-American journalist Baudelaire Ceus as he investigates the spiritual tradition he grew up fearing. Reporting across Haiti, Benin, Cuba, New Orleans and the wider African diaspora, the series traces Vodou from its West African roots through slavery, the Haitian Revolution and migration.\n\nBaudelaire talks with practitioners, historians and his own family to understand how a tradition that helped enslaved people keep their identity and fight for liberation came to be feared.","team":[["Baudelaire Ceus","Host"],["John DeLore","Editor and producer"]],"help":[],"links":[],"onRequest":"","contact":"baudelaireceus@gmail.com","laurels":[],"updates":[]},
+{"slug":"border-hacker","key":"img/border-hacker-key.jpg","hero":"img/border-hacker-hero.jpg","focus":50,"focusY":50,"poster":"img/border-hacker-poster.jpg","gallery":[["img/border-hacker-g1.jpg",480,320],["img/border-hacker-g2.jpg",480,320]],"title":"Border Hacker","format":"Documentary podcast, 10 parts","status":"Most reporting complete, from more than a decade following Axel. Episodes outlined.","logline":"A deported New Yorker uses his hacking skills to get back to the US and is caught in a web of traffickers and corrupt priests.","summary":"In August 2026, Axel Kirschner told an immigration court that if he were deported again he would almost certainly be murdered, by a famous Catholic priest. The judge called his case not credible.\n\nLevi Vonk knows Axel, and knows the priest. Adapted from his book Border Hacker, this series follows Axel, an Afro-Latino stateless migrant and computer hacker, on a decade-long journey through Mexico, where his skills ensnare him with human traffickers, corrupt priests and guerrillas eager to use them.","team":[["Levi Vonk","Host and producer"]],"help":[],"links":[],"onRequest":"","contact":"levivonk@gmail.com","laurels":[],"updates":[]},
+{"slug":"young-lions","key":"img/young-lions-key.jpg","hero":"img/young-lions-hero.jpg","focus":50,"focusY":50,"poster":"img/young-lions-poster.jpg","gallery":[["img/young-lions-g1.jpg",480,320],["img/young-lions-g2.jpg",480,320]],"title":"Young Lions","format":"Feature documentary","status":"In early pre-production. Sizzle reel, deck and budget complete.","logline":"South African surfer Paul \"Chow\" Sampson fights his way back to the elite, to open the sport for the next generation.","summary":"Paul \"Chow\" Sampson was six and homeless, sheltering under the beach overhangs of Muizenberg, when youth surf coach Shafiek Khan pulled him into the water. Shafiek has been his manager, mentor and closest thing to a father ever since.\n\nPaul became one of South Africa's most accomplished Black surfers in a sport whose professional ranks remain overwhelmingly white, then lost his place when he could no longer afford the chase. With Shafiek beside him, he fights his way back.","team":[["Keith McQuirter","Producer"]],"help":[],"links":[],"onRequest":"","contact":"cinquenorthern@gmail.com","laurels":[],"updates":[]},
+{"slug":"kamnop-a-treasure-is-waiting-for-you","key":"img/kamnop-a-treasure-is-waiting-for-you-key.jpg","hero":"img/kamnop-a-treasure-is-waiting-for-you-hero.jpg","focus":50,"focusY":50,"poster":"img/kamnop-a-treasure-is-waiting-for-you-poster.jpg","gallery":[["img/kamnop-a-treasure-is-waiting-for-you-g1.jpg",480,320],["img/kamnop-a-treasure-is-waiting-for-you-g2.jpg",480,320]],"title":"Kamnop: A Treasure is Waiting For You","format":"Feature documentary","status":"Late development, starting production. The first filming trip in Cambodia is complete.","logline":"A daughter and mother travel from Colorado to Cambodia in search of treasure buried in the first days of the Khmer Rouge genocide.","summary":"Kanika, 70, lives a quiet, withdrawn life in suburban Colorado, haunted by a recurring dream in which the Buddha tells her a kamnop, a treasure, awaits her. At 16 she fled Cambodia during the Khmer Rouge regime, remembering her father burying gold and jewels at their home before she left. Five of her siblings and both parents were killed in the genocide.\n\nHer daughter Kanitha, 39, born in the U.S., has spent years trying to understand her mother's past. When she learns the childhood home still stands, occupied by a stranger and threatened with demolition, she convinces her mother the dream might be true.\n\nWhat begins as a treasure hunt becomes a search for what one generation passes to the next.","team":[["Guillermo Roqués","Director and Co-producer"],["Audrey Maurion","Editor"],["Christian Popp","Producer"]],"help":[],"links":[],"onRequest":"","contact":"kanitha@kanithaheng.com","laurels":[],"updates":[]},
+{"slug":"power","key":"img/power-key.jpg","hero":"img/power-hero.jpg","focus":50,"focusY":50,"poster":"img/power-poster.jpg","gallery":[["img/power-g1.jpg",480,320],["img/power-g2.jpg",480,320]],"title":"Power","format":"Feature documentary","status":"Editing toward an assembly cut. Andrew Pilkington (Being Heumann) has joined as consulting producer.","logline":"The US power wheelchair soccer team heads to the World Cup, until a sudden death leaves them competing through grief.","summary":"Power follows the US Power Soccer National Team at a defining moment, through five athletes: Drew, Natalie, Jordan, Zach and Riley. In custom wheelchairs built for competition, they tear across the court and drive the ball into the goal with a joystick and centripetal force.\n\nEach found the sport by a different path, and through it found fierce competition, deep friendship and love. Heading to the FIPFA Powerchair Football World Cup, the team is shaken by a sudden death and must compete through devastating grief.","team":[["Andrew Hida","Director and editor"],["Jessey Dearing","Director of photography"],["Reid Davenport","Executive producer and editor"],["Innbo Shim","Consulting executive producer"],["Andrew Pilkington","Consulting producer"]],"help":["$30,000 to $50,000 in near-term funding to complete a rough cut","A lead producer and an LA-based production company","An experienced feature documentary editor","Connections to brand partners and distributors","A social media strategist"],"links":[["Donate","https://talkingeyesmedia.org/power"],["Website","https://www.thepowerfilm.com"],["Instagram","https://www.instagram.com/powerdocumentary/"]],"onRequest":"","contact":"hidavisuals@gmail.com","laurels":[],"updates":[]},
+{"slug":"meant-to-be-maddie","key":"img/meant-to-be-maddie-key.jpg","hero":"img/meant-to-be-maddie-hero.jpg","focus":50,"focusY":50,"poster":"img/meant-to-be-maddie-poster.jpg","gallery":[["img/meant-to-be-maddie-g1.jpg",480,320],["img/meant-to-be-maddie-g2.jpg",480,320]],"title":"Meant to Be Maddie","format":"Feature documentary","status":"At rough cut, aiming to premiere in late 2027 or early 2028.","logline":"A decade in the life of a North Carolina trans teenager and the family behind her, as anti-trans backlash grows.","summary":"Maddie was eight when North Carolina's 2016 bathroom bill put trans kids at the center of national debate and forced her into the only single-stall bathroom at her school. When the bill was rescinded, it felt like her family was part of a growing wave of acceptance.\n\nSince then, anti-trans legislation has multiplied, with hundreds of bills filed across the country, many aimed at trans youth. Filmed over ten years, Meant to Be Maddie is an intimate and funny coming-of-age story, made with the unwavering support of her family.","team":[["Bridgette Cyr","Producer and DP"]],"help":[],"links":[],"onRequest":"","contact":"acspelman@gmail.com","laurels":[],"updates":[]},
+{"slug":"love-and-justice","key":"img/love-and-justice-key.jpg","hero":"img/love-and-justice-hero.jpg","focus":50,"focusY":50,"poster":"img/love-and-justice-poster.jpg","gallery":[["img/love-and-justice-g1.jpg",480,320],["img/love-and-justice-g2.jpg",480,320]],"title":"Love & Justice","format":"Feature documentary","status":"22 interviews complete. Editing begins this fall.","logline":"A Baptist preacher and a Jewish secretary from the Bronx quietly broke the law to expand human dignity.","summary":"A Southern Baptist preacher from Texas and a Jewish secretary from the Bronx gave each other permission to break the law in the name of conscience. Over 27 years at Judson Memorial Church in Greenwich Village, Rev. Howard Moody and Arlene Carmen connected 500,000 women to safe abortion care before Roe v. Wade.\n\nThey distributed illegal AIDS treatments before the government would act and fought to decriminalize prostitution before sex workers had advocates. Theirs was one of the most consequential and least known partnerships in American civil rights history.","team":[["Tessa Carmen DeRoy","Director and producer"],["Jessica Lee Salas","Editor"]],"help":[],"links":[],"onRequest":"","contact":"lindagk@mac.com","laurels":[],"updates":[]},
+{"slug":"ski-the-wong-way","key":"img/ski-the-wong-way-key.jpg","hero":"img/ski-the-wong-way-hero.jpg","focus":50,"focusY":50,"poster":"img/ski-the-wong-way-poster.jpg","gallery":[["img/ski-the-wong-way-g1.jpg",480,320],["img/ski-the-wong-way-g2.jpg",480,320]],"title":"Ski The Wong Way","format":"Feature documentary","status":"Late development. About three quarters financed, with Telefilm and Creative BC funding in place.","logline":"Freestyle skiing icon Wayne Wong, grieving the loss of his wife, sets out for his 65th ski season in Park City, Utah.","summary":"Ski the Wong Way is the untold story of Wayne Wong, the Chinese Canadian from Vancouver who became the unlikely face of hot-dog skiing in the 1970s and 80s. His signature move, the Wongbanger, hung on bedroom walls across the era, and Powder Magazine named him one of the most influential skiers of all time.\n\nNow, still grieving the sudden loss of his wife Karen, Wayne sets out from Reno for his 65th season as ambassador for Deer Valley Resort, despite worries from his doctor, his daughters and his 90-something mother.\n\nWith rare access to Wayne, his family and the ski world, and a trove of archival footage, the film is a romp through the roots of the sport and a love story about a man who dared to be himself.","team":[["Leah Mallen","Producer"],["Joanna Wong","Producer"]],"help":[],"links":[],"onRequest":"","contact":"daniel@blackrhinocreative.com","laurels":[],"updates":[]},
+{"slug":"a-banner-year","key":"img/a-banner-year-key.jpg","hero":"img/a-banner-year-hero.jpg","focus":50,"focusY":50,"poster":"img/a-banner-year-poster.jpg","gallery":[["img/a-banner-year-g1.jpg",480,320],["img/a-banner-year-g2.jpg",480,320]],"title":"A Banner Year","format":"Feature documentary","status":"In post-production, with a rough cut expected by the end of January.","logline":"A year inside the Baltimore Banner, a nonprofit newsroom built from scratch to prove that local journalism can still be saved.","summary":"Every week, two American newspapers shut down. In Baltimore, after a hedge fund bought the Sun, a local philanthropist started the Baltimore Banner as a nonprofit alternative. A Banner Year follows its newsroom through the year it grows up: a city hall reporter covering a tight mayoral race, an investigative team chasing decades of covered-up abuse at a megachurch, and the collapse of the Key Bridge.\n\nWith access no other cameras had inside a newsroom of more than 100 journalists, the film follows editor-in-chief Kimi Yoshino and her reporters as they build something new while the industry around them shrinks, all the way to a Pulitzer Prize for local reporting. It asks whether this experiment is the future of local news or proof that it can't be saved.","team":[["Josh Davidsburg","Director"],["Adam Evans","Editor"]],"help":["Advice on festival strategy","Help shaping an impact campaign with nonprofit newsrooms","Introductions to funders who support journalism, democracy and documentary","Connections to distributors and streamers","Finishing funds for the edit, color and sound"],"links":[["Donate","https://my.filmindependent.org/ABannerYear"],["Website","https://abanneryearmovie.com"],["Instagram","https://www.instagram.com/lot1films/"]],"onRequest":"","contact":"lot1films@gmail.com","laurels":[],"updates":[]},
+{"slug":"ash-street-jail","key":"img/ash-street-jail-key.jpg","hero":"img/ash-street-jail-hero.jpg","focus":50,"focusY":50,"poster":"img/ash-street-jail-poster.jpg","gallery":[["img/ash-street-jail-g1.jpg",480,320],["img/ash-street-jail-g2.jpg",480,320]],"title":"Ash Street Jail","format":"Short documentary","status":"In post-production, working through story structure, with a possible additional shoot in 2027.","logline":"Inside the oldest operating jail in the US, open since 1888. A new sheriff wants to close it. Can he?","summary":"The Ash Street Jail opened in 1888 and still holds pretrial defendants in a small Massachusetts city. A sheriff elected on reform wants to close it, but the political establishment has ignored him.\n\nInmates struggle to cope in cramped, decaying cells, and the jail has the highest suicide rate of any Massachusetts county jail. Still, some feel deeply tied to its walls. One lives in the same cell his late father once did.","team":[["Anna Quinlan","Co-director and editor"],["Ben Berke","Co-director and producer"],["Max Mueller","Director of photography"],["Ian Pritchard","Composer"]],"help":["A producer with experience in stories about incarceration and the justice system","Distribution through a news outlet such as Op-Docs, The New Yorker or the Boston Globe","Guidance on fundraising and grants","Legal, budget and accounting support","Color grading and post-production sound"],"links":[["Instagram","https://www.instagram.com/practical.effects/"]],"onRequest":"","contact":"anna@practicaleffectsfilm.com","laurels":[],"updates":[]}
+];
+
+/* ============================================================
+   Rendering. You shouldn't need to edit below this line.
+   ============================================================ */
+const app = document.getElementById("app");
+document.getElementById("footEmail").textContent = SITE.footer.email;
+document.getElementById("footNote").textContent = SITE.footer.note;
+const PAGES = Math.ceil(PROJECTS.length / SITE.PER_PAGE);
+const SEQ = ["cover", "welcome", "why"].concat(Array.from({ length: PAGES }, (_, i) => "page-" + (i + 1)));
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const pad = n => String(n).padStart(2, "0");
+const pageOf = idx => Math.floor(idx / SITE.PER_PAGE) + 1;
+
+function poster(p, idx, big) {
+  const src = big ? p.hero : p.key;
+  if (src) return `<div class="poster has-img${big ? " big" : ""}"><img src="${esc(src)}" alt="${esc(p.title)}"${big ? ` style="object-position:${p.focus ?? 50}% ${p.focusY ?? 50}%"` : ' loading="lazy"'}></div>`;
+  return `<div class="poster t${idx % 3}${big ? " big" : ""}" role="img" aria-label="${esc(p.title)}">
+    <span class="p-foot"><span>NFH ${SITE.year}</span><span>${pad(idx + 1)}</span></span>
+    <span class="p-title">${esc(p.title)}</span>
+  </div>`;
+}
+
+/* The edition's place in the series, for the cover label. */
+const EDITION = { 2025: "first edition", 2026: "second edition", 2027: "third edition" }[SITE.year] || `${SITE.year} edition`;
+
+function renderCover() {
+  const y2025 = String(SITE.year) === "2025";
+  return `<section class="cover dark">
+    <div class="cover-year${y2025 ? " y2025" : ""}" aria-hidden="true">${SITE.year}</div>
+    <div class="wrap cover-in">
+      <h1>the ${SITE.year} nonfiction hotlist.</h1>
+      <div class="cover-foot">
+        <p class="lede">${esc(SITE.intro)}</p>
+        <div class="cover-actions">
+          <a class="btn solid big" href="#welcome">begin</a>
+          <a class="btn big" href="#page-1">go to the projects</a>
+          <button class="btn big" type="button" data-pdf hidden>download pdf</button>
+        </div>
+      </div>
+      <nav class="cover-strip" aria-label="Projects">${PROJECTS.map(p => `<a href="#${p.slug}">${esc(p.title)}</a>`).join("")}</nav>
+    </div>
+  </section>`;
+}
+
+/* **double asterisks** in the text become the marker highlight; a leading number inside one gets the display face. */
+function hiText(text) {
+  return esc(text).replace(/\*\*(.+?)\*\*/g, (_, inner) =>
+    `<span class="hi">${inner.replace(/^(\d[\d,]*)(\s)/, '<span class="num">$1</span>$2')}</span>`);
+}
+
+function renderWelcome() {
+  const W = SITE.welcome;
+  const mosaic = PROJECTS.filter(p => p.key).slice(0, 18).map(p =>
+    `<a href="#${p.slug}" title="${esc(p.title)}"><img src="${esc(p.key)}" alt="${esc(p.title)}" decoding="async"></a>`).join("");
+  const lede = W.lede.map(t => `<p>${hiText(t)}</p>`).join("");
+  return `<section class="wrap">
+    <div class="mosaic" aria-label="Project images">${mosaic}</div>
+    <div class="w-intro">
+      <h2>${esc(W.heading)}</h2>
+      <div class="w-lede">${lede}</div>
+    </div>
+    <div class="w-row panel-dark">
+      <div class="w-label">our invitation</div>
+      <div>${W.invitation.map(t => `<p>${hiText(t)}</p>`).join("")}</div>
+    </div>
+    <div class="w-next"><a class="btn solid" href="#why">Why this matters &rarr;</a></div>
+  </section>`;
+}
+
+/* Staggered reveal for the welcome mosaic. Fixed, scattered order so some tiles land early. */
+const MOSAIC_BEATS = [0, 420, 140, 700, 260, 980, 560, 60, 840, 330, 1120, 200, 900, 480, 640, 1040, 280, 760];
+function revealMosaic() {
+  const start = performance.now();
+  document.querySelectorAll(".mosaic img").forEach((img, i) => {
+    const beat = MOSAIC_BEATS[i % MOSAIC_BEATS.length];
+    const tile = img.parentElement;
+    if (i % 3 === 1) tile.classList.add("v");
+    const show = () => setTimeout(() => tile.classList.add("in"), Math.max(0, beat - (performance.now() - start)));
+    if (img.complete && img.naturalWidth) show();
+    else { img.addEventListener("load", show, { once: true }); img.addEventListener("error", () => tile.classList.add("in"), { once: true }); }
+  });
+}
+
+function renderWhy() {
+  const W = SITE.welcome;
+  return `<section class="wrap">
+    <div class="why-top">
+      <h2>${esc(W.whyHeading)}</h2>
+      <div>${W.why.map(t => `<p>${hiText(t)}</p>`).join("")}</div>
+    </div>
+    <div class="select">
+      <div class="big">${PROJECTS.length}<small>projects selected<br>from hundreds of submissions</small></div>
+      <div>
+        <div class="w-label" style="margin-bottom:12px">selected on their merits</div>
+        <ul class="criteria">${W.criteria.map(c => `<li>${esc(c)}</li>`).join("")}</ul>
+        <p>${esc(W.selection)}</p>
+      </div>
+    </div>
+    <div class="w-label" style="margin-top:40px">how to use this list</div>
+    <ol class="steps">${W.how.map(([h, t], i) => `<li><span class="k">${pad(i + 1)}</span><b>${esc(h)}</b><span>${esc(t)}</span></li>`).join("")}</ol>
+    <p class="close-line">${hiText(W.close)}</p>
+    <div class="w-next"><a class="btn solid" href="#page-1">See the projects &rarr;</a></div>
+  </section>`;
+}
+
+function dots(current) {
+  return `<nav class="dots" aria-label="Project pages">${Array.from({ length: PAGES }, (_, i) =>
+    `<a href="#page-${i + 1}"${i + 1 === current ? ' aria-current="page"' : ""}>${i + 1}</a>`).join("")}</nav>`;
+}
+
+/* A laurel branch: paired leaves along a curved stem. Mirrored for the right side. */
+const BRANCH = (() => {
+  const out = [];
+  const leaf = (x, y, rot, rx = 2.4, ry = 5.6) => out.push(`<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="${rx}" ry="${ry}" transform="rotate(${rot.toFixed(0)} ${x.toFixed(1)} ${y.toFixed(1)})"/>`);
+  const N = 6;
+  for (let i = 0; i < N; i++) {
+    const t = i / (N - 1);
+    const x = 14 - Math.sin(t * Math.PI * 0.85) * 7, y = 55 - t * 46;
+    const tilt = (t - 0.5) * 30;
+    leaf(x - 3.6, y - 2.5, -38 + tilt);
+    leaf(x + 2.6, y - 3.2, 28 + tilt, 2.1, 5);
+  }
+  leaf(12.6, 5.5, 8, 2.2, 5);
+  const stem = `<path d="M15 58 C 8 46, 6 26, 12.5 6" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>`;
+  return stem + `<g fill="currentColor">${out.join("")}</g>`;
+})();
+const branch = (cls = "") => `<svg class="${cls}" viewBox="0 0 22 60" aria-hidden="true">${BRANCH}</svg>`;
+const laurelText = l => `${l.note ? l.note + ", " : ""}${l.event}${l.year ? " " + l.year : ""}`;
+function laurelsHTML(list) {
+  if (!list || !list.length) return "";
+  return `<ul class="laurels" aria-label="Festivals and awards">${list.map(l => `<li class="laurel" title="${esc(laurelText(l))}">${branch()}<div>${l.note ? `<small>${esc(l.note)}</small>` : ""}<b>${esc(l.event)}</b>${l.year ? `<span>${l.year}</span>` : ""}</div>${branch("r")}</li>`).join("")}</ul>`;
+}
+const srcLink = u => u.url ? ` <a class="src" href="${esc(u.url)}" target="_blank" rel="noopener">${esc(u.source || "Source")} &nearr;</a>` : "";
+
+function renderGrid(n) {
+  const start = (n - 1) * SITE.PER_PAGE;
+  const items = PROJECTS.slice(start, start + SITE.PER_PAGE);
+  const cards = items.map((p, i) => `<a class="card" href="#${p.slug}">
+      ${poster(p, start + i)}
+      <span class="meta">${esc(p.format)}</span>
+      <h3>${esc(p.title)}</h3>
+      <p>${esc(p.logline)}</p>
+      ${(p.laurels || []).length ? `<span class="accolade">${branch()}<span><b>${esc(p.laurels[0].note || "Official Selection")}</b>, ${esc(p.laurels[0].event)}${p.laurels[0].year ? " " + p.laurels[0].year : ""}${p.laurels.length > 1 ? ` <span>+${p.laurels.length - 1} more</span>` : ""}</span></span>` : ""}
+    </a>`).join("");
+  const prev = n > 1 ? `#page-${n - 1}` : "#why";
+  const next = n < PAGES ? `#page-${n + 1}` : null;
+  return `<section class="wrap">
+    <div class="page-head">
+      <div><h2>projects</h2><span class="range">${pad(start + 1)}&ndash;${pad(start + items.length)} of ${PROJECTS.length}</span></div>
+      ${dots(n)}
+    </div>
+    <div class="grid">${cards}</div>
+    <div class="pager">
+      <a class="btn" href="${prev}">&larr; ${n > 1 ? "Previous page" : "Why this matters"}</a>
+      ${next ? `<a class="btn solid" href="${next}">Next page &rarr;</a>` : `<a class="btn" href="#cover">Back to cover</a>`}
+    </div>
+  </section>`;
+}
+
+function paras(text) { return text.split(/\n\n+/).map(t => `<p>${esc(t)}</p>`).join(""); }
+
+function renderProject(idx, tab) {
+  const p = PROJECTS[idx];
+  const ups = p.updates || [];
+  const tabs = [["", "Overview"], ["help", "How to help"], ["links", "Links & updates"]];
+  const tabNav = tabs.map(([k, label]) =>
+    `<a href="#${p.slug}${k ? "." + k : ""}" aria-current="${tab === k}">${label}${k === "links" && ups.length ? `<span class="count" aria-label="${ups.length} updates">${ups.length}</span>` : ""}</a>`).join("");
+  let panel = "";
+  if (tab === "help") {
+    panel = `<h4>What this project needs</h4><ul class="needs">${p.help.map(h => `<li>${esc(h)}</li>`).join("")}</ul>
+      <h4>Get in touch</h4><p>Reach the team directly at <code style="user-select:all">${esc(p.contact)}</code>.</p>`;
+  } else if (tab === "links") {
+    const links = p.links.length
+      ? `<div class="links">${p.links.map(([l, u]) => `<a class="btn" href="${esc(u)}" target="_blank" rel="noopener">${esc(l)} &nearr;</a>`).join("")}</div>`
+      : `<p class="note">No public links yet.</p>`;
+    const updates = p.updates.length
+      ? `<ul class="updates">${p.updates.map(u => `<li><time>${esc(u.date)}</time><div><span>${esc(u.text)}</span>${srcLink(u)}</div></li>`).join("")}</ul>`
+      : `<div class="empty">No updates yet. Screenings, press, funding news, and festival selections will appear here as they happen.</div>`;
+    panel = `<h4>Links</h4>${links}${p.onRequest ? `<p class="note">${esc(p.onRequest)}.</p>` : ""}<h4>Updates</h4>${updates}`;
+  } else {
+    // Gallery folder images in name order; older projects show their stills with the key image last.
+    const st = p.stills || [];
+    const shots = p.gallery ? p.gallery : st.length > 1 ? st.slice(1).concat(st.slice(0, 1)).slice(0, 3) : [];
+    const gallery = shots.length
+      ? `<h4>Stills</h4><div class="stills${shots.length === 3 ? " three" : shots.length === 1 ? " one" : ""}">${shots.map(([src], i) =>
+          `<button type="button" data-full="${esc(src)}" aria-label="Enlarge still ${i + 1}"><img src="${esc(src)}" alt="Still from ${esc(p.title)}" loading="lazy"></button>`).join("")}</div>`
+      : "";
+    panel = `<div class="prose">${paras(p.summary)}</div>${gallery}
+      <h4>Creative team</h4><ul class="team">${p.team.map(([n, r]) => `<li><b>${esc(n)}</b><span>${esc(r)}</span></li>`).join("")}</ul>`;
+  }
+  const prev = idx > 0 ? PROJECTS[idx - 1] : null;
+  const next = idx < PROJECTS.length - 1 ? PROJECTS[idx + 1] : null;
+  const pg = pageOf(idx);
+  const still = p.hero ? `<img src="${esc(p.hero)}" alt="" style="object-position:${p.focus ?? 50}% ${p.focusY ?? 50}%">` : "";
+  return `${still ? `<section class="p-hero">${still}</section>` : ""}
+  <div class="wrap">
+    <div class="p-head">
+      <div class="crumb"><a href="#page-${pg}">&larr; projects, page ${pg}</a></div>
+      <p class="label">${esc(p.format)} &middot; ${pad(idx + 1)} of ${PROJECTS.length}</p>
+      <h1>${esc(p.title)}</h1>
+    </div>
+    <article class="project">
+      <div style="min-width:0">
+        <p class="logline">${esc(p.logline)}</p>
+        ${laurelsHTML(p.laurels)}
+        ${ups.length && tab !== "links" ? `<div class="latest"><div class="w-label">Latest <time>${esc(ups[0].date)}</time></div><p>${esc(ups[0].text)}${srcLink(ups[0])}</p></div>` : ""}
+        <nav class="tabs" aria-label="Project sections">${tabNav}</nav>
+        <div class="panel">${panel}</div>
+      </div>
+      <aside>
+        ${p.poster ? `<img class="poster" src="${esc(p.poster)}" alt="Poster for ${esc(p.title)}" loading="lazy">` : ""}
+        <dl class="facts">
+          <div><dt>Format</dt><dd>${esc(p.format)}</dd></div>
+          <div><dt>Status</dt><dd>${esc(p.status)}</dd></div>
+          <div><dt>Contact</dt><dd class="copy-row"><code>${esc(p.contact)}</code><button class="btn copy-btn" type="button" data-copy="${esc(p.contact)}">Copy</button></dd></div>
+        </dl>
+      </aside>
+    </article>
+    <div class="pager">
+      ${prev ? `<a class="btn" href="#${prev.slug}">&larr; ${esc(prev.title)}</a>` : `<span></span>`}
+      ${next ? `<a class="btn" href="#${next.slug}">${esc(next.title)} &rarr;</a>` : `<a class="btn" href="#page-${PAGES}">Back to projects</a>`}
+    </div>
+  </div>`;
+}
+
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const counter = document.getElementById("counter");
+
+function setNav(prev, next, label) {
+  [[prevBtn, prev], [nextBtn, next]].forEach(([b, h]) => {
+    if (h) { b.href = h; b.removeAttribute("aria-disabled"); } else { b.href = "#"; b.setAttribute("aria-disabled", "true"); }
+  });
+  counter.textContent = label;
+}
+
+/* Visit counting. The website defines window.nfhTrack (GoatCounter); in the Claude version it doesn't
+   exist and nothing is counted. A project counts once per visit, not per tab. */
+let lastCounted = null;
+function countView(path, title) {
+  if (path === lastCounted) return;
+  lastCounted = path;
+  if (window.nfhTrack) window.nfhTrack(path, title);
+}
+
+function route() {
+  const raw = (location.hash || "#cover").slice(1);
+  const [key, tab = ""] = raw.split(".");
+  const projIdx = PROJECTS.findIndex(p => p.slug === key);
+  if (projIdx > -1) {
+    app.innerHTML = renderProject(projIdx, ["help", "links"].includes(tab) ? tab : "");
+    setNav(projIdx > 0 ? "#" + PROJECTS[projIdx - 1].slug : null,
+           projIdx < PROJECTS.length - 1 ? "#" + PROJECTS[projIdx + 1].slug : null,
+           `${pad(projIdx + 1)} / ${PROJECTS.length}`);
+    document.title = `${PROJECTS[projIdx].title} · The ${SITE.year} Nonfiction Hotlist`;
+    countView("/" + key, PROJECTS[projIdx].title);
+  } else {
+    let pos = SEQ.indexOf(key);
+    if (pos < 0) pos = 0;
+    const k = SEQ[pos];
+    app.innerHTML = k === "cover" ? renderCover() : k === "welcome" ? renderWelcome() : k === "why" ? renderWhy() : renderGrid(+k.split("-")[1]);
+    if (k === "welcome") revealMosaic();
+    setNav(pos > 0 ? "#" + SEQ[pos - 1] : null, pos < SEQ.length - 1 ? "#" + SEQ[pos + 1] : null,
+           k.startsWith("page-") ? `Page ${k.split("-")[1]} / ${PAGES}` : ({ cover: "Cover", welcome: "Welcome", why: "About" })[k]);
+    document.title = `The ${SITE.year} Nonfiction Hotlist`;
+    countView(k === "cover" ? "/" : "/" + k, ({ cover: "Cover", welcome: "Welcome", why: "About" })[k] || `Index page ${k.split("-")[1]}`);
+  }
+  if (!tab) window.scrollTo(0, 0);
+}
+
+/* Index drawer */
+const panelEl = document.getElementById("indexPanel");
+const indexBtn = document.getElementById("indexBtn");
+document.getElementById("indexList").innerHTML =
+  PROJECTS.map((p, i) => `<li><a href="#${p.slug}"><span class="n">${pad(i + 1)}</span>${esc(p.title)}</a></li>`).join("");
+function toggleIndex(open) {
+  panelEl.hidden = !open; indexBtn.setAttribute("aria-expanded", String(open));
+  if (open) document.getElementById("indexClose").focus();
+}
+indexBtn.addEventListener("click", () => toggleIndex(panelEl.hidden));
+document.getElementById("indexClose").addEventListener("click", () => toggleIndex(false));
+panelEl.addEventListener("click", e => { if (e.target === panelEl || e.target.closest("a")) toggleIndex(false); });
+
+/* Copy contact */
+app.addEventListener("click", e => {
+  const b = e.target.closest("[data-copy]");
+  if (!b) return;
+  const text = b.dataset.copy;
+  const done = () => { b.textContent = "Copied"; setTimeout(() => (b.textContent = "Copy"), 1600); };
+  const fallback = () => {
+    const code = b.parentElement.querySelector("code");
+    const r = document.createRange(); r.selectNodeContents(code);
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+    b.textContent = "Selected";
+  };
+  try { navigator.clipboard.writeText(text).then(done, fallback); } catch (_) { fallback(); }
+});
+
+/* Stills lightbox */
+const lb = document.createElement("div");
+lb.className = "lightbox"; lb.hidden = true;
+lb.innerHTML = `<img alt=""><button class="btn icon-btn" type="button" aria-label="Close">&times;</button>`;
+document.body.appendChild(lb);
+lb.addEventListener("click", () => { lb.hidden = true; });
+app.addEventListener("click", e => {
+  const b = e.target.closest("[data-full]");
+  if (!b) return;
+  lb.querySelector("img").src = b.dataset.full;
+  lb.querySelector("img").alt = b.querySelector("img").alt;
+  lb.hidden = false;
+});
+
+/* Arrow keys page through the deck */
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && !lb.hidden) { lb.hidden = true; return; }
+  if (e.key === "Escape" && !panelEl.hidden) return toggleIndex(false);
+  if (e.target.closest("input, textarea") || e.metaKey || e.ctrlKey || e.altKey) return;
+  if (e.key === "ArrowRight" && !nextBtn.hasAttribute("aria-disabled")) location.hash = nextBtn.getAttribute("href");
+  if (e.key === "ArrowLeft" && !prevBtn.hasAttribute("aria-disabled")) location.hash = prevBtn.getAttribute("href");
+});
+
+/* Download PDF: the PDF is built from this same data and published alongside the page. */
+const PDF_FILE = "hotlist-" + SITE.year + ".pdf";
+let downloads = null, pdfBusy = false;
+const toastEl = document.createElement("div");
+toastEl.className = "toast"; toastEl.hidden = true; toastEl.setAttribute("role", "status");
+document.body.appendChild(toastEl);
+function toast(msg) {
+  toastEl.textContent = msg; toastEl.hidden = false;
+  clearTimeout(toast.t); toast.t = setTimeout(() => { toastEl.hidden = true; }, 3200);
+}
+/* On the public website there is no Claude viewer, so a plain file link does the download. */
+const STANDALONE = !(window.claude && window.claude.use);
+function showPdfButtons() {
+  const on = STANDALONE || !!downloads;
+  document.getElementById("pdfBtn").hidden = !on;
+  document.querySelectorAll("[data-pdf]").forEach(b => { b.hidden = !on; });
+}
+function linkDownload() {
+  const a = document.createElement("a");
+  a.href = PDF_FILE; a.download = `Nonfiction Hotlist ${SITE.year}.pdf`;
+  document.body.appendChild(a); a.click(); a.remove();
+}
+async function downloadPdf() {
+  if (STANDALONE) return linkDownload();
+  if (!downloads || pdfBusy) return;
+  pdfBusy = true;
+  try {
+    const res = await fetch(PDF_FILE);
+    if (!res.ok) throw { code: "missing" };
+    const blob = await res.blob();
+    await downloads.save({ filename: `Nonfiction Hotlist ${SITE.year}.pdf`, data: blob });
+  } catch (e) {
+    const code = e && e.code;
+    if (code === "declined") {}
+    else if (code === "rate_limited") toast("A download is already waiting for your OK.");
+    else if (code === "missing") toast("The PDF isn't available right now. Try again in a moment.");
+    else if (["unavailable", "not_granted", "capability_disabled", "capability_removed", "extension_not_enabled"].includes(code)) {
+      toast("Downloads aren't available in this view."); downloads = null; showPdfButtons();
+    } else toast("The PDF didn't download. Try again.");
+  } finally { pdfBusy = false; }
+}
+document.addEventListener("click", e => {
+  if (!e.target.closest("#pdfBtn, [data-pdf]")) return;
+  if (window.nfhTrack) window.nfhTrack("pdf-download", "PDF download", true);
+  downloadPdf();
+});
+showPdfButtons();
+(async () => {
+  if (STANDALONE) return;
+  try { downloads = await window.claude.use("downloads"); } catch (_) { downloads = null; }
+  showPdfButtons();
+})();
+
+window.addEventListener("hashchange", () => { route(); showPdfButtons(); });
+route();
+showPdfButtons();
+</script>
+<footer class="nfh-footer nfh-dark">
+  <div class="nfh-footer__in">
+    <div class="nfh-footer__top">
+      <a class="nfh-footer__logo" href="https://new.nonfictionhotlist.com/" aria-label="nonfiction hotlist. home"><img src="/brand/v1/logos/wordmark-white.svg" alt="nonfiction hotlist." width="264" height="26"></a>
+      <ul class="nfh-footer__links" aria-label="Footer"><li><a href="https://new.nonfictionhotlist.com/the-2026-hotlist/">the hotlist</a></li><li><a href="https://new.nonfictionhotlist.com/yahoo/">yahoo x nfh</a></li><li><a href="https://new.nonfictionhotlist.com/#about">about</a></li><li><a href="https://new.nonfictionhotlist.com/news/">news</a></li><li><a href="https://new.nonfictionhotlist.com/#subscribe">subscribe</a></li></ul>
+    </div>
+    <div class="nfh-footer__bottom">
+      <span><a href="mailto:info@nonfictionhotlist.com">info@nonfictionhotlist.com</a> &#160;·&#160; <a href="https://www.instagram.com/nonfictionhotlist/?hl=en">Instagram</a> &#160;·&#160; <a href="https://www.linkedin.com/company/nonfictionhotlist">LinkedIn</a></span>
+      <span>© 2026 Nonfiction Hotlist &#160;·&#160; <a href="https://new.nonfictionhotlist.com/terms-of-use/">Terms of use</a> &#160;·&#160; <a href="https://new.nonfictionhotlist.com/privacy-policy/">Privacy policy</a></span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

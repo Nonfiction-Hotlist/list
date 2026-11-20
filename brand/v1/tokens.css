@@ -1,0 +1,53 @@
+/* Generated from brand/tokens.json by scripts/brand/build-brand.js. Edit the design system, not this file. */
+:root {
+  --white: #ffffff;
+  --paper: #f2f2f2;
+  --green: #588257;
+  --green-glow: #5c965e;
+  --green-shade: #45684d;
+  --forest: #3a5a40;
+  --pine: #324d3f;
+  --pine-deep: #1a2821;
+  --black: #000000;
+  --spark: #fcb100;
+  --ember: #e0603f;
+  --surface: #ffffff;
+  --surface-alt: #f2f2f2;
+  --brand: #588257;
+  --brand-deep: #3a5a40;
+  --on-brand: #ffffff;
+  --accent: #fcb100;
+  --on-accent: #000000;
+  --ink: #000000;
+  --ink-muted: #3a5a40;
+  --rule: #d5ddd6;
+  --gradient-green: linear-gradient(135deg, #5c965e 0%, #45684d 100%);
+  --gradient-forest: linear-gradient(135deg, #1a2821 0%, #324d3f 100%);
+  --gradient-glow: radial-gradient(circle, #e0603f 0%, #fcb100 38%, rgba(252,177,0,0) 70%);
+  --font-display: "League Spartan", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Roboto Serif", Georgia, serif;
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 32px;
+  --space-4: 64px;
+  --radius-none: 0px;
+  --radius-sm: 6px;
+  --radius-md: 14px;
+  --radius-pill: 9999px;
+
+  /* From the build brief (site-wide design principles) */
+  --green-label: #8fbf90;   /* labels on black */
+  --sage: #c9d6cb;          /* labels and quiet text on forest */
+  --mint: #c9e3ca;          /* small numbers on the green photo overlay */
+  --rule-dark: #3f5a4b;     /* card borders and the footer rule on dark grounds */
+  --muted-on-black: #cfcfcf;
+  /* Green ground for panels with white reading text: flat green to forest, both palette colors.
+     White text measures 5:1 or better on it (gradient-green's light corner is 3.5:1). Chosen 5 Nov 2026. */
+  --gradient-green-text: linear-gradient(135deg, #588257 0%, #3a5a40 100%);
+  --photo-overlay: linear-gradient(135deg, rgba(92,150,94,.88) 0%, rgba(69,104,77,.92) 60%, rgba(26,40,33,.95) 100%);
+  --max: 1440px;
+  --gutter: clamp(16px, 5vw, 64px);
+  --section-pad: clamp(64px, 8vw, 128px);
+  --focus-light: var(--forest);   /* focus ring on white and paper (spark is 1.8:1 there) */
+  --focus-dark: var(--spark);     /* focus ring on black, green and forest */
+}
