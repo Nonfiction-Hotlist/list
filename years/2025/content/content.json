@@ -553,7 +553,7 @@
     "father-figures": {
       "title": "Father Figures",
       "format": "Feature documentary",
-      "status": "Post-production",
+      "status": "Entering Festivals",
       "logline": "A filmmaker turns to puppets to reach a father who opens up more to his ventriloquist dummies than to his family.",
       "summary": "A newly retired theater director, Bruce, begins creating internet videos featuring intimate conversations with his growing collection of ventriloquist dummies. Jealous of the fact that Bruce is far more open with his dummies than his own family, his daughter Emma embarks on a process of collaborative filmmaking, using puppets. FATHER FIGURES tells the story of Emma's attempt to repair her fraught relationship with her dad by exploring the psychological depths and possibilities of his strange new hobby.",
       "team": [
@@ -595,7 +595,14 @@
       ],
       "onRequest": "Deck and sizzle on request",
       "contact": "emma@marconamedia.com",
-      "laurels": [],
+      "laurels": [
+        {
+          "event": "Tribeca",
+          "year": 2025,
+          "note": "Tribeca Creator's Market",
+          "source": "https://tribecafilm.com/press-center/festival/press-releases/tribeca-festival-2025-reveals-creators-market-recipients"
+        }
+      ],
       "updates": [
         {
           "date": "Mar 2026",
