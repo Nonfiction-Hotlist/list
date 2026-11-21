@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>How the NFH Sites Work</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+/* The core team's guide to the sites. Built to site/guide/ by scripts/build-guide.js and locked behind the
+   team password, like the dashboards. One reading column; the two dashboards side by side up front. */
+@font-face{font-family:"League Spartan";src:url(/brand/v1/fonts/LeagueSpartan-Bold.woff2) format("woff2");font-weight:500 800;font-display:swap}
+@font-face{font-family:"Roboto Serif";src:url(/brand/v1/fonts/RobotoSerif-var.woff2) format("woff2");font-weight:100 900;font-display:swap}
+:root{
+  --bg:#ffffff; --fg:#14201a; --muted:#56635b; --line:#d9e2dc; --soft:#eef3ef;
+  --green:#588257; --forest:#3a5a40; --head:#3a5a40; --on-green:#ffffff; --key:#fcb100;
+  --display:"League Spartan","Helvetica Neue",Arial,sans-serif;
+  --body:"Roboto Serif",Georgia,"Times New Roman",serif;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#0f1712; --fg:#e8efe9; --muted:#a3b2a8; --line:#2a3a30; --soft:#18241c;
+  --green:#7fae7d; --forest:#2f4a35; --head:#e8efe9; --key:#ffc233; color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 var(--body)}
+a{color:var(--green);text-underline-offset:2px}
+img{max-width:100%}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);line-height:1.05;text-wrap:balance;margin:0}
+header.top{background:linear-gradient(135deg,#588257,#3a5a40);color:var(--on-green)}
+header.top .wrap{padding-block:48px 40px}
+.eyebrow{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.12em;opacity:.85}
+h1{font-size:clamp(36px,6vw,60px);font-weight:800;margin-top:8px}
+.lede{max-width:62ch;margin:14px 0 0;font-size:18px}
+nav.toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+nav.toc a{color:#fff;font-family:var(--display);font-weight:700;font-size:14px;border:1.5px solid rgba(255,255,255,.7);border-radius:9999px;padding:6px 13px 4px;text-decoration:none}
+nav.toc a:hover{background:rgba(255,255,255,.15)}
+section{padding-block:40px;border-bottom:1px solid var(--line)}
+h2{font-size:30px;font-weight:800;color:var(--head)}
+h3{font-size:20px;font-weight:700}
+p{margin:0}
+.intro{max-width:64ch;color:var(--muted);margin-top:8px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:24px;margin-top:24px}
+.col{display:flex;flex-direction:column;gap:12px;min-width:0}
+.tag{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.1em;color:var(--green)}
+.url{font-family:var(--display);font-weight:700;font-size:19px;word-break:break-all}
+.shot{display:block;width:100%;border:1px solid var(--line);border-radius:14px}
+ul.plain{margin:0;padding-left:20px;display:grid;gap:4px}
+.pw{display:flex;flex-wrap:wrap;align-items:center;gap:20px;margin-top:28px;padding:22px 24px;background:var(--soft);border-radius:14px}
+.pw .label{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.1em}
+.pw code{font-family:var(--display);font-weight:800;font-size:32px;background:var(--key);color:#14201a;padding:4px 14px 0;border-radius:6px}
+.pw p{flex:1 1 280px;min-width:0;color:var(--muted)}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;margin-top:16px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px 10px 0;border-top:1px solid var(--line)}
+th{font-family:var(--display);font-weight:700;white-space:nowrap;padding-right:20px}
+.note{margin-top:16px;padding-left:14px;border-left:3px solid var(--key);max-width:64ch}
+ol.steps{margin:16px 0 0;padding-left:22px;display:grid;gap:8px;max-width:64ch}
+.msg{margin-top:14px;background:var(--soft);border-radius:14px;padding:18px 20px;max-width:64ch;white-space:pre-wrap;font-size:15px}
+.copy{margin-top:10px;font-family:var(--display);font-weight:700;font-size:14px;border:1.5px solid var(--fg);background:var(--bg);color:var(--fg);border-radius:6px;padding:6px 12px 4px;cursor:pointer}
+footer .wrap{padding-block:32px;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <div class="eyebrow">nonfiction hotlist · for the core team</div>
+  <h1>how the nfh sites work</h1>
+  <p class="lede">There are two sites and two dashboards. Everything is stored in Google Drive, in the shared folder <b>Nonfiction Hotlist CD</b>. Filmmakers can now edit their own project pages. Changes go live on their own, usually within 10 to 20 minutes.</p>
+  <nav class="toc" aria-label="On this page">
+    <a href="#dashboards">dashboards</a><a href="#edit-pages">project edit pages</a><a href="#sites">the two sites</a>
+    <a href="#website">editing the website</a><a href="#hotlists">editing a hotlist</a><a href="#problems">if something looks wrong</a>
+  </nav>
+</div></header>
+
+<main class="wrap">
+
+<section id="dashboards">
+  <h2>two dashboards</h2>
+  <p class="intro">Start at a dashboard whenever you want to change something. Each one lists every page or project with a link straight to what you edit, and flags anything that needs attention.</p>
+  <div class="two">
+    <div class="col">
+      <div class="tag">1 · the website</div>
+      <a class="url" href="https://new.nonfictionhotlist.com/dashboard/">new.nonfictionhotlist.com/dashboard</a>
+      <img class="shot" src="img/webdash.jpg" alt="Website dashboard: a card for each page with its preview and edit link" loading="lazy">
+      <ul class="plain">
+        <li>A card for every page and news post, with an <b>edit</b> link to its Doc</li>
+        <li>Buttons to the Site sheet tabs and Drive folders</li>
+        <li>Edits that were skipped, and why</li>
+      </ul>
+    </div>
+    <div class="col">
+      <div class="tag">2 · the hotlists</div>
+      <a class="url" href="https://list.nonfictionhotlist.com/dashboard/">list.nonfictionhotlist.com/dashboard</a>
+      <img class="shot" src="img/listdash.jpg" alt="List dashboard: a year switch and a table of projects" loading="lazy">
+      <ul class="plain">
+        <li>A switch for the year, 2026 or 2025</li>
+        <li>Every project, with its <b>edit page</b>, <b>password</b>, copysheet and media folder</li>
+        <li>Visits, PDF downloads, broken links and skipped edits</li>
+      </ul>
+    </div>
+  </div>
+  <div class="pw">
+    <span class="label">team password</span>
+    <code>coreteam</code>
+    <p>Opens both dashboards, this guide, and every project's edit page. Type it once and your browser remembers it. Please keep it within the team.</p>
+  </div>
+</section>
+
+<section id="edit-pages">
+  <h2>project edit pages</h2>
+  <p class="intro">Each year's projects can be edited on a web page that looks like the project page itself. It's the easiest way for filmmakers, and for us, to update text and images.</p>
+  <div class="two">
+    <div class="col">
+      <img class="shot" src="img/editor.jpg" alt="The edit page for The Arrival Center, with its hero photo, title, logline and tabs" loading="lazy">
+    </div>
+    <div class="col">
+      <div class="tag">addresses</div>
+      <a class="url" href="https://list.nonfictionhotlist.com/2026/edit/">list.nonfictionhotlist.com/2026/edit</a>
+      <a class="url" href="https://list.nonfictionhotlist.com/2025/edit/">list.nonfictionhotlist.com/2025/edit</a>
+      <ul class="plain">
+        <li><b>Each project has its own password</b>, like <code>harbor-lantern-42</code>. It opens only that project. Find it on the list dashboard, in the project's row.</li>
+        <li><b>coreteam</b> opens every project, with a list to pick from.</li>
+        <li>Everything is editable except the <b>title</b>, which only the team changes, in the copysheet.</li>
+        <li><b>Images:</b> drag a photo onto the hero, poster, key image or a still. Then drag it to choose what stays in frame. Photos are resized before upload.</li>
+        <li>Changes go live in about 5 to 10 minutes after <b>Save and publish</b>. Anything added goes straight onto the page.</li>
+      </ul>
+    </div>
+  </div>
+  <h3 style="margin-top:32px">sending a project its edit page</h3>
+  <ol class="steps">
+    <li>Open the list dashboard and pick the year.</li>
+    <li>Find the project. Copy its password from its row.</li>
+    <li>Send the team the address and password. You can use the message below.</li>
+  </ol>
+  <div class="msg" id="msg">Your project page on the Nonfiction Hotlist is ready for you to update.
+
+Edit it here: list.nonfictionhotlist.com/2026/edit/
+Your password: [project password]
+
+You can change your logline, summary, status, team, how to help, links and news, and add or replace your images. Your page updates a few minutes after you save. If you'd like to change your title, just reply to this email.</div>
+  <button class="copy" type="button" id="copymsg">Copy message</button>
+  <p class="note">Nothing is deleted. Replaced or removed images move to a "Replaced" folder inside the project's Media folder in Drive. The copysheet still works too, and always shows the same text as the edit page.</p>
+</section>
+
+<section id="sites">
+  <h2>the two sites</h2>
+  <div class="two">
+    <div class="col">
+      <div class="tag">the website</div>
+      <a class="url" href="https://new.nonfictionhotlist.com/">new.nonfictionhotlist.com</a>
+      <img class="shot" src="img/website.jpg" alt="The website homepage" loading="lazy">
+      <p>Home, about, news, contributors, submissions and Yahoo x NFH. It's a preview for now; nonfictionhotlist.com still shows the old Squarespace site until we switch over.</p>
+    </div>
+    <div class="col">
+      <div class="tag">the hotlists</div>
+      <a class="url" href="https://list.nonfictionhotlist.com/2026/">list.nonfictionhotlist.com/2026</a>
+      <img class="shot" src="img/list2026.jpg" alt="The 2026 hotlist cover" loading="lazy">
+      <p>One list per year. 2025 is live. 2026 is a draft, hidden from search but open to anyone with the link. Each list has project pages and a PDF that rebuilds itself.</p>
+    </div>
+  </div>
+</section>
+
+<section id="website">
+  <h2>editing the website</h2>
+  <p class="intro">Drive › Nonfiction Hotlist CD › <b>NFH Website</b></p>
+  <div class="tw"><table>
+    <tr><th>page text</th><td>Open the page's Doc in <b>01 Pages</b> and type. Leave the grey bracket lines, like [section] and [button], as they are.</td></tr>
+    <tr><th>homepage</th><td>The <b>Home Page</b> Doc. Keep the headings and the "Label:" at the start of each line, and stay within the character limits. Storyteller quotes change only through Matthew.</td></tr>
+    <tr><th>news post</th><td>Add a row in the Site sheet's <b>News</b> tab. Its Doc appears in <b>02 News</b>, then write the post there.</td></tr>
+    <tr><th>images</th><td>Upload to <b>Media</b>, then add a line in the Doc: [image: filename.jpg]</td></tr>
+    <tr><th>menu</th><td>The Site sheet's <b>Menu</b> tab.</td></tr>
+  </table></div>
+</section>
+
+<section id="hotlists">
+  <h2>editing a hotlist</h2>
+  <p class="intro">Projects: the <a href="#edit-pages">edit page</a>, or Drive › Nonfiction Hotlist CD › <b>NFH 2026</b> (or NFH 2025)</p>
+  <div class="tw"><table>
+    <tr><th>a project</th><td>Its edit page, or its <b>copysheet</b>. Both change the same text.</td></tr>
+    <tr><th>a title</th><td>Only in the copysheet. The project's folder and place in the list follow.</td></tr>
+    <tr><th>cover and welcome</th><td>The year's Docs, linked under <b>front pages</b> on the dashboard.</td></tr>
+    <tr><th>order</th><td>The <b>running order</b> sheet.</td></tr>
+    <tr><th>add or remove a project</th><td>The <b>Projects</b> tab of the running order sheet, then ask Matthew. Removed projects keep their folder in "Removed projects" and can come back.</td></tr>
+  </table></div>
+</section>
+
+<section id="problems">
+  <h2>if something looks wrong</h2>
+  <div class="tw"><table>
+    <tr><th>not live after 20 minutes</th><td>Check <b>edits that were skipped</b> on the dashboard. The reason is listed next to the edit. Fix it and the next sync picks it up. New images can take up to an hour.</td></tr>
+    <tr><th>a password doesn't work</th><td>Copy it again from the dashboard. Passwords are lowercase, with dashes.</td></tr>
+    <tr><th>dashboard can't read the kit</th><td>A folder's sharing may have changed. Kit folders must stay "Anyone with the link: Viewer". Tell Matthew.</td></tr>
+    <tr><th>please don't</th><td>Rename, move or delete the kit folders, the "Site manifest (do not edit)" file, or the layout of the copysheets.</td></tr>
+    <tr><th>anything else</th><td>Email Matthew or info@nonfictionhotlist.com with the page address and what you expected to see.</td></tr>
+  </table></div>
+</section>
+
+</main>
+<footer><div class="wrap">Nonfiction Hotlist · team guide · list.nonfictionhotlist.com/guide</div></footer>
+<script>
+document.getElementById("copymsg").addEventListener("click", e => {
+  const b = e.target, t = document.getElementById("msg").textContent;
+  const done = () => { b.textContent = "Copied"; setTimeout(() => b.textContent = "Copy message", 1600); };
+  try { navigator.clipboard.writeText(t).then(done, () => {}); } catch (x) {}
+});
+</script>
+</body>
+</html>

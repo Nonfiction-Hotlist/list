@@ -6,3 +6,4 @@ site/*/hotlist-*.pdf
 .kit-test/
 site/*/dashboard/
 .dash-out/
+site/guide/

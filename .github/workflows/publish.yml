@@ -131,7 +131,7 @@ jobs:
           DASHBOARD_PASSWORD: ${{ secrets.DASHBOARD_PASSWORD }}
           EDITOR_SECRET: ${{ secrets.EDITOR_SECRET }}
           DASHBOARD_OUT: ${{ steps.decide.outputs.publish == 'true' && 'site' || '.dash-out' }}
-        run: node scripts/each-year.js dashboard
+        run: node scripts/each-year.js dashboard && node scripts/build-guide.js
 
       - name: Install Chromium
         if: steps.decide.outputs.publish == 'true'

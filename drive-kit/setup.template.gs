@@ -737,6 +737,7 @@ function editor_(req) {
       .sort((a, b) => a.title.localeCompare(b.title)) };
   const slug = team ? req.slug : own;
   const r = state.projects[slug];
+  if (!r && team && req.action === "open") return editor_(Object.assign({}, req, { slug: "" }));   // an old link: show the list
   if (!r) throw new Error("That project isn't in the kit any more.");
   if (!team && req.slug && req.slug !== own) throw new Error("That password is for a different project.");
 
