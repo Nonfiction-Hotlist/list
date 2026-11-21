@@ -152,7 +152,7 @@
    "key": "img/father-figures-key.jpg",
    "hero": "img/father-figures-hero.jpg",
    "focus": 50,
-   "focusY": 50,
+   "focusY": 2,
    "stills": [
     [
      "img/father-figures-1.jpg",
