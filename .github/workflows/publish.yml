@@ -108,7 +108,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add years/*/content/content.json years/*/content/layout.json years/*/content/drive.json years/*/content/sync-problems.txt years/*/page.html site/*/index.html src/brand site/*/img $(ls years/*/content/media-sources.json 2>/dev/null)
+          git add years/*/content/content.json years/*/content/layout.json years/*/content/drive.json years/*/content/sync-problems.txt years/*/page.html site/*/index.html site/*/edit/index.html src/brand site/*/img $(ls years/*/content/media-sources.json 2>/dev/null)
           git diff --cached --quiet && exit 0
           git commit -m "Update from Google Drive: ${SUMMARY}"
           git pull --rebase --autostash origin main
@@ -129,6 +129,7 @@ jobs:
         env:
           GOATCOUNTER_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
           DASHBOARD_PASSWORD: ${{ secrets.DASHBOARD_PASSWORD }}
+          EDITOR_SECRET: ${{ secrets.EDITOR_SECRET }}
           DASHBOARD_OUT: ${{ steps.decide.outputs.publish == 'true' && 'site' || '.dash-out' }}
         run: node scripts/each-year.js dashboard
 

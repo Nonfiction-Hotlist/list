@@ -49,4 +49,8 @@ const DOCS = {
 
 const ORDER = { tab: "Running order", perPage: 4, pages: 7 };
 
-module.exports = { PROJECT, DOCS, ORDER };
+// The project editor (/<year>/edit/). A project's password is two of these words and a number, worked
+// out from a secret kept outside the repo (scripts/lib/editpass.js here, the kit's Secrets file in Apps Script).
+const EDIT = { words: ["amber", "anchor", "arrow", "aspen", "beacon", "birch", "bison", "bloom", "brook", "canyon", "cedar", "comet", "coral", "cove", "crane", "delta", "ember", "falcon", "fern", "field", "fjord", "flint", "forest", "garnet", "glade", "granite", "harbor", "hazel", "heron", "island", "juniper", "kestrel", "lantern", "larch", "lark", "maple", "meadow", "mesa", "meteor", "moss", "orbit", "orchid", "osprey", "otter", "pebble", "pine", "prairie", "quarry", "raven", "reef", "ridge", "river", "sage", "sequoia", "sparrow", "spruce", "summit", "thistle", "tide", "timber", "valley", "willow", "wren", "zephyr"] };
+
+module.exports = { PROJECT, DOCS, ORDER, EDIT };

@@ -57,9 +57,12 @@ async function download(f, dir) {
   return dest;
 }
 
-// Crop anchor from words in the file name: 0 = top/left, 1 = bottom/right.
+// Crop anchor from the file name: 0 = top/left, 1 = bottom/right. The project editor writes the framing
+// a filmmaker picked as "focus-40-25" (percent across, percent down); otherwise top, bottom, left or right.
 function anchor(name) {
   const n = name.toLowerCase(), has = w => new RegExp(`(^|[^a-z])${w}([^a-z]|$)`).test(n);
+  const fx = n.match(/focus-(\d{1,3})-(\d{1,3})/);
+  if (fx) return { x: Math.min(100, +fx[1]) / 100, y: Math.min(100, +fx[2]) / 100 };
   return { x: has("left") ? 0 : has("right") ? 1 : 0.5, y: has("top") ? 0 : has("bottom") ? 1 : 0.5 };
 }
 
@@ -111,7 +114,9 @@ async function syncMedia({ rows, titles, renamed = {}, removed = [], warn }) {
   const img = path.join(Y.OUT, "img");
   fs.mkdirSync(img, { recursive: true });
   const changed = new Set();
-  const sig = list => list.map(f => `${f.id}@${f.updated}`).sort().join("|");
+  // A new framing renames the file, so names with a focus count too (others are left out, so older images
+  // aren't processed again).
+  const sig = list => list.map(f => `${f.id}@${f.updated}${/focus-\d/i.test(f.name) ? "#" + f.name : ""}`).sort().join("|");
 
   try {
     for (const [slug, slots] of Object.entries(by)) {

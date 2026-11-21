@@ -97,3 +97,11 @@ fs.writeFileSync(path.join(Y.OUT, "index.html"), html);
 // The tab icon: the nfh. disc mark, the same as the website (src/favicon.svg is a copy of the brand kit's).
 fs.writeFileSync(path.join(Y.OUT, "favicon.svg"), fs.readFileSync(path.join(Y.REPO, "src", "favicon.svg"), "utf8").replace("__YY__", Y.Y.slice(-2)));
 console.log(`wrote site/${Y.Y}/index.html`, (html.length / 1024).toFixed(0) + " KB");
+
+// The project editor (/<year>/edit/): filmmakers and the team edit a project's text and images there. It
+// talks to the year's kit, deployed as an Apps Script web app (years.json "editor"). Not linked publicly.
+const edit = fs.readFileSync(path.join(Y.REPO, "src", "edit.html"), "utf8")
+  .replace("__CONFIG__", JSON.stringify({ year: Y.Y, api: Y.info.editor || "", site: SITE_URL }).replace(/</g, "\\u003c"));
+fs.mkdirSync(path.join(Y.OUT, "edit"), { recursive: true });
+fs.writeFileSync(path.join(Y.OUT, "edit", "index.html"), edit);
+console.log(`wrote site/${Y.Y}/edit/index.html${Y.info.editor ? "" : " (not connected: no editor address in years.json)"}`);

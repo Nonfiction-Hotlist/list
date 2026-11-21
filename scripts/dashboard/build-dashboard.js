@@ -7,6 +7,7 @@
 //   - visits, PDF downloads and referrers from GoatCounter, when GOATCOUNTER_TOKEN is set
 // Run: npm run dashboard   (the Publish workflow runs it on every pass, so numbers stay within about 15 minutes)
 const fs = require("fs");
+const { passwordFor } = require("../lib/editpass");
 const path = require("path");
 const { execSync } = require("child_process");
 const { PROJECT, DOCS } = require("../content/spec");
@@ -145,7 +146,8 @@ function sampleStats() {
       n: i + 1, slug, title: p.title, format: p.format, key: l.key ? "../" + l.key : "",
       complete: Math.round(100 * (CHECKS.length - missing.length) / CHECKS.length), missing,
       visits: st && st.byPath ? (st.byPath["/" + slug] || 0) : null,
-      live: `${SITE_URL}/#${slug}`, sheet: d.sheet ? sheetUrl(d.sheet) : "", media: d.media ? folderUrl(d.media) : "",
+      live: `${SITE_URL}/#${slug}`, edit: `${SITE_URL}/edit/#${slug}`,
+      password: process.env.EDITOR_SECRET ? passwordFor(process.env.EDITOR_SECRET, Y.Y, slug) : "", sheet: d.sheet ? sheetUrl(d.sheet) : "", media: d.media ? folderUrl(d.media) : "",
       broken: links ? (links.broken || []).filter(b => b.where.some(w => w.slug === slug)).length : 0
     };
   });

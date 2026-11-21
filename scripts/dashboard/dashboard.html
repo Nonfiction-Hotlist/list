@@ -148,6 +148,7 @@ footer label { display: inline-flex; gap: 8px; align-items: center; cursor: poin
   .tools { width: 100%; }
 }
 @media (max-width: 420px) { .tile .v { font-size: 32px; } .act { padding: 0 10px; } }
+.ttl small code.pw{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#eef3ef;padding:1px 6px;border-radius:4px;user-select:all}
 </style>
 </head>
 <body>
@@ -258,10 +259,11 @@ function renderProjects() {
   const rows = list.map(p => `<div class="row" role="row">
     <span class="n">${String(p.n).padStart(2, "0")}</span>
     ${p.key ? `<img class="thumb" src="${esc(p.key)}" alt="" loading="lazy">` : `<span class="thumb"></span>`}
-    <div class="ttl"><a href="${esc(p.live)}" target="_blank" rel="noopener">${esc(p.title)}</a><small>${esc(p.format)}${p.broken ? ` · <span class="flag">${p.broken} broken link${p.broken > 1 ? "s" : ""}</span>` : ""}</small></div>
+    <div class="ttl"><a href="${esc(p.live)}" target="_blank" rel="noopener">${esc(p.title)}</a><small>${esc(p.format)}${p.broken ? ` · <span class="flag">${p.broken} broken link${p.broken > 1 ? "s" : ""}</span>` : ""}${p.password ? ` · editor password <code class="pw" title="Send this to the project's team with the editor link">${esc(p.password)}</code>` : ""}</small></div>
     <div class="meter-cell"><div class="meter" title="${p.missing.length ? "Missing: " + esc(p.missing.join(", ")) : "Everything filled in"}"><i><b class="${p.complete < 100 ? "warn" : ""}" style="width:${p.complete}%"></b></i><span>${p.complete}%</span></div>${p.missing.length ? `<div class="missing">Missing: ${esc(p.missing.join(", "))}</div>` : ""}</div>
     <div class="vis${p.visits == null ? " none" : ""}">${p.visits == null ? "–" : fmt(p.visits)}</div>
     <div class="acts">
+      ${p.edit ? `<a class="act" href="${esc(p.edit)}" target="_blank" rel="noopener">Edit page</a>` : ""}
       ${p.sheet ? `<a class="act primary" href="${esc(p.sheet)}" target="_blank" rel="noopener">${ICON.sheet}Copysheet</a>` : ""}
       ${p.media ? `<a class="act" href="${esc(p.media)}" target="_blank" rel="noopener">${ICON.folder}Media</a>` : ""}
     </div>

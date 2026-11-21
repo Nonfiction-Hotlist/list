@@ -101,3 +101,13 @@ function publish_(site, mode) {
   else Logger.log(`GitHub said ${res.getResponseCode()} for ${site.repo}: ${res.getContentText().slice(0, 300)}`);
   return ok;
 }
+
+// The project editor asks for a publish right after a save, through this script deployed as a web app.
+// It shares a secret with the kits' editor (const EDITOR = { secret } in a Secrets file here, not in the repo).
+function doPost(e) {
+  let req = {};
+  try { req = JSON.parse(e.postData.contents); } catch (x) {}
+  const ok = typeof EDITOR !== "undefined" && EDITOR.secret && req.secret === EDITOR.secret;
+  if (ok) publish_(SITES[0], "sync");
+  return ContentService.createTextOutput(ok ? "ok" : "no");
+}

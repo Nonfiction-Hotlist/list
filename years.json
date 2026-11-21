@@ -1,5 +1,5 @@
 {
-  "_about": "Every Hotlist year the site publishes. A 'draft' year is built at /<year> but hidden from search and not linked from the front door until it goes 'live'. 'latest' is where the front door sends visitors. trackPrefix keeps 2025's visit counts on their original paths.",
+  "_about": "Every Hotlist year the site publishes. 'editor' is the year's kit as an Apps Script web app, which the project editor (/<year>/edit/) talks to. A 'draft' year is built at /<year> but hidden from search and not linked from the front door until it goes 'live'. 'latest' is where the front door sends visitors. trackPrefix keeps 2025's visit counts on their original paths.",
   "domain": "list.nonfictionhotlist.com",
   "repo": "Nonfiction-Hotlist/list",
   "goatcounter": "https://nonfictionhotlist.goatcounter.com",
@@ -9,7 +9,7 @@
   "_website": "The main website: its Drive kit (the publish trigger watches it too) and its address (origin), from which every list build copies the brand kit, top bar and footer (scripts/fetch-brand.js). Change origin to https://nonfictionhotlist.com at the switch-over.",
   "latest": "2025",
   "years": {
-    "2025": { "status": "live", "trackPrefix": "", "countingSince": "2026-10-24T00:00:00Z" },
-    "2026": { "status": "draft", "trackPrefix": "/2026", "countingSince": "2026-10-30T00:00:00Z" }
+    "2025": { "editor": "https://script.google.com/macros/s/AKfycbyEFCuSGsF61kow-aSA7wkRT9jkJ1ErrubPYVw0lB2sMUpkRnqAFq2cgd0ra38y9VFi/exec", "status": "live", "trackPrefix": "", "countingSince": "2026-10-24T00:00:00Z" },
+    "2026": { "editor": "https://script.google.com/macros/s/AKfycbxjg34MhndwkWhnLg-5xegmYE-TotkAh8G4G-nsqE1WKRYk-zlB1RG3O9QvSnj5ZymK/exec", "status": "draft", "trackPrefix": "/2026", "countingSince": "2026-10-30T00:00:00Z" }
   }
 }

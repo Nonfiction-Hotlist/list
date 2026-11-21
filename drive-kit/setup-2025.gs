@@ -287,6 +287,74 @@ const KIT = {
       "tab": "Running order",
       "perPage": 4,
       "pages": 7
+    },
+    "EDIT": {
+      "words": [
+        "amber",
+        "anchor",
+        "arrow",
+        "aspen",
+        "beacon",
+        "birch",
+        "bison",
+        "bloom",
+        "brook",
+        "canyon",
+        "cedar",
+        "comet",
+        "coral",
+        "cove",
+        "crane",
+        "delta",
+        "ember",
+        "falcon",
+        "fern",
+        "field",
+        "fjord",
+        "flint",
+        "forest",
+        "garnet",
+        "glade",
+        "granite",
+        "harbor",
+        "hazel",
+        "heron",
+        "island",
+        "juniper",
+        "kestrel",
+        "lantern",
+        "larch",
+        "lark",
+        "maple",
+        "meadow",
+        "mesa",
+        "meteor",
+        "moss",
+        "orbit",
+        "orchid",
+        "osprey",
+        "otter",
+        "pebble",
+        "pine",
+        "prairie",
+        "quarry",
+        "raven",
+        "reef",
+        "ridge",
+        "river",
+        "sage",
+        "sequoia",
+        "sparrow",
+        "spruce",
+        "summit",
+        "thistle",
+        "tide",
+        "timber",
+        "valley",
+        "willow",
+        "wren",
+        "zephyr"
+      ]
     }
   }
 };
@@ -956,4 +1024,167 @@ function writeManifest_(root, state, data) {
   sh.getProtections(SpreadsheetApp.ProtectionType.SHEET).forEach(p => p.remove());
   lock_(sh, []);
   return ss.getId();
+}
+
+/* ============================== project editor ============================== */
+// The page filmmakers use to edit their project (<site>/<year>/edit/) talks to this script, deployed as a
+// web app ("Execute as: me", "Who has access: Anyone"). Each project has its own password, worked out from a
+// secret; the team password opens every project. Both live in a Secrets file in this Apps Script project
+// only (const EDITOR = { secret, team, ping }), never in the repo. ping is the publish trigger's web app,
+// which starts a publish right after a save.
+//
+// Text goes into the project's Copysheet; images into its Media folders. A replaced or removed image moves
+// to Media/Replaced, so nothing is deleted. The framing a filmmaker picks is kept in the image's file name
+// ("Hero focus-40-25.jpg"), which the website reads when it crops.
+const SLOT_NAMES = { key: "Key", hero: "Hero", poster: "Poster", gallery: "Gallery" };
+
+function doGet() { return json_({ ok: true, year: KIT.year }); }
+function doPost(e) {
+  let req;
+  try { req = JSON.parse(e.postData.contents); } catch (x) { return json_({ error: "That request couldn't be read." }); }
+  try { return json_(editor_(req)); }
+  catch (x) { return json_({ error: String((x && x.message) || x) }); }
+}
+function json_(o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }
+
+function passwordFor_(secret, slug) {
+  const b = Utilities.computeHmacSha256Signature(KIT.year + ":" + slug, secret).map(x => x & 255);
+  const W = KIT.spec.EDIT.words;
+  return `${W[b[0] % W.length]}-${W[b[1] % W.length]}-${10 + (b[2] % 90)}`;
+}
+
+function editor_(req) {
+  if (typeof EDITOR === "undefined" || !EDITOR.secret) throw new Error("The editor isn't set up yet.");
+  const state = loadState_();
+  const pw = String(req.password || "").trim().toLowerCase();
+  const team = pw === String(EDITOR.team).toLowerCase();
+  const own = pw && Object.keys(state.projects).find(s => passwordFor_(EDITOR.secret, s) === pw);
+  if (!team && !own) throw new Error("That password didn't work. Check the one in your welcome email.");
+  if (req.action === "open" && team && !req.slug)
+    return { team: true, projects: Object.entries(state.projects).map(([slug, r]) => ({ slug, title: r.title }))
+      .sort((a, b) => a.title.localeCompare(b.title)) };
+  const slug = team ? req.slug : own;
+  const r = state.projects[slug];
+  if (!r) throw new Error("That project isn't in the kit any more.");
+  if (!team && req.slug && req.slug !== own) throw new Error("That password is for a different project.");
+
+  if (req.action === "open") return Object.assign({ team }, loadProject_(slug, r));
+  if (req.action === "preview") return preview_(r, req.id, req.size);
+  const lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+  try {
+    if (req.action === "image") return saveImage_(r, req);
+    if (req.action === "focus") return refocus_(r, req);
+    if (req.action === "gallery") return orderGallery_(r, req.ids || []);
+    if (req.action === "save") { saveText_(r, req); if (req.images) listImages(); ping_(); return { ok: true }; }
+  } finally { lock.releaseLock(); }
+  throw new Error("Unknown request.");
+}
+
+function loadProject_(slug, r) {
+  const P = KIT.spec.PROJECT, ss = SpreadsheetApp.openById(r.fileId);
+  const page = ss.getSheetByName("Page").getRange(FIRST_ROW, 2, P.page.length, 1).getDisplayValues();
+  const fields = {};
+  P.page.forEach((f, i) => fields[f.key] = page[i][0]);
+  const lists = {};
+  P.lists.forEach(l => {
+    lists[l.key] = ss.getSheetByName(l.tab).getRange(FIRST_ROW, 1, l.rows, l.cols.length).getDisplayValues()
+      .filter(row => row.some(v => String(v).trim()));
+  });
+  const images = {};
+  Object.entries(SLOT_NAMES).forEach(([slot, name]) => {
+    const files = [], it = DriveApp.getFolderById(r.slots[name]).getFiles();
+    while (it.hasNext()) { const f = it.next(); if (/^image\//.test(f.getMimeType())) files.push({ id: f.getId(), name: f.getName() }); }
+    images[slot] = files.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
+  });
+  return { slug, title: r.title, fields, lists, images, spec: { page: P.page, lists: P.lists } };
+}
+
+function saveText_(r, req) {
+  const P = KIT.spec.PROJECT, ss = SpreadsheetApp.openById(r.fileId), fields = req.fields || {}, lists = req.lists || {};
+  const tooLong = (v, max, label) => { if (max && String(v).length > max) throw new Error(`${label} is over ${max} characters.`); };
+  const page = ss.getSheetByName("Page");
+  P.page.forEach((f, i) => {
+    if (f.key === "title" || fields[f.key] === undefined) return;   // the title is locked
+    const v = String(fields[f.key]).trim();
+    tooLong(v, f.max, f.label);
+    if (f.required && !v) throw new Error(`${f.label} can't be empty.`);
+    if (f.type === "email" && v && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) throw new Error(`${f.label} doesn't look like an email address.`);
+    page.getRange(FIRST_ROW + i, 2).setValue(v);
+  });
+  P.lists.forEach(l => {
+    if (!lists[l.key]) return;
+    const rows = lists[l.key].map(row => l.cols.map((c, j) => String(row[j] == null ? "" : row[j]).trim()))
+      .filter(row => row.some(Boolean)).slice(0, l.rows);
+    rows.forEach(row => l.cols.forEach((c, j) => {
+      tooLong(row[j], c.max, `${l.tab}: ${c.label}`);
+      if (c.type === "url" && row[j] && !/^https?:\/\//i.test(row[j])) throw new Error(`${l.tab}: links need to start with https://`);
+    }));
+    const sh = ss.getSheetByName(l.tab);
+    sh.getRange(FIRST_ROW, 1, l.rows, l.cols.length).clearContent();
+    if (rows.length) sh.getRange(FIRST_ROW, 1, rows.length, l.cols.length).setValues(rows);
+  });
+}
+
+function focusName_(slot, focus, extra) {
+  const f = Array.isArray(focus) ? focus.map(n => Math.max(0, Math.min(100, Math.round(Number(n) || 0)))) : null;
+  return `${SLOT_NAMES[slot]}${extra ? " " + extra : ""}${f ? ` focus-${f[0]}-${f[1]}` : ""}.jpg`;
+}
+function replaced_(r) { return folder_(DriveApp.getFolderById(r.media), "Replaced"); }
+
+// A web-sized copy of one of the project's images, for the editor to show. Browsers block Drive's own
+// thumbnail links on other sites, so the kit fetches it and hands it over.
+function preview_(r, id, size) {
+  const f = DriveApp.getFileById(id), parents = f.getParents(), mine = Object.values(r.slots);
+  if (!parents.hasNext() || !mine.includes(parents.next().getId())) throw new Error("That image isn't in this project.");
+  const w = Math.max(200, Math.min(2000, Number(size) || 1600));
+  const res = UrlFetchApp.fetch(`https://drive.google.com/thumbnail?id=${encodeURIComponent(id)}&sz=w${w}`,
+    { headers: { Authorization: "Bearer " + ScriptApp.getOAuthToken() }, muteHttpExceptions: true });
+  let blob = res.getResponseCode() === 200 && /^image\//.test(String(res.getHeaders()["Content-Type"] || "")) ? res.getBlob() : null;
+  if (!blob && f.getSize() < 8e6) blob = f.getBlob();
+  if (!blob) throw new Error("That image is too large to preview.");
+  return { type: blob.getContentType(), data: Utilities.base64Encode(blob.getBytes()) };
+}
+
+// One image, already resized by the page. Key, Hero and Poster hold one image each: the old one moves out.
+function saveImage_(r, req) {
+  const slot = req.slot;
+  if (!SLOT_NAMES[slot]) throw new Error("Unknown image slot.");
+  const bytes = Utilities.base64Decode(String(req.data || ""));
+  if (!bytes.length || bytes.length > 15e6) throw new Error("That image couldn't be saved. Try a smaller JPEG or PNG.");
+  const folder = DriveApp.getFolderById(r.slots[SLOT_NAMES[slot]]);
+  if (slot !== "gallery") { const it = folder.getFiles(); while (it.hasNext()) it.next().moveTo(replaced_(r)); }
+  const name = slot === "gallery" ? `Gallery new ${Date.now()}.jpg` : focusName_(slot, req.focus);
+  const f = folder.createFile(Utilities.newBlob(bytes, "image/jpeg", name));
+  try { f.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW); } catch (e) {}
+  return { id: f.getId(), name };
+}
+
+function refocus_(r, req) {
+  const f = DriveApp.getFileById(req.id);
+  if (!f.getParents().next || f.getParents().next().getId() !== r.slots[SLOT_NAMES[req.slot]]) throw new Error("That image isn't in this project.");
+  f.setName(focusName_(req.slot, req.focus));
+  return { ok: true };
+}
+
+// The stills in the order the page shows them. Any not in the list move to Media/Replaced.
+function orderGallery_(r, ids) {
+  const folder = DriveApp.getFolderById(r.slots.Gallery), it = folder.getFiles(), keep = new Set(ids);
+  const files = {};
+  while (it.hasNext()) { const f = it.next(); if (keep.has(f.getId())) files[f.getId()] = f; else f.moveTo(replaced_(r)); }
+  ids.filter(id => files[id]).forEach((id, i) => {
+    const name = `Gallery ${String(i + 1).padStart(2, "0")}.jpg`;
+    if (files[id].getName() !== name) files[id].setName(name);
+  });
+  return { ok: true };
+}
+
+// Asks the publish trigger to publish now, at most once every 2 minutes.
+function ping_() {
+  if (!EDITOR.ping) return;
+  const cache = CacheService.getScriptCache();
+  if (cache.get("ping")) return;
+  cache.put("ping", "1", 120);
+  try { UrlFetchApp.fetch(EDITOR.ping, { method: "post", contentType: "text/plain", payload: JSON.stringify({ secret: EDITOR.secret }), muteHttpExceptions: true }); }
+  catch (e) { Logger.log("Couldn't reach the publish trigger: " + e); }
 }
