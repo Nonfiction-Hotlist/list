@@ -904,14 +904,7 @@
           "Editor"
         ]
       ],
-      "help": [
-        "AI deepfake artist",
-        "PR",
-        "Social media strategy",
-        "Graphic designer",
-        "Impact producer",
-        "Distribution consultant"
-      ],
+      "help": [],
       "links": [
         [
           "Instagram",
@@ -928,10 +921,14 @@
         [
           "Watch on Amazon",
           "https://www.amazon.com/gp/video/detail/amzn1.dv.gti.8c32c6c9-763b-46a7-8ecb-e73ab8d8a2f3?ref_=atv_cf_strg_wb"
+        ],
+        [
+          "Watch on BBC (UK only)",
+          "https://www.bbc.co.uk/programmes/m00343sl"
         ]
       ],
       "onRequest": "Deck and sizzle on request",
-      "contact": "rebecca@outerboro.tv",
+      "contact": "kerry@outerboro.tv",
       "laurels": [
         {
           "event": "SXSW",
