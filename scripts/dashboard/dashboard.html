@@ -149,6 +149,16 @@ footer label { display: inline-flex; gap: 8px; align-items: center; cursor: poin
 }
 @media (max-width: 420px) { .tile .v { font-size: 32px; } .act { padding: 0 10px; } }
 .ttl small code.pw{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#eef3ef;padding:1px 6px;border-radius:4px;user-select:all}
+/* what changed, under each recent change */
+.diff { display: block; margin-top: 4px; font-size: 14px; background: none; border: 0; border-radius: 0; }
+.diff summary { min-height: 0; padding: 2px 0; display: inline-flex; gap: 6px; font: 600 13px/1.4 var(--font-body); text-transform: none; letter-spacing: 0; color: var(--forest); }
+.diff summary::after { width: 6px; height: 6px; border-right-width: 2px; border-bottom-width: 2px; margin: 0 0 2px 2px; }
+.diff .df { margin: 8px 0 0; padding: 10px 12px; border-left: 3px solid var(--rule, #d5ddd6); background: rgba(92,150,94,.06); border-radius: 4px; }
+.diff .df b { display: block; margin-bottom: 4px; font-size: 13px; }
+.diff .df p { margin: 2px 0; line-height: 1.45; overflow-wrap: anywhere; white-space: pre-wrap; }
+.diff del { background: #fde2df; color: #8a1f12; text-decoration: line-through; }
+.diff ins { background: #dff0dc; color: #1d4d1b; text-decoration: none; }
+.diff .df-add { color: #1d4d1b; } .diff .df-rem { color: #8a1f12; text-decoration: line-through; } .diff .df-note { color: #666; font-style: italic; }
 </style>
 </head>
 <body>
@@ -275,6 +285,30 @@ sortSel.addEventListener("change", () => { try { localStorage.setItem("dash-sort
 renderProjects();
 
 /* Expandable sections */
+// What changed, under each recent change: text word by word (removed struck through, new highlighted),
+// lists as rows added and removed.
+function wordDiff(a, b) {
+  const A = String(a || "").split(/(\s+)/), B = String(b || "").split(/(\s+)/);
+  if (A.length * B.length > 250000) return `<del>${esc(a)}</del> <ins>${esc(b)}</ins>`;   // too long to compare word by word
+  const n = A.length, m = B.length, L = Array.from({ length: n + 1 }, () => new Uint16Array(m + 1));
+  for (let i = n - 1; i >= 0; i--) for (let j = m - 1; j >= 0; j--) L[i][j] = A[i] === B[j] ? L[i + 1][j + 1] + 1 : Math.max(L[i + 1][j], L[i][j + 1]);
+  let i = 0, j = 0, out = "";
+  while (i < n && j < m) {
+    if (A[i] === B[j]) { out += esc(A[i]); i++; j++; }
+    else if (L[i + 1][j] >= L[i][j + 1]) out += `<del>${esc(A[i++])}</del>`;
+    else out += `<ins>${esc(B[j++])}</ins>`;
+  }
+  while (i < n) out += `<del>${esc(A[i++])}</del>`;
+  while (j < m) out += `<ins>${esc(B[j++])}</ins>`;
+  return out;
+}
+function diffHTML(diffs) {
+  if (!diffs || !diffs.length) return "";
+  const one = d => d.kind === "list"
+    ? `<div class="df"><b>${esc(d.label)}</b>${d.reordered ? `<p class="df-note">Reordered</p>` : ""}${d.added.map(x => `<p class="df-add">+ ${esc(x)}</p>`).join("")}${d.removed.map(x => `<p class="df-rem">− ${esc(x)}</p>`).join("")}</div>`
+    : `<div class="df"><b>${esc(d.label)}</b><p class="df-text">${!d.before ? `<ins>${esc(d.after)}</ins>` : !d.after ? `<del>${esc(d.before)}</del>` : wordDiff(d.before, d.after)}</p></div>`;
+  return `<details class="diff"><summary>what changed</summary>${diffs.map(one).join("")}</details>`;
+}
 function section(id, title, sub, badge, body, open) {
   return `<details id="${id}"${open ? " open" : ""}><summary>${title}${badge || ""}<span class="sub">${sub || ""}</span></summary><div class="body">${body}</div></details>`;
 }
@@ -299,7 +333,7 @@ const changeRows = [];
 for (const c of D.changes) for (const it of c.items) changeRows.push({ date: c.date, fromDrive: c.fromDrive, ...it });
 out.push(section("changes", "Recent changes", changeRows.length ? `Latest: ${esc(changeRows[0].what)}, ${ago(changeRows[0].date)}` : "",
   ` <span class="badge">${changeRows.length}</span>`,
-  changeRows.length ? capped(changeRows, 6, r => `<li><span class="when">${when(r.date)}</span><span class="what"><b>${esc(r.what)}</b> <span>${esc(r.detail)}</span>${r.fromDrive ? "" : `<span class="src">site</span>`}</span></li>`)
+  changeRows.length ? capped(changeRows, 6, r => `<li><span class="when">${when(r.date)}</span><span class="what"><b>${esc(r.what)}</b> <span>${esc(r.detail)}</span>${r.fromDrive ? "" : `<span class="src">site</span>`}${diffHTML(r.diffs)}</span></li>`)
     : `<p>No changes yet.</p>`));
 
 // 3. Link check
@@ -339,7 +373,7 @@ document.getElementById("sections").addEventListener("click", e => {
   b.textContent = rest.hidden ? `Show ${rest.children.length} more` : "Show fewer";
 });
 // Remember which sections are open.
-document.querySelectorAll("details").forEach(d => {
+document.querySelectorAll("details[id]").forEach(d => {
   try { const v = localStorage.getItem("dash-open-" + d.id); if (v !== null) d.open = v === "1"; } catch (e) {}
   d.addEventListener("toggle", () => { try { localStorage.setItem("dash-open-" + d.id, d.open ? "1" : "0"); } catch (e) {} });
 });

@@ -41,6 +41,18 @@ const FIELD_LABEL = Object.fromEntries([
   ...PROJECT.page.map(f => [f.key, f.label]),
   ...PROJECT.lists.map(l => [l.key, l.tab])
 ]);
+// What exactly changed in one field: the old and new wording for text, and the rows added and removed
+// for lists (team, links, news and so on).
+const rowText = r => r == null ? "" : typeof r === "string" ? r : Array.isArray(r) ? r.map(rowText).filter(Boolean).join(" · ")
+  : typeof r === "object" ? Object.values(r).map(rowText).filter(Boolean).join(" · ") : String(r);
+function fieldDiff(label, a, b) {
+  if (Array.isArray(a) || Array.isArray(b)) {
+    const A = (a || []).map(rowText), B = (b || []).map(rowText);
+    const added = B.filter(x => !A.includes(x)), removed = A.filter(x => !B.includes(x));
+    return { label, kind: "list", added, removed, reordered: !added.length && !removed.length };
+  }
+  return { label, kind: "text", before: rowText(a), after: rowText(b) };
+}
 function changes(limit = 30) {
   let lines = [];
   try {
@@ -59,15 +71,20 @@ function changes(limit = 30) {
       const a = prev.projects[slug], b = cur.projects[slug];
       if (!a) { items.push({ what: b.title, detail: "Added" }); continue; }
       if (!b) { items.push({ what: a.title, detail: "Removed" }); continue; }
-      const fields = Object.keys(FIELD_LABEL).filter(k => JSON.stringify(a[k]) !== JSON.stringify(b[k])).map(k => FIELD_LABEL[k]);
-      if (fields.length) items.push({ what: b.title, slug, detail: fields.join(", ") });
+      const keys = Object.keys(FIELD_LABEL).filter(k => JSON.stringify(a[k]) !== JSON.stringify(b[k]));
+      if (keys.length) items.push({ what: b.title, slug, detail: keys.map(k => FIELD_LABEL[k]).join(", "), diffs: keys.map(k => fieldDiff(FIELD_LABEL[k], a[k], b[k])) });
     }
     for (const [k, spec] of Object.entries(DOCS)) {
       if (JSON.stringify(prev[k]) === JSON.stringify(cur[k])) continue;
-      const secs = spec.sections.filter(sec => JSON.stringify((prev[k] || {})[sec.key]) !== JSON.stringify((cur[k] || {})[sec.key])).map(sec => sec.heading);
-      items.push({ what: `${spec.title} page`, detail: secs.join(", ") || "Text" });
+      const secs = spec.sections.filter(sec => JSON.stringify((prev[k] || {})[sec.key]) !== JSON.stringify((cur[k] || {})[sec.key]));
+      items.push({ what: `${spec.title} page`, detail: secs.map(sec => sec.heading).join(", ") || "Text",
+        diffs: secs.map(sec => { const x = (prev[k] || {})[sec.key], y = (cur[k] || {})[sec.key];
+          return Array.isArray(x) && Array.isArray(y) && [...x, ...y].every(v => typeof v === "string") ? fieldDiff(sec.heading, x.join("\n\n"), y.join("\n\n")) : fieldDiff(sec.heading, x, y); }) });
     }
-    if (JSON.stringify(prev.order) !== JSON.stringify(cur.order)) items.push({ what: "Running order", detail: "Order" });
+    if (JSON.stringify(prev.order) !== JSON.stringify(cur.order)) {
+      const title = s => ((cur.projects[s] || prev.projects[s] || {}).title) || s;
+      items.push({ what: "Running order", detail: "Order", diffs: [{ label: "Order", kind: "text", before: (prev.order || []).map(title).join(", "), after: (cur.order || []).map(title).join(", ") }] });
+    }
     if (items.length) out.push({ date, fromDrive: subject.startsWith("Update from Google Drive"), items });
     if (out.length >= limit) break;
   }
