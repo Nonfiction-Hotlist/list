@@ -705,9 +705,9 @@
     "the-grind": {
       "title": "The Grind",
       "format": "Feature documentary",
-      "status": "In production. Developed in the Documentary Development Initiative by The Gotham Film Institute and HBO Documentary Films",
+      "status": "In production. Developed in the Documentary Development Initiative by The Gotham Film Institute and HBO Documentary Films.",
       "logline": "A tech worker turned adult film performer confronts injury, debt, and the economics of selling sex online.",
-      "summary": "Leo Vice is a tech worker turned sex worker who's living his dreams as a male pornstar. But faced with the realities of injury, debt, and the punishing economics of selling sex in the digital age, can he survive the grind? THE GRIND brings you into the industry that shapes modern sexuality, through the eyes of workers who offer their bodies in service of the infinite scroll. Leo's escape from office life and initiation into the porn industry challenge our definitions of sex, love, race, and work, while his aspirations are nothing less than the American dream writ large.",
+      "summary": "Leo Vice is a tech worker turned sex worker who's living his dreams as a male pornstar. But faced with the realities of injury, debt, and the punishing economics of selling sex in the digital age, can he survive the grind? THE GRIND brings you into the industry that shapes modern sexuality, through the eyes of workers who offer their bodies in service of the infinite scroll. Leo's escape from office life and initiation into the porn industry challenge our definitions of sex, love, race, and work, while his aspirations are nothing less than the American dream writ large.\n\nTHE GRIND was featured on the Nonfiction Hotlist, selected by Big Sky Pitch, and won Best Documentary at PROOF Film Festival.",
       "team": [
         [
           "Dan Chen",
@@ -725,7 +725,6 @@
       "help": [
         "Support to continue filming with cinema cameras and a dedicated sound mixer",
         "Producers and production companies",
-        "Music composition",
         "Brand partnerships",
         "Camera rental deals, particularly extreme slow-motion cameras",
         "Community manager"
@@ -742,8 +741,22 @@
       ],
       "onRequest": "",
       "contact": "thedchen@gmail.com",
-      "laurels": [],
-      "updates": []
+      "laurels": [
+        {
+          "event": "PROOF Film Festival",
+          "year": 2026,
+          "note": "Best Documentary",
+          "source": "https://www.thewrap.com/creative-content/movies/crime-comedy-short-munchies-wins-grand-jury-prize-at-proof-film-festival/"
+        }
+      ],
+      "updates": [
+        {
+          "date": "Nov 11, 2026",
+          "text": "Winner of Documentary Award at PROOF Film Festival",
+          "url": "https://www.thewrap.com/creative-content/movies/crime-comedy-short-munchies-wins-grand-jury-prize-at-proof-film-festival/",
+          "source": "The Wrap"
+        }
+      ]
     },
     "lift-off": {
       "title": "Lift Off",
