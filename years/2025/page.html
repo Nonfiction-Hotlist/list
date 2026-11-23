@@ -232,6 +232,8 @@ main { padding-bottom: 0; }
 .laurel small { font: 700 11px/1.2 var(--font-display); letter-spacing: .12em; text-transform: lowercase; color: var(--forest); }
 .laurel b { font: 700 15px/1.15 var(--font-display); color: var(--black); margin-top: 3px; text-transform: lowercase; }
 .laurel span { font: 700 12px/1 var(--font-display); color: var(--muted); margin-top: 3px; font-variant-numeric: tabular-nums; }
+.laurel a { display: contents; color: inherit; text-decoration: none; }
+.laurel a:hover b, .laurel a:focus-visible b { text-decoration: underline; text-underline-offset: 3px; }
 .latest { background: var(--gradient-green-text); color: var(--white); border-radius: var(--radius-md); padding: 20px 24px; margin: 0 0 28px; display: grid; gap: 6px; max-width: 46em; }
 .latest .w-label { display: flex; gap: 10px; align-items: baseline; padding: 0; color: var(--mint); }
 .latest .w-label time { color: var(--white); }
@@ -246,8 +248,24 @@ main { padding-bottom: 0; }
 .pager { display: flex; justify-content: space-between; gap: 12px; padding-block: 40px clamp(56px, 7vw, 104px); flex-wrap: wrap; }
 
 /* The list's own footer line (the website adds its footer below) */
-.list-foot { padding-block: 0 32px; color: var(--muted); font-size: 15px; }
-.list-foot .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+/* Under every page: the projects as an a to z strip (each letter that starts a title jumps to that
+   project; the current one is marked gold) and who to ask. */
+.list-foot { padding-block: clamp(36px, 5vw, 56px); background: var(--white); border-top: 1px solid var(--rule); }
+.list-foot .wrap { display: flex; flex-direction: column; gap: 28px; }
+.lf-az { min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.az { display: flex; flex-wrap: wrap; gap: 2px; margin-inline: -6px; }
+@media (min-width: 900px) { .az { flex-wrap: nowrap; justify-content: space-between; } }
+.az a, .az span { width: 1.5em; height: 1.5em; display: inline-grid; place-items: center; border-radius: 50%;
+  font: 700 clamp(20px, 2.3vw, 30px)/1 var(--font-display); text-transform: lowercase; text-decoration: none; }
+.az span { color: var(--rule); }
+.az a { color: var(--black); transition: background-color .2s, color .2s; }
+.az a:hover, .az a:focus-visible { background: var(--green-glow); color: var(--white); }
+.az a[aria-current] { background: var(--spark); color: var(--black); }
+.lf-contact { display: flex; align-items: baseline; gap: 10px 18px; flex-wrap: wrap; padding-top: 22px; border-top: 1px solid var(--rule); }
+.lf-mail { font: 700 clamp(18px, 1.9vw, 24px)/1.2 var(--font-display); color: var(--black); text-decoration: underline;
+  text-decoration-color: var(--green-glow); text-decoration-thickness: 3px; text-underline-offset: 7px; transition: color .2s; }
+.lf-mail::after { content: " \2192"; }
+.lf-mail:hover { color: var(--forest); }
 
 @media (max-width: 960px) {
   .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -292,8 +310,14 @@ main { padding-bottom: 0; }
 
 <div class="list-foot">
   <div class="wrap">
-    <span>nonfiction hotlist. &middot; <span id="footEmail"></span></span>
-    <span id="footNote"></span>
+    <div class="lf-az">
+      <span class="label" id="footNote"></span>
+      <nav class="az" id="azNav" aria-label="Projects by first letter"></nav>
+    </div>
+    <div class="lf-contact">
+      <span class="label">questions about a project?</span>
+      <a class="lf-mail" id="footEmail" href="#"></a>
+    </div>
   </div>
 </div>
 
@@ -386,7 +410,8 @@ const PROJECTS = [
    Rendering. You shouldn't need to edit below this line.
    ============================================================ */
 const app = document.getElementById("app");
-document.getElementById("footEmail").textContent = SITE.footer.email;
+const footMail = document.getElementById("footEmail");
+footMail.textContent = SITE.footer.email; footMail.href = "mailto:" + SITE.footer.email;
 document.getElementById("footNote").textContent = SITE.footer.note;
 const PAGES = Math.ceil(PROJECTS.length / SITE.PER_PAGE);
 const SEQ = ["cover", "welcome", "why"].concat(Array.from({ length: PAGES }, (_, i) => "page-" + (i + 1)));
@@ -511,7 +536,11 @@ const branch = (cls = "") => `<svg class="${cls}" viewBox="0 0 22 60" aria-hidde
 const laurelText = l => `${l.note ? l.note + ", " : ""}${l.event}${l.year ? " " + l.year : ""}`;
 function laurelsHTML(list) {
   if (!list || !list.length) return "";
-  return `<ul class="laurels" aria-label="Festivals and awards">${list.map(l => `<li class="laurel" title="${esc(laurelText(l))}">${branch()}<div>${l.note ? `<small>${esc(l.note)}</small>` : ""}<b>${esc(l.event)}</b>${l.year ? `<span>${l.year}</span>` : ""}</div>${branch("r")}</li>`).join("")}</ul>`;
+  return `<ul class="laurels" aria-label="Festivals and awards">${list.map(l => {
+    const inner = `${branch()}<div>${l.note ? `<small>${esc(l.note)}</small>` : ""}<b>${esc(l.event)}</b>${l.year ? `<span>${l.year}</span>` : ""}</div>${branch("r")}`;
+    const href = /^https?:\/\//i.test(l.source || "") ? l.source : "";
+    return `<li class="laurel" title="${esc(laurelText(l))}">${href ? `<a href="${esc(href)}" target="_blank" rel="noopener">${inner}</a>` : inner}</li>`;
+  }).join("")}</ul>`;
 }
 const srcLink = u => u.url ? ` <a class="src" href="${esc(u.url)}" target="_blank" rel="noopener">${esc(u.source || "Source")} &nearr;</a>` : "";
 
@@ -650,6 +679,20 @@ function route() {
   }
   if (!tab) window.scrollTo(0, 0);
 }
+
+/* The a to z strip under every page. Titles are sorted ignoring a leading "The", "A" or "An". */
+const firstLetter = t => (t.replace(/^(the|a|an)\s+/i, "").match(/[a-z]/i) || ["#"])[0].toLowerCase();
+const azFirst = {};
+PROJECTS.forEach(p => { const l = firstLetter(p.title); (azFirst[l] = azFirst[l] || []).push(p); });
+document.getElementById("azNav").innerHTML = "abcdefghijklmnopqrstuvwxyz".split("").map(l => azFirst[l]
+  ? `<a href="#${azFirst[l][0].slug}" data-l="${l}" title="${esc(azFirst[l].map(p => p.title).join(", "))}">${l}</a>`
+  : `<span aria-hidden="true">${l}</span>`).join("");
+function markLetter() {
+  const p = PROJECTS.find(q => q.slug === (location.hash || "").slice(1).split(".")[0]);
+  document.querySelectorAll("#azNav a").forEach(a => a.toggleAttribute("aria-current", !!p && a.dataset.l === firstLetter(p.title)));
+}
+window.addEventListener("hashchange", markLetter);
+markLetter();
 
 /* Index drawer */
 const panelEl = document.getElementById("indexPanel");
