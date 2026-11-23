@@ -909,6 +909,14 @@
         [
           "Donate",
           "https://donate.uniondocs.org/campaigns/youll-be-happier/"
+        ],
+        [
+          "Watch on Apple",
+          "https://tv.apple.com/us/movie/manhood/umc.cmc.609ihsbxgs0nw0lqxpl3xw49j"
+        ],
+        [
+          "Watch on Amazon",
+          "https://www.amazon.com/gp/video/detail/amzn1.dv.gti.8c32c6c9-763b-46a7-8ecb-e73ab8d8a2f3?ref_=atv_cf_strg_wb"
         ]
       ],
       "onRequest": "Deck and sizzle on request",
