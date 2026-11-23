@@ -184,7 +184,10 @@
   // it. Inside, a few layers move at slightly different speeds: the big outlined years drift deepest,
   // photos a little, headlines barely. The intro's words rise a touch slower than the page as it
   // scrolls away.
-  if (document.body.classList.contains("nfh-studio")) {
+  // Other pages (body.nfh-shadows) get the shadows only; the parallax and the travelling period are
+  // the homepage's.
+  var studioPage = document.body.classList.contains("nfh-studio");
+  if (studioPage || document.body.classList.contains("nfh-shadows")) {
     // The window's height, held steady while a phone's address bar slides in and out as you scroll
     // (which would otherwise nudge everything); it updates when the window really changes size.
     var VH = window.innerHeight, VW = window.innerWidth;
@@ -197,7 +200,7 @@
     // The shadow lives at the bottom of the section above each line, so it covers that section.
     // White sections take no shadow.
     var washes = lined.map(function (sec, i) {
-      if (secs2[i].classList.contains("nfh-ground-white")) return null;
+      if (secs2[i].classList.contains("nfh-ground-white") || secs2[i].classList.contains("pg-white")) return null;
       var w = document.createElement("div");
       w.className = "nfh-wash"; w.setAttribute("aria-hidden", "true");
       secs2[i].appendChild(w);
@@ -207,12 +210,18 @@
     // [element, measured against, speed]. Positive speed moves with the scroll, negative against it.
     var layers = [];
     var add = function (sel, speed) { document.querySelectorAll(sel).forEach(function (el) { layers.push([el, el.closest("section") || el.parentNode, speed]); }); };
-    if (!calm2) {
+    if (!calm2 && studioPage) {
       add("main > section + section .nfh-year", -0.16);
       add("main > section + section .nfh-ground-photo__media, .split__photo img, .program__photo img", 0.07);
       add("main > section + section h2.nfh-h", -0.035);
     }
-    var hero2 = secs2[0], heroIn = hero2 && hero2.querySelector(".hero__frame");
+    // The Yahoo page: its headlines barely shift, the wall of stills behind its hero drifts slower than the
+    // page, and each film card's still pans slowly inside its frame as it passes up the screen.
+    var yahooPage = document.body.classList.contains("nfh-theme-yahoo") && !calm2;
+    if (yahooPage) add("main > section + section h2.nfh-h", -0.035);
+    var yhBg = yahooPage && document.querySelector(".yh__bg"), yhSec = yhBg && yhBg.closest("section");
+    var yfImgs = yahooPage ? [].slice.call(document.querySelectorAll(".yf-card__img")) : [];
+    var hero2 = secs2[0], heroIn = studioPage && hero2 && hero2.querySelector(".hero__frame");
     var tick2 = false, drawDot = null, knockDown = function () { return false; };
     var draw2 = function () {
       tick2 = false;
@@ -244,6 +253,13 @@
         heroIn.style.transform = "translate3d(0," + (y * 0.18).toFixed(1) + "px,0)";
         heroIn.style.opacity = Math.max(0, 1 - y / (vh * 0.9)).toFixed(3);
       }
+      if (yhBg) yhBg.style.setProperty("--py", (Math.max(0, -yhSec.getBoundingClientRect().top) * 0.35).toFixed(1) + "px");
+      yfImgs.forEach(function (im) {
+        var fr = im.parentNode, r = fr.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > vh) return;
+        var t = Math.max(-1, Math.min(1, (r.top + r.height / 2 - vh / 2) / (vh / 2)));   // -1 at the top of the window, 1 at the bottom
+        im.style.setProperty("--py", (t * r.height * 0.06).toFixed(1) + "px");        // within the 7% spare the 1.14 scale leaves
+      });
       if (drawDot) drawDot();   // the travelling period, placed after everything it follows has moved
     };
     var ask2 = function () { if (!tick2) { tick2 = true; requestAnimationFrame(draw2); } };
@@ -260,6 +276,7 @@
     // back up plays it all in reverse. Text, photos and cards sit above it (it slips behind them)
     // except on legs marked front. Off for reduced motion: the periods stay as type.
     (function () {
+      if (!studioPage) return;      // the homepage only
       var root = getComputedStyle(document.documentElement);
       var tok = function (n, f) { return (root.getPropertyValue(n) || "").trim() || f; };
       var GLOW = tok("--green-glow", "#5c965e"), WHITE = tok("--white", "#ffffff"), SPARK = tok("--spark", "#fcb100");
