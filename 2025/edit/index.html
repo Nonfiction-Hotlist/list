@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Edit your project · Nonfiction Hotlist</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<style>
+/* The project editor: the project page, editable in place, with a save bar on top. Built per year by
+   scripts/build-site.js from src/edit.html; it talks to that year's kit (Apps Script web app). */
+@font-face{font-family:"League Spartan";src:url(/brand/v1/fonts/LeagueSpartan-Bold.woff2) format("woff2");font-weight:500 800;font-display:swap}
+@font-face{font-family:"Roboto Serif";src:url(/brand/v1/fonts/RobotoSerif-var.woff2) format("woff2");font-weight:100 900;font-display:swap}
+:root{
+  --surface:#ffffff; --paper:#f2f2f2; --ink:#000000; --muted:#3a5a40; --rule:#d5ddd6; --soft:#6b7a6f;
+  --green:#588257; --forest:#3a5a40; --pine:#1a2821; --spark:#fcb100; --ember:#e0603f; --mint:#e6f0e7;
+  --display:"League Spartan","Helvetica Neue",Arial,sans-serif;
+  --body:"Roboto Serif",Georgia,serif;
+  color-scheme:light;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);font:16px/1.6 var(--body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:20;background:var(--pine)}
+[hidden]{display:none!important}
+img{max-width:100%}
+button,input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--spark);outline-offset:2px}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1180px;margin:0 auto}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--display);font-weight:700;font-size:15px;border:2px solid var(--ink);background:var(--surface);border-radius:6px;padding:9px 16px 7px;cursor:pointer;text-decoration:none;color:var(--ink)}
+.btn.small{font-size:13px;padding:6px 11px 4px;border-width:1.5px}
+
+/* sign in and project picker */
+.gate{min-height:100vh;display:grid;place-items:center;background:linear-gradient(135deg,#5c965e,#45684d);color:#fff;padding-block:40px}
+.card{width:min(460px,100%);display:grid;gap:14px}
+.card .logo{font-family:var(--display);font-weight:800;font-size:22px}
+.card h1{font-family:var(--display);font-weight:800;font-size:clamp(34px,6vw,48px);line-height:1;margin:6px 0 0;text-wrap:balance}
+.card p{margin:0;opacity:.92}
+.card label{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:lowercase;margin-top:8px}
+.card input{border:0;border-radius:9999px;padding:14px 20px;font-size:17px;background:#fff;color:#000}
+.card .btn{justify-content:center;background:#fff;border-color:#fff;color:var(--forest);padding-block:13px 11px}
+.card .btn:disabled{opacity:.7;cursor:wait}
+.card .err{color:#ffe1d8;font-size:14px;min-height:1.4em}
+.card small{opacity:.85;font-size:13px}
+.picker{list-style:none;margin:0;padding:0;display:grid;gap:6px;max-height:60vh;overflow:auto}
+.picker button{width:100%;text-align:left;background:rgba(255,255,255,.12);border:0;border-radius:6px;padding:10px 14px;color:#fff;cursor:pointer;font-family:var(--display);font-weight:700}
+.picker button:hover{background:rgba(255,255,255,.24)}
+
+/* save bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--pine);color:#fff}
+.bar .wrap{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-block:10px}
+.bar .logo{font-family:var(--display);font-weight:800;font-size:18px;white-space:nowrap}
+.bar .who{font-size:14px;opacity:.85;flex:1 1 180px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.state{font-family:var(--display);font-weight:700;font-size:13px;padding:5px 11px 3px;border-radius:9999px;background:#2b4236;white-space:nowrap}
+.state.dirty{background:var(--spark);color:#000}
+.state.bad{background:var(--ember);color:#000}
+.bar .btn{border-color:#fff;background:transparent;color:#fff}
+.bar .btn.solid{background:var(--spark);border-color:var(--spark);color:#000}
+.bar .btn.solid:disabled{background:#56675c;border-color:#56675c;color:#c9d6cb;cursor:not-allowed}
+
+/* image slots */
+.slot{position:relative;overflow:hidden;background:var(--paper)}
+.slot img{width:100%;height:100%;object-fit:cover;display:block;user-select:none;-webkit-user-drag:none}
+.slot .empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:16px;color:var(--soft);font-family:var(--display);font-weight:700;font-size:14px}
+.slot .over{position:absolute;inset:auto 10px 10px auto;display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.slot .over .btn{background:rgba(255,255,255,.94);border-color:transparent;font-size:13px;padding:6px 11px 4px}
+.slot .tag{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.72);color:#fff;font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.06em;padding:4px 9px 2px;border-radius:4px}
+.slot.drag{outline:3px dashed var(--spark);outline-offset:-6px}
+.slot.positioning img{cursor:grab;touch-action:none}
+.slot.moving img{cursor:grabbing}
+.slot .hint{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;color:#fff;font-family:var(--display);font-weight:700;background:rgba(0,0,0,.35);text-align:center;padding:12px}
+.p-hero{height:clamp(220px,34vw,440px)}
+
+/* page */
+.p-head{padding-block:28px 8px}
+.label{font-family:var(--display);font-weight:700;font-size:14px;letter-spacing:.06em;color:var(--muted);margin:0}
+h1.title{font-family:var(--display);font-weight:800;font-size:clamp(34px,5.4vw,64px);line-height:1.02;margin:6px 0 2px;text-wrap:balance}
+.locked{font-family:var(--display);font-size:12.5px;color:var(--soft)}
+.edit{border:1.5px dashed transparent;border-radius:6px;background:transparent;width:100%;resize:none;field-sizing:content;transition:border-color .15s,background .15s}
+.edit:hover{border-color:var(--rule)}
+.edit:focus{border-color:var(--green);border-style:solid;background:#fbfdfb;outline:none}
+.project{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:48px;padding-block:12px 40px}
+@media (max-width:860px){.project{grid-template-columns:1fr;gap:28px}}
+.logline{font-size:clamp(20px,2.2vw,25px);line-height:1.4;padding:6px 8px;margin-left:-10px;min-height:3.2em}
+.summary{font-size:17px;line-height:1.7;padding:8px 10px;margin-left:-12px;min-height:14em}
+.field{display:grid;gap:4px;min-width:0}
+.meta{display:flex;justify-content:space-between;gap:12px;font-family:var(--display);font-size:12.5px;color:var(--soft);min-height:1.3em}
+.count{font-variant-numeric:tabular-nums;margin-left:auto;white-space:nowrap}
+.count.near{color:#a36f00}
+.count.over{color:#b8361a;font-weight:700}
+.field.bad .edit,.field.bad .box{border-color:var(--ember);border-style:solid}
+.tabs{display:flex;gap:6px;border-bottom:2px solid var(--ink);margin-top:22px;flex-wrap:wrap}
+.tabs button{font-family:var(--display);font-weight:700;font-size:15px;background:none;border:0;padding:10px 14px 7px;cursor:pointer;border-radius:6px 6px 0 0}
+.tabs button[aria-selected="true"]{background:var(--ink);color:#fff}
+.panel{padding-top:22px;display:grid;gap:28px}
+h4{font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:.08em;text-transform:lowercase;margin:0 0 8px;color:var(--muted)}
+.stills{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));gap:12px}
+.stills .slot{aspect-ratio:3/2;border-radius:6px}
+.stills .slot img{object-fit:cover}
+.add-still{aspect-ratio:3/2;border:2px dashed var(--rule);border-radius:6px;background:none;cursor:pointer;font-family:var(--display);font-weight:700;color:var(--muted)}
+.rows{display:grid;gap:8px}
+.row{display:grid;gap:8px;align-items:start}
+@media (max-width:620px){.row{grid-template-columns:minmax(0,1fr) auto!important}.row>.field{grid-column:1}.row>.x{grid-column:2;grid-row:1}}
+.box{border:1.5px solid var(--rule);border-radius:6px;padding:9px 11px;width:100%;background:#fff}
+.box:focus{border-color:var(--green);outline:none}
+textarea.box{resize:vertical;field-sizing:content;min-height:2.6em}
+.x{border:0;background:none;cursor:pointer;font-size:22px;line-height:1;padding:8px 6px;color:var(--soft)}
+.x:hover{color:var(--ember)}
+.addrow{justify-self:start;margin-top:10px}
+.note{font-size:14px;color:#46564b;background:var(--mint);border-radius:6px;padding:10px 14px;margin:0 0 10px}
+aside{display:grid;gap:22px;align-content:start}
+.poster{aspect-ratio:2/3;border-radius:6px}
+.facts{display:grid;gap:14px}
+.facts label{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:lowercase;color:var(--muted)}
+.cardprev{border:1.5px solid var(--rule);border-radius:8px;overflow:hidden}
+.cardprev .slot{aspect-ratio:3/2}
+.cardprev .body{padding:12px 14px 14px;display:grid;gap:4px}
+.cardprev .t{font-family:var(--display);font-weight:800;font-size:19px;line-height:1.1}
+.cardprev .l{font-size:14px;line-height:1.45;color:#2d3a31}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--pine);color:#fff;border-radius:10px;padding:14px 18px;width:max-content;max-width:min(520px,calc(100% - 32px));display:grid;gap:4px;z-index:30}
+.toast.err{background:#7a2414}
+.toast b{font-family:var(--display);font-size:16px}
+.toast span{font-size:14px;opacity:.92}
+@media (prefers-reduced-motion:no-preference){.toast{animation:up .25s ease-out}@keyframes up{from{transform:translate(-50%,12px);opacity:0}}}
+footer{background:var(--paper);font-size:14px;color:#46564b}
+footer .wrap{padding-block:22px;display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between}
+</style>
+</head>
+<body>
+
+<section class="gate gut" id="signin">
+  <form class="card" id="signform">
+    <div class="logo">nonfiction hotlist.</div>
+    <p id="yearline">The Hotlist</p>
+    <h1>edit your project page</h1>
+    <p>Change your project's text and images. Your page on the list updates a few minutes after you save.</p>
+    <label for="pw">project password</label>
+    <input id="pw" type="password" autocomplete="current-password" placeholder="From your welcome email" required>
+    <div class="err" id="err" role="alert"></div>
+    <button class="btn" type="submit" id="go">open the editor</button>
+    <small>Lost it? Email info@nonfictionhotlist.com and we'll send it again.</small>
+  </form>
+</section>
+
+<section class="gate gut" id="pick" hidden>
+  <div class="card">
+    <div class="logo">nonfiction hotlist.</div>
+    <h1>which project?</h1>
+    <p>The team password opens every project.</p>
+    <ul class="picker" id="picker"></ul>
+  </div>
+</section>
+
+<div id="editor" hidden>
+  <div class="bar gut"><div class="wrap">
+    <span class="logo">nonfiction hotlist.</span>
+    <span class="who" id="who"></span>
+    <span class="state" id="state">All changes saved</span>
+    <a class="btn small" id="viewlive" target="_blank" rel="noopener">View live page</a>
+    <button class="btn small" id="switch" type="button" hidden>Other project</button>
+    <button class="btn small solid" id="save" type="button" disabled>Save and publish</button>
+  </div></div>
+  <div id="page"></div>
+  <footer class="gut"><div class="wrap"><span>Questions? info@nonfictionhotlist.com</span><span>Changes appear on the list a few minutes after you save.</span></div></footer>
+</div>
+
+<input type="file" id="file" accept="image/jpeg,image/png,image/webp,image/heic" hidden>
+
+<script>
+(() => {
+  const CFG = {"year":"2025","api":"https://script.google.com/macros/s/AKfycbyEFCuSGsF61kow-aSA7wkRT9jkJ1ErrubPYVw0lB2sMUpkRnqAFq2cgd0ra38y9VFi/exec","site":"https://list.nonfictionhotlist.com/2025"};
+  const $ = s => document.querySelector(s), $$ = (s, el = document) => [...el.querySelectorAll(s)];
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const store = { get: k => { try { return sessionStorage.getItem(k); } catch (e) { return null; } },
+                  set: (k, v) => { try { v == null ? sessionStorage.removeItem(k) : sessionStorage.setItem(k, v); } catch (e) {} } };
+  $("#yearline").textContent = `The ${CFG.year} Hotlist`;
+
+  // Image slots: the box shape matches what the site crops to; max is the long side before upload.
+  const SLOTS = {
+    key: { label: "key image", max: 1800, frame: true, hint: "Your card in the list. Shown 3:2." },
+    hero: { label: "hero", max: 2400, frame: true, hint: "The wide photo at the top. Shown 21:9." },
+    poster: { label: "poster", max: 1600, frame: true, hint: "Vertical, beside your text. Shown 2:3." },
+    gallery: { label: "still", max: 2000, frame: false }
+  };
+  const MAX_STILLS = 12;
+  const focusOf = name => { const m = /focus-(\d{1,3})-(\d{1,3})/i.exec(name || ""); return m ? [+m[1], +m[2]] : [50, 50]; };
+
+  let pw = store.get("nfh-edit-" + CFG.year) || "", P = null, img = null, dirty = false, busy = false, team = false;
+
+  async function call(body) {
+    if (!CFG.api) throw new Error("The editor isn't connected yet. Email info@nonfictionhotlist.com.");
+    const res = await fetch(CFG.api, { method: "POST", body: JSON.stringify(Object.assign({ password: pw }, body)) });
+    let out;
+    try { out = await res.json(); } catch (e) { throw new Error("The editor didn't answer. Try again in a minute."); }
+    if (out.error) throw new Error(out.error);
+    return out;
+  }
+
+  /* ---------- sign in ---------- */
+  async function open(slug) {
+    const out = await call({ action: "open", slug: slug || undefined });
+    if (out.projects) { team = true; showPicker(out.projects); return; }
+    team = !!out.team; load(out);
+  }
+  $("#signform").addEventListener("submit", async e => {
+    e.preventDefault();
+    pw = $("#pw").value.trim(); $("#err").textContent = ""; $("#go").disabled = true; $("#go").textContent = "opening…";
+    try { await open(location.hash.slice(1)); store.set("nfh-edit-" + CFG.year, pw); }
+    catch (x) { $("#err").textContent = x.message; }
+    finally { $("#go").disabled = false; $("#go").textContent = "open the editor"; }
+  });
+  function showPicker(list) {
+    $("#signin").hidden = true; $("#editor").hidden = true; $("#pick").hidden = false;
+    $("#picker").innerHTML = list.map(p => `<li><button type="button" data-slug="${esc(p.slug)}">${esc(p.title)}</button></li>`).join("");
+  }
+  $("#picker").addEventListener("click", async e => {
+    const b = e.target.closest("[data-slug]"); if (!b) return;
+    b.textContent = "opening…";
+    try { await open(b.dataset.slug); } catch (x) { toast("Couldn't open it", x.message, true); }
+  });
+  $("#switch").addEventListener("click", () => { if (dirty && !confirmLeave()) return; history.replaceState(null, "", location.pathname); open(); });
+  function confirmLeave() { toast("Unsaved changes", "Save first, or reload the page to drop them.", true); return false; }
+
+  /* ---------- editor ---------- */
+  function load(data) {
+    P = data; dirty = false;
+    history.replaceState(null, "", "#" + P.slug);
+    img = {};
+    for (const s of ["key", "hero", "poster"]) {
+      const f = (P.images[s] || [])[0];
+      img[s] = f ? { id: f.id, src: "", focus: focusOf(f.name), orig: focusOf(f.name).join() } : null;
+    }
+    img.gallery = (P.images.gallery || []).map(f => ({ id: f.id, src: "" }));
+    img.galleryChanged = false;
+    $("#signin").hidden = true; $("#pick").hidden = true; $("#editor").hidden = false;
+    $("#switch").hidden = !team;
+    $("#who").textContent = "Editing " + P.title;
+    $("#viewlive").href = `${CFG.site}/#${P.slug}`;
+    render(); refresh(); window.scrollTo(0, 0);
+    loadPreviews(P.slug);
+  }
+
+  // Each image comes through the kit (see preview_ there), a few at a time.
+  async function loadPreviews(slug) {
+    const jobs = ["hero", "key", "poster"].filter(k => img[k] && img[k].id).map(k => ({ it: img[k], size: 1600, done: () => rerenderSlot(k) }))
+      .concat(img.gallery.filter(g => g.id).map(g => ({ it: g, size: 900, done: () => { $("#stills").innerHTML = stillsHTML(); } })));
+    const run = async () => {
+      for (let j; (j = jobs.shift());) {
+        try {
+          const r = await call({ action: "preview", slug, id: j.it.id, size: j.size });
+          if (!P || P.slug !== slug || j.it.src) continue;
+          j.it.src = URL.createObjectURL(await (await fetch(`data:${r.type};base64,${r.data}`)).blob());
+          j.done();
+        } catch (e) {}
+      }
+    };
+    await Promise.all([run(), run(), run()]);
+  }
+
+  const specField = k => P.spec.page.find(f => f.key === k) || { key: k, label: k };
+  function textField(k, cls, rows, hintOverride) {
+    const f = specField(k), v = P.fields[k] || "";
+    const area = f.multiline || cls;
+    const input = area
+      ? `<textarea class="${cls || "box"}" id="f-${k}" data-field="${k}" rows="${rows || 2}" aria-label="${esc(f.label)}">${esc(v)}</textarea>`
+      : `<input class="box" id="f-${k}" data-field="${k}" type="${f.type === "email" ? "email" : "text"}" value="${esc(v)}" aria-label="${esc(f.label)}">`;
+    return `<div class="field" data-max="${f.max || ""}" data-req="${f.required ? 1 : ""}">${input}<div class="meta"><span>${esc(hintOverride != null ? hintOverride : f.hint || "")}</span><span class="count"></span></div></div>`;
+  }
+  function slotHTML(s, cls) {
+    const it = img[s], S = SLOTS[s];
+    const fallback = s === "hero" && !it && img.key;
+    const src = it ? it.src : fallback ? img.key.src : "";
+    const pos = it && it.focus ? `object-position:${it.focus[0]}% ${it.focus[1]}%` : "";
+    return `<div class="slot ${cls || ""}" data-slot="${s}">
+      ${src ? `<img src="${esc(src)}" alt="" style="${pos}">` : `<div class="empty">${it || fallback ? "Loading…" : "Drop a photo here<br>or click Add"}</div>`}
+      <span class="tag">${S.label}${fallback ? " (using key image)" : ""}</span>
+      <div class="over">${it && it.src && S.frame ? `<button class="btn" type="button" data-act="pos">Reposition</button>` : ""}<button class="btn" type="button" data-act="pick">${it || fallback ? "Replace" : "Add"}</button></div>
+    </div>`;
+  }
+  function stillsHTML() {
+    return img.gallery.map((g, i) => `<div class="slot" data-slot="gallery" data-i="${i}">
+      ${g.src ? `<img src="${esc(g.src)}" alt="Still ${i + 1}">` : `<div class="empty">Loading…</div>`}<span class="tag">still ${i + 1}</span>
+      <div class="over">${i > 0 ? `<button class="btn" type="button" data-act="left" aria-label="Move earlier">&larr;</button>` : ""}<button class="btn" type="button" data-act="pick">Replace</button><button class="btn" type="button" data-act="del">Remove</button></div></div>`).join("")
+      + (img.gallery.length < MAX_STILLS ? `<button class="add-still" type="button" data-act="addstill">+ Add a still</button>` : "");
+  }
+  const listSpec = k => P.spec.lists.find(l => l.key === k);
+  function rowHTML(l, vals) {
+    const cols = l.cols.map((c, j) => {
+      const v = vals[j] || "", long = c.max && c.max > 100 && c.type !== "url";
+      const ph = c.hint ? `${c.label}, like ${c.hint}` : c.label;
+      const input = long
+        ? `<textarea class="box" rows="1" placeholder="${esc(ph)}" aria-label="${esc(c.label)}">${esc(v)}</textarea>`
+        : `<input class="box" type="${c.type === "url" ? "url" : c.type === "year" ? "number" : "text"}" value="${esc(v)}" placeholder="${esc(ph)}" aria-label="${esc(c.label)}">`;
+      return `<div class="field" data-max="${c.type === "year" ? 4 : c.max || ""}">${input}<div class="meta"><span></span><span class="count"></span></div></div>`;
+    }).join("");
+    const widths = l.cols.map(c => c.type === "year" ? "90px" : c.type === "url" ? "minmax(0,1fr)" : c.max > 100 ? "minmax(0,2fr)" : "minmax(0,1fr)").join(" ");
+    return `<div class="row" style="grid-template-columns:${widths} auto">${cols}<button class="x" type="button" aria-label="Remove" data-x>&times;</button></div>`;
+  }
+  function listHTML(k, heading, note) {
+    const l = listSpec(k); if (!l) return "";
+    return `<div data-list="${k}">${heading ? `<h4>${heading}</h4>` : ""}${note ? `<p class="note">${note}</p>` : ""}
+      <div class="rows">${(P.lists[k] || []).map(v => rowHTML(l, v)).join("")}</div>
+      <button class="btn small addrow" type="button" data-add="${k}">Add a row</button></div>`;
+  }
+
+  function render() {
+    const fields = P.spec.page.map(f => f.key);
+    $("#page").innerHTML = `
+      ${slotHTML("hero", "p-hero")}
+      <main class="gut"><div class="wrap">
+        <div class="p-head">
+          <p class="label"><span id="fmtlabel"></span> · ${esc(CFG.year)} Hotlist</p>
+          <h1 class="title">${esc(P.title)}</h1>
+          <span class="locked">The title is set by the Hotlist team. Email us to change it.</span>
+        </div>
+        <article class="project">
+          <div style="min-width:0">
+            ${textField("logline", "edit logline", 2, "Logline. One sentence, shown on your card in the list.")}
+            <div class="tabs" role="tablist">
+              <button role="tab" aria-selected="true" data-tab="overview" type="button">Overview</button>
+              <button role="tab" aria-selected="false" data-tab="help" type="button">How to help</button>
+              <button role="tab" aria-selected="false" data-tab="links" type="button">Links and news</button>
+            </div>
+            <div class="panel" data-panel="overview">
+              ${textField("summary", "edit summary", 10)}
+              <div><h4>stills</h4><div class="stills" id="stills">${stillsHTML()}</div></div>
+              ${listHTML("team", "creative team")}
+            </div>
+            <div class="panel" data-panel="help" hidden>
+              ${listHTML("help", "", "What would help most right now? One need per row, most important first.")}
+            </div>
+            <div class="panel" data-panel="links" hidden>
+              ${listHTML("links", "links")}
+              ${listHTML("laurels", "laurels and awards", "Festivals, awards and grants. A source link for each one helps people check it.")}
+              ${listHTML("updates", "news", "Screenings, press and funding news, newest first. Each item needs a source link.")}
+            </div>
+          </div>
+          <aside>
+            ${slotHTML("poster", "poster")}
+            <div class="facts">
+              ${["format", "status", "contact", "onRequest"].filter(k => fields.includes(k)).map(k =>
+                `<div><label for="f-${k}">${esc(specField(k).label)}</label>${textField(k, k === "status" ? "box" : "", 2)}</div>`).join("")}
+            </div>
+            <div><h4>your card in the list</h4>
+              <div class="cardprev">${slotHTML("key")}
+                <div class="body"><span class="t">${esc(P.title)}</span><span class="l" id="card-l"></span></div></div></div>
+          </aside>
+        </article>
+      </div></main>`;
+    $$(".tabs button").forEach(b => b.addEventListener("click", () => {
+      $$(".tabs button").forEach(t => t.setAttribute("aria-selected", t === b));
+      $$("[data-panel]").forEach(p => p.hidden = p.dataset.panel !== b.dataset.tab);
+    }));
+    updateAddButtons();
+  }
+
+  function updateAddButtons() {
+    $$("[data-list]").forEach(d => { const l = listSpec(d.dataset.list); d.querySelector("[data-add]").hidden = $$(".row", d).length >= l.rows; });
+  }
+
+  let problems = 0;
+  function refresh() {
+    problems = 0;
+    $$(".field[data-max]").forEach(f => {
+      const el = f.querySelector("input,textarea"), c = f.querySelector(".count"), max = +f.dataset.max || 0;
+      const n = el.value.trim().length;
+      c.textContent = max && n ? `${n} / ${max}` : "";
+      c.className = "count" + (max && n > max ? " over" : max && n > max * 0.9 ? " near" : "");
+      const bad = (max && n > max) || (f.dataset.req && !n) || (el.type === "url" && el.value.trim() && !/^https?:\/\//i.test(el.value.trim()));
+      f.classList.toggle("bad", !!bad);
+      if (bad) problems++;
+    });
+    const fmt = $("#f-format"); if (fmt) $("#fmtlabel").textContent = fmt.value;
+    const ll = $("#f-logline"); if (ll) $("#card-l").textContent = ll.value;
+    const s = $("#state");
+    if (busy) return;
+    if (problems) { s.textContent = `${problems} thing${problems > 1 ? "s" : ""} to fix`; s.className = "state bad"; }
+    else if (dirty) { s.textContent = "Unsaved changes"; s.className = "state dirty"; }
+    else { s.textContent = "All changes saved"; s.className = "state"; }
+    $("#save").disabled = !dirty || problems > 0;
+  }
+  const change = () => { dirty = true; refresh(); };
+  document.addEventListener("input", e => { if (e.target.closest("#page")) change(); });
+
+  document.addEventListener("click", e => {
+    const add = e.target.closest("[data-add]");
+    if (add) {
+      const d = add.closest("[data-list]"), l = listSpec(d.dataset.list);
+      d.querySelector(".rows").insertAdjacentHTML("beforeend", rowHTML(l, []));
+      d.querySelector(".rows").lastElementChild.querySelector("input,textarea").focus();
+      updateAddButtons(); change();
+    }
+    const x = e.target.closest("[data-x]");
+    if (x) { x.closest(".row").remove(); updateAddButtons(); change(); }
+  });
+
+  /* ---------- images ---------- */
+  let target = null;
+  const fileIn = $("#file");
+  async function prepare(file, max) {
+    let bmp;
+    try { bmp = await createImageBitmap(file, { imageOrientation: "from-image" }); }
+    catch (e) { throw new Error("That photo couldn't be opened here. Try a JPEG or PNG (iPhone photos: export as JPEG)."); }
+    const k = Math.min(1, max / Math.max(bmp.width, bmp.height));
+    const c = document.createElement("canvas");
+    c.width = Math.round(bmp.width * k); c.height = Math.round(bmp.height * k);
+    c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
+    const blob = await new Promise(r => c.toBlob(r, "image/jpeg", 0.86));
+    return { blob, src: URL.createObjectURL(blob) };
+  }
+  async function take(where, file) {
+    if (!file) return;
+    if (!/^image\//.test(file.type) && !/\.heic$/i.test(file.name)) { toast("Not an image", "Choose a JPEG or PNG photo.", true); return; }
+    try {
+      if (where.slot === "gallery") {
+        const p = await prepare(file, SLOTS.gallery.max);
+        if (where.i == null) img.gallery.push({ blob: p.blob, src: p.src });
+        else img.gallery[where.i] = { blob: p.blob, src: p.src };
+        img.galleryChanged = true;
+        $("#stills").innerHTML = stillsHTML();
+      } else {
+        const p = await prepare(file, SLOTS[where.slot].max);
+        img[where.slot] = { blob: p.blob, src: p.src, focus: [50, 50] };
+        rerenderSlot(where.slot);
+        startPos(document.querySelector(`.slot[data-slot="${where.slot}"]`));
+      }
+      change();
+    } catch (x) { toast("Couldn't use that photo", x.message, true); }
+  }
+  function rerenderSlot(s) {
+    const old = document.querySelector(`.slot[data-slot="${s}"]`);
+    const cls = s === "hero" ? "p-hero" : s === "poster" ? "poster" : "";
+    old.outerHTML = slotHTML(s, cls);
+    if (s === "key" && !img.hero) rerenderSlot("hero");
+  }
+  fileIn.addEventListener("change", () => { const f = fileIn.files[0]; fileIn.value = ""; if (target) take(target, f); });
+  document.addEventListener("click", e => {
+    const b = e.target.closest("[data-act]"); if (!b) return;
+    const slot = b.closest(".slot"), s = slot && slot.dataset.slot, i = slot && slot.dataset.i != null ? +slot.dataset.i : null;
+    if (b.dataset.act === "pick") { target = { slot: s, i }; fileIn.click(); }
+    if (b.dataset.act === "addstill") { target = { slot: "gallery", i: null }; fileIn.click(); }
+    if (b.dataset.act === "del") { img.gallery.splice(i, 1); img.galleryChanged = true; $("#stills").innerHTML = stillsHTML(); change(); }
+    if (b.dataset.act === "left") { const g = img.gallery; [g[i - 1], g[i]] = [g[i], g[i - 1]]; img.galleryChanged = true; $("#stills").innerHTML = stillsHTML(); change(); }
+    if (b.dataset.act === "pos") slot.classList.contains("positioning") ? endPos(slot) : startPos(slot);
+  });
+  document.addEventListener("dragover", e => { const s = e.target.closest(".slot,.add-still"); if (s) { e.preventDefault(); s.classList.add("drag"); } });
+  document.addEventListener("dragleave", e => { const s = e.target.closest(".slot,.add-still"); if (s) s.classList.remove("drag"); });
+  document.addEventListener("drop", e => {
+    const s = e.target.closest(".slot,.add-still"); if (!s) return;
+    e.preventDefault(); s.classList.remove("drag");
+    take(s.classList.contains("add-still") ? { slot: "gallery", i: null } : { slot: s.dataset.slot, i: s.dataset.i != null ? +s.dataset.i : null }, e.dataTransfer.files[0]);
+  });
+  function startPos(slot) {
+    if (!slot || !SLOTS[slot.dataset.slot].frame || !img[slot.dataset.slot]) return;
+    slot.classList.add("positioning");
+    const b = slot.querySelector('[data-act="pos"]'); if (b) b.textContent = "Done";
+    slot.insertAdjacentHTML("beforeend", `<div class="hint">Drag to choose what stays in frame</div>`);
+    setTimeout(() => { const h = slot.querySelector(".hint"); if (h) h.remove(); }, 1800);
+  }
+  function endPos(slot) {
+    slot.classList.remove("positioning");
+    const b = slot.querySelector('[data-act="pos"]'); if (b) b.textContent = "Reposition";
+  }
+  let mv = null;
+  document.addEventListener("pointerdown", e => {
+    const slot = e.target.closest(".slot.positioning"); if (!slot || e.target.closest(".btn")) return;
+    const it = img[slot.dataset.slot];
+    mv = { slot, it, el: slot.querySelector("img"), sx: e.clientX, sy: e.clientY, x: it.focus[0], y: it.focus[1] };
+    slot.classList.add("moving"); e.preventDefault();
+  });
+  document.addEventListener("pointermove", e => {
+    if (!mv) return;
+    const r = mv.slot.getBoundingClientRect();
+    mv.it.focus = [Math.round(Math.max(0, Math.min(100, mv.x - (e.clientX - mv.sx) / r.width * 100))),
+                   Math.round(Math.max(0, Math.min(100, mv.y - (e.clientY - mv.sy) / r.height * 100)))];
+    mv.el.style.objectPosition = `${mv.it.focus[0]}% ${mv.it.focus[1]}%`;
+  });
+  document.addEventListener("pointerup", () => { if (mv) { mv.slot.classList.remove("moving"); mv = null; change(); } });
+
+  /* ---------- save ---------- */
+  const b64 = blob => new Promise((ok, no) => { const r = new FileReader(); r.onload = () => ok(String(r.result).split(",")[1]); r.onerror = no; r.readAsDataURL(blob); });
+  function collect() {
+    const fields = {};
+    $$("[data-field]").forEach(el => fields[el.dataset.field] = el.value.trim());
+    const lists = {};
+    $$("[data-list]").forEach(d => lists[d.dataset.list] = $$(".row", d).map(r => $$("input,textarea", r).map(el => el.value.trim())));
+    return { fields, lists };
+  }
+  $("#save").addEventListener("click", async () => {
+    if (busy) return;
+    busy = true; $("#save").disabled = true;
+    const s = $("#state"); s.className = "state dirty";
+    const step = t => s.textContent = t;
+    let images = false;
+    try {
+      for (const k of ["key", "hero", "poster"]) {
+        const it = img[k];
+        if (it && it.blob) { step(`Uploading the ${SLOTS[k].label}…`); const r = await call({ action: "image", slug: P.slug, slot: k, data: await b64(it.blob), focus: it.focus }); it.id = r.id; images = true; delete it.blob; it.orig = it.focus.join(); }
+        else if (it && it.id && it.focus.join() !== it.orig) { step("Saving the framing…"); await call({ action: "focus", slug: P.slug, slot: k, id: it.id, focus: it.focus }); images = true; it.orig = it.focus.join(); }
+      }
+      if (img.galleryChanged) {
+        for (let i = 0; i < img.gallery.length; i++) {
+          const g = img.gallery[i];
+          if (g.blob) { step(`Uploading still ${i + 1}…`); const r = await call({ action: "image", slug: P.slug, slot: "gallery", data: await b64(g.blob) }); g.id = r.id; delete g.blob; }
+        }
+        step("Saving the stills…");
+        await call({ action: "gallery", slug: P.slug, ids: img.gallery.map(g => g.id) });
+        img.galleryChanged = false; images = true;
+      }
+      step("Saving the text…");
+      await call(Object.assign({ action: "save", slug: P.slug, images }, collect()));
+      dirty = false;
+      toast("Saved", "Your page updates on the list in about 5 to 10 minutes.");
+    } catch (x) {
+      toast("Not saved", x.message + " Your changes are still here, so you can try again.", true);
+    } finally { busy = false; refresh(); }
+  });
+
+  let toastT;
+  function toast(head, body, err) {
+    document.querySelector(".toast")?.remove();
+    document.body.insertAdjacentHTML("beforeend", `<div class="toast${err ? " err" : ""}" role="status"><b>${esc(head)}</b><span>${esc(body)}</span></div>`);
+    clearTimeout(toastT); toastT = setTimeout(() => document.querySelector(".toast")?.remove(), err ? 9000 : 6000);
+  }
+  window.addEventListener("beforeunload", e => { if (dirty) { e.preventDefault(); e.returnValue = ""; } });
+
+  // Signed in earlier in this tab: go straight to the project.
+  if (pw) open(location.hash.slice(1)).catch(() => { store.set("nfh-edit-" + CFG.year, null); pw = ""; });
+})();
+</script>
+</body>
+</html>
