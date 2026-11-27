@@ -78,10 +78,10 @@
   "projects": {
     "animated-mind": {
       "title": "The Animated Mind of Oliver Sacks",
-      "format": "Feature documentary",
-      "status": "In post-production, aiming to finish by early 2026",
+      "format": "Feature Documentary",
+      "status": "In post-production, aiming to finish in 2027",
       "logline": "Newly uncovered recordings and immersive animation trace Oliver Sacks' early work with patients and the private conflicts behind it.",
-      "summary": "A newly uncovered trove of personal audio and video recordings, combined with immersive animation, traces Dr. Oliver Sacks' early work with patients alongside the private conflicts shaping his inner life, revealing how a brilliant, humane, yet flawed man sought to understand neurological disorder and communicate it through writing that blurred the line between patient and doctor.",
+      "summary": "The troubled yet brilliant young neurologist Dr. Oliver Sacks finds connection with patients who have been set apart from the world. A newly uncovered archive explores the doctor and author’s early career and private struggles—revealing how one trailblazing outsider laid the groundwork for the modern neurodiversity movement.",
       "team": [
         [
           "Dempsey Rice",
@@ -98,18 +98,24 @@
         [
           "Michael Hearst",
           "Composer"
+        ],
+        [
+          "Nathan Coetzee",
+          "Additional Editor"
+        ],
+        [
+          "Jonathon Corbiere",
+          "Director of Animation"
+        ],
+        [
+          "Thought Cafe",
+          "Animation Team"
         ]
       ],
       "help": [
         "Philanthropic donations and investment",
-        "Animation services",
-        "Archival research and clearance",
-        "Fair use legal services",
-        "Sound design, edit and mix",
-        "Online edit",
         "Social media strategy",
-        "Impact producing",
-        "TESTING***"
+        "Impact producing"
       ],
       "links": [
         [
@@ -118,7 +124,7 @@
         ],
         [
           "Donate",
-          "https://fiscal.thegotham.org/project.cfm/1113/The-Animated-Mind-of-Oliver-Sacks/"
+          "https://fiscal.thegotham.org/film/1113/the-animated-mind-of-oliver-sacks"
         ],
         [
           "Instagram",
@@ -132,14 +138,7 @@
       "onRequest": "Deck and sizzle on request",
       "contact": "animatedmind@dempseyrice.com",
       "laurels": [],
-      "updates": [
-        {
-          "date": "Grant",
-          "text": "Supported by Jewish Story Partners.",
-          "url": "https://jewishstorypartners.org/project/the-animated-mind-of-oliver-sacks/",
-          "source": "Jewish Story Partners"
-        }
-      ]
+      "updates": []
     },
     "arrival-center": {
       "title": "The Arrival Center",
